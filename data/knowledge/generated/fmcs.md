@@ -11,10 +11,10 @@ source_last_updated: February 18, 2026
 ## FMCS overview
 <!-- source: https://www.bis.gov.in/fmcs/fmcs-overview/ -->
 - Bureau of Indian Standards (BIS) has been operating a Foreign Manufacturers Certification Scheme (FMCS) since the year 2000 under BIS Act, 2016 and Rules & Regulations framed there under.
-- Under FMCS, licence is granted to a Foreign Manufacturer for use of Standard Mark on a product that conforms to an Indian Standard..
+- Under FMCS, licence is granted to a Foreign Manufacturer for use of Standard Mark on a product that conforms to an Indian Standard.
 - The Scheme is applicable for grant of licence for all except Electronics & IT Goods notified by MeitY
 - The licence is granted by Foreign Manufacturers Certification Department (FMCD) located at BIS Headquarters, New Delhi.
-NOTE: BIS is also operating a Compulsory Registration Scheme (CRS) for Electronics & IT Goods for the product categories notified by the Department of Electronics & Information Technology (MeitY). Click here to read more about CRS. Click here for list of product categories under CRS.
+NOTE: BIS is also operating a Compulsory Registration Scheme (CRS) for Electronics & IT Goods for the product categories notified by the Department of Electronics & Information Technology (MeitY).
 Contact Details
 Head (FMCD)
 Room No. 459, Manakalaya Building
@@ -27,9 +27,9 @@ Email : fmcs@bis.gov.in
 
 ## About FMCS
 <!-- source: https://www.bis.gov.in/fmcs/certification-process/aboutfmcs/ -->
-- FMCS is a scheme under which BIS licence is granted to a foreign manufacturer in accordance with the BIS Act, 2016 and Bureau on Indian Standards (Conformity Assessment) Regulations, 2018..
+- FMCS is a scheme under which BIS licence is granted to a foreign manufacturer in accordance with the BIS Act, 2016 and Bureau on Indian Standards (Conformity Assessment) Regulations, 2018.
 - The licence is granted for the products which conform to relevant Indian Standards.
-- The Standards may be under mandatory or voluntary certification. Click here to locate your standards.Click here for list of items under mandatory certification..
+- The Standards may be under mandatory or voluntary certification.
 - BIS licence to use or apply Standard Mark is granted for products manufactured in a manufacturing premises and conforming to all the requirements of the relevant Indian standard(s).
 
 ## FMCS FAQ
@@ -49,7 +49,6 @@ The AIR shall be an Indian resident and shall declare his consent to be responsi
 7. Has the AIR to be an Indian resident only?
 The AIR should be an Indian national; resident of India. However, he can be a foreign national if employed in any office/branch of the manufacturer in India but should be residing in India
 8. What is the fee structure
-For details of Fee Structure, Click here.
 9. Is the payment to be made to BIS in USD or INR?
 For SAARC countries, the payment can be made in USD or Indian Rupee (INR) with GST. For other countries, the payment should be made in USD only.
 10. Whether the test report as per IEC or any standard other than Indian Standard can be accepted?

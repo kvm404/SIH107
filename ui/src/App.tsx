@@ -345,6 +345,11 @@ export default function App() {
       } else if (!fresh && h.length > 0 && !h[0].title && title && h[0].topic === topic) {
         // Topic opened with a greeting, real question arrived: retitle the head entry.
         next = [{ q, title, at: Date.now(), topic: topic ?? -1 }, ...h.slice(1)];
+      } else if (!fresh && topic !== undefined && topic !== -1 && h.some((e) => e.topic === topic)) {
+        // Follow-up in an open chat: one sidebar entry per chat, keyed by its
+        // opening question, so just bump it to the top.
+        const at = h.findIndex((e) => e.topic === topic);
+        next = [{ ...h[at], at: Date.now() }, ...h.slice(0, at), ...h.slice(at + 1)];
       } else {
         next = [{ q, title, at: Date.now(), topic: topic ?? -1 }];
         next.push(...h);
@@ -532,17 +537,22 @@ export default function App() {
       const entry = history.find((e) => e.q === q);
       if (thread) void deleteThread(thread);
       setThread(null);
-        setInput("");
-      setTopicKey((k) => k + 1);
+      setInput("");
+      const reopened = topicKey + 1;
+      setTopicKey(reopened);
       setSidebarOpen(false);
       if (entry?.msgs && entry.msgs.length > 0) {
+        // Follow-ups in the reopened chat belong to this same entry.
+        setHistory((h) =>
+          persistHistory(h.map((e) => (e.q === q ? { ...e, topic: reopened } : e))),
+        );
         setMsgs(hydrateMsgs(entry.msgs));
         return;
       }
       setMsgs([]);
       void send(q, { fresh: true, streamIn: false });
     },
-    [send, thread, history],
+    [send, thread, history, topicKey, persistHistory],
   );
 
   // Upgrade the instant heuristic title with an LLM one once the first
@@ -654,7 +664,9 @@ export default function App() {
   }, [listening, transcribing, voiceReady, showToast]);
 
   const currentFirst = msgs.length > 0 ? msgs[0].text : null;
-  const currentTitle = currentFirst ? makeTitle(currentFirst) || "New conversation" : null;
+  const currentTitle = currentFirst
+    ? history.find((e) => e.q === currentFirst)?.title || makeTitle(currentFirst) || "New conversation"
+    : null;
   const pastTopics = history.filter((e) => e.q !== currentFirst).slice(0, 8);
 
 

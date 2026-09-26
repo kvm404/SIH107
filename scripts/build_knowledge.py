@@ -161,6 +161,19 @@ _DROP_LINE = re.compile(
     r"bis care (app|video)|bureau of indian standards|statutory notifications)$", re.I)
 
 
+_LINK_TEXT = re.compile(
+    r"\s*\.{2,}\s*(?:Read More\s*»?|Click here\b.*)$|\s+(?:Read More\s*»|Click here\b.*)$")
+
+
+def strip_link_text(line: str) -> str:
+    """Drop "....Read More »" / "Click here to ..." link labels from a line.
+
+    Returns "" when the line only pointed at the link ("For details, Click here.").
+    """
+    out = re.sub(r"\.{2,}$", ".", _LINK_TEXT.sub(".", line))
+    return "" if out.endswith(",.") else out
+
+
 def page_text(raw_html: str) -> tuple[str, str]:
     """Return (main text, last-updated string) for a BIS WordPress page."""
     s = raw_html
@@ -191,6 +204,9 @@ def page_text(raw_html: str) -> tuple[str, str]:
         ln = re.sub(r"\s*\(size\s*[–-][^)]*\)", "", ln)
         ln = ln.replace("[at]", "@").replace("[dot]", ".").replace("[-]", "-")
         ln = re.sub(r"^### ", "", ln)
+        ln = strip_link_text(ln)
+        if not ln:
+            continue
         if body and body[-1] == ln:
             continue
         body.append(ln)

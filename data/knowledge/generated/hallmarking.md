@@ -12,7 +12,7 @@ source_last_updated: April 23, 2026
 <!-- source: https://www.bis.gov.in/hallmarking-overview/ -->
 Hallmarking is the accurate determination and official recording of the proportionate content of precious metal in precious metal articles. Hallmarks are thus official marks used in many countries as a guarantee of purity or fineness of precious metal articles. The principle objectives of the Hallmarking Scheme are to protect the public against adulteration and to obligate manufacturers to maintain legal standards of fineness. In India, at present two precious metals namely gold and silver have been brought under the purview of Hallmarking.
 Procedure For Obtaining Registration by Jeweller for Sale of Hallmarked Jeweller / Artefacrs
-Any jeweller willing to obtain certificate of registration for selling Hallmarked Gold and Silver Jewellery/artefacts shall apply online in the BIS portal; www.manakonline.in . The certificate of registration is granted instantly to the jeweller without the need to upload any document or pay any fees for the same. The certificate of registration stands valid for lifetime..
+Any jeweller willing to obtain certificate of registration for selling Hallmarked Gold and Silver Jewellery/artefacts shall apply online in the BIS portal; www.manakonline.in . The certificate of registration is granted instantly to the jeweller without the need to upload any document or pay any fees for the same. The certificate of registration stands valid for lifetime.
 - List of Licensed Jewellers
 - Procedure to apply for Jeweller Registration
 Procedure for Recognition of Assaying and Hallmarking Center

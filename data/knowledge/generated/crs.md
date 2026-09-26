@@ -33,24 +33,24 @@ Products under CRS
 - Amplifiers With Input Power 2000w And Above
 - Automatic Data Processing Machine
 - Electronic Games (Video)
-- Electronic Musical Systems With Input Power 200w And Above.... Read More »
+- Electronic Musical Systems With Input Power 200w And Above.
 Standard Mark and Labeling Guidelines
 Notifications and Guidelines by BIS
 - BIS is operating Compulsory Registration Scheme (CRS) as per Scheme - II of Schedule - II of BIS (Conformity Assessment) Regulations, 2018.
 MeitY Notifications
 - Electronics & Information Technology Goods (Requirements for Compulsory Registration) Order, 2012 Dated 7th September 2012
-- Expansion of list of items under Electronics & Information Technology Goods (Requirements for Compulsory Registration) Order, 2012 dated 13th November 2014.... Read More »
+- Expansion of list of items under Electronics & Information Technology Goods (Requirements for Compulsory Registration) Order, 2012 dated 13th November 2014.
 MNRE Notifications
 - Ministry of New and Renewal Energy (MNRE) has notified 6 products through notification dated 05 September 2017.
-- Revised schedule and enforcement date of Solar Photovoltaic Systems/Devices/Components Goods Order 2017.... Read More »
+- Revised schedule and enforcement date of Solar Photovoltaic Systems/Devices/Components Goods Order 2017.
 
 ## CRS registration steps
 <!-- source: https://www.crsbis.in/BIS/registration-page.do -->
 How to generate Test Request and select available Laboratory
 - Login using existing credentials
 - Enter Sample details.
-- Select any approved Laboratory from the list..
-- Await for confirmation from the selected Laboratory...Read More »
+- Select any approved Laboratory from the list.
+- Await for confirmation from the selected Laboratory.
 Steps involved in Registration
 - Login with valid credentials
 - Generate Test Request
@@ -63,11 +63,11 @@ How to obtain login credentials
 - Upload Business License in English (Copy of certified translation is required, if the document is in foreign languages), establishing the name and address of the factory and indicating manufacturing activity in its scope.
 How to submit the Sample
 - Display/Paste the QR code on the sample/ packet to lab for easy scanning along & submit along with a copy of test request.
-- Send Sample and Test Request within 60 days of generation of Test Request to the Laboratory..........Read More »
+- Send Sample and Test Request within 60 days of generation of Test Request to the Laboratory.
 How to apply for licence online
-- Procedure for filing Form I under Smart Registration..
+- Procedure for filing Form I under Smart Registration.
 - Login using existing credentials.
 - Submit Test Request Reference in alphanumeric form (this will upload the Test Report).
-- Submit Undertaking regarding declaration of conformity........Read More »
+- Submit Undertaking regarding declaration of conformity.
 Registered Manufacturesrs
-Search facility has been provided to search for licences/products in the list of Registered Manufacturers under Compulsory Registration Scheme...Click here to perform the search
+Search facility has been provided to search for licences/products in the list of Registered Manufacturers under Compulsory Registration Scheme.

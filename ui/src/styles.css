@@ -446,13 +446,15 @@ html {
 
 .floating-composer-container {
   position: fixed;
-  bottom: 24px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 32px);
   max-width: 740px;
   z-index: 50;
-  padding: 0 10px;
+  /* Opaque fade so scrolled answers never show through the disclaimer. */
+  padding: 28px 10px 24px;
+  background: linear-gradient(to bottom, transparent 0, var(--bg-canvas) 28px);
 }
 
 .clean-sidebar ~ .clean-main-canvas .floating-composer-container {
@@ -937,7 +939,8 @@ html {
     left: 50%;
     width: calc(100% - 20px);
     max-width: none;
-    bottom: 12px;
+    bottom: 0;
+    padding-bottom: 12px;
   }
 
   .hero-center-container {
@@ -1489,6 +1492,7 @@ details.src-acc[open] > .src-acc-sum > .src-acc-chevron {
   max-width: 720px;
   margin: 30px auto 0 auto;
   padding: 0;
+  background: none;
   z-index: auto;
 }
 
@@ -1782,6 +1786,10 @@ details[open] > .expand-wrap {
 }
 
 /* Citations: [n] markers in answers */
+.cite-glue {
+  white-space: nowrap;
+}
+
 .cite {
   display: inline-flex;
   align-items: center;

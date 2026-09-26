@@ -41,8 +41,17 @@ function citeify(text: string, keyPrefix: string): React.ReactNode[] {
   let m: RegExpExecArray | null;
   CITE_RE.lastIndex = 0;
   while ((m = CITE_RE.exec(text)) !== null) {
-    if (m.index > last) out.push(<React.Fragment key={`${keyPrefix}-${k++}`}>{text.slice(last, m.index)}</React.Fragment>);
-    out.push(<Cite key={`${keyPrefix}-${k++}`} n={Number(m[1])} />);
+    // Keep the badge on the same line as the word it cites.
+    const before = text.slice(last, m.index);
+    const word = /\S+$/.exec(before)?.[0] ?? "";
+    const lead = before.slice(0, before.length - word.length);
+    if (lead) out.push(<React.Fragment key={`${keyPrefix}-${k++}`}>{lead}</React.Fragment>);
+    out.push(
+      <span className="cite-glue" key={`${keyPrefix}-${k++}`}>
+        {word}
+        <Cite n={Number(m[1])} />
+      </span>,
+    );
     last = m.index + m[0].length;
   }
   if (last < text.length) out.push(<React.Fragment key={`${keyPrefix}-${k++}`}>{text.slice(last)}</React.Fragment>);

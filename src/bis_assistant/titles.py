@@ -47,7 +47,9 @@ def generate_title(user_text: str, assistant_text: str = "",
     try:
         from .rag_config import load_llm_config
         from .rag_llm import chat_complete, is_configured, utility_config
-        cfg = utility_config(cfg or load_llm_config(), max_tokens=24)
+        # Reasoning models spend part of the budget before the title; a tight
+        # cap truncated titles to fragments like "CR".
+        cfg = utility_config(cfg or load_llm_config(), max_tokens=96)
         if not is_configured(cfg):
             return None
         convo = f"USER: {u}"

@@ -3,7 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Bureau of Indian Standards (BIS) Standards & Services Intelligence Dashboard. Authoritative Indian Standards, Gazette Grounding, CRS, Hallmarking, and DPDP 2023 Compliance." />
+    <meta name="description" content="Manak Mitra answers questions about Indian Standards and BIS services (ISI mark, CRS, hallmarking, lab testing) in English and Hindi, citing official BIS sources." />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      // Apply the saved (or system) theme before first paint to avoid a flash.
+      try {
+        var t = localStorage.getItem("manak-mitra-theme");
+        if (t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches))
+          document.documentElement.classList.add("dark-theme");
+      } catch (e) {}
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

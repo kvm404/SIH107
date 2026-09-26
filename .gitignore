@@ -30,3 +30,4 @@ logs/
 eval/results/
 .vercel
 .env*
+!.env.example

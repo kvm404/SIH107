@@ -1,0 +1,3382 @@
+{
+ "source_url": "https://www.bis.gov.in/wp-content/uploads/2026/06/Group_1_24062026.pdf",
+ "retrieved": "2026-09-26",
+ "labs": [
+  {
+   "name": "AES Laboratories (P) Ltd, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8117716",
+   "valid_until": "14.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Alpha Test House Private Limited, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8131026",
+   "valid_until": "17.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Anacon Laboratories Pvt Ltd, Nagpur",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7124116",
+   "valid_until": "15.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Arbro Pharmaceutical Private Ltd, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8116816",
+   "valid_until": "14.01.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Ashwamedh Engineers & Consultants, Nasik",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7130916",
+   "valid_until": "13.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Automotive Research Association of India (ARAI), Pune",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7106935",
+   "valid_until": "11.01.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "AVON food Lab, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8117816",
+   "valid_until": "19.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Atharva Laboratories. Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8134206",
+   "valid_until": "21.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Aforeserve Labs Private Limited, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9140626",
+   "valid_until": "06.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Aadco Testing & Research Laboratory Pvt Ltd, Bulandshahar Road, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8141606",
+   "valid_until": "26.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Ace Test House Private Limited, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8161906",
+   "valid_until": "26.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "ACE Test Labs & Metrology Private Limited, Rai, Sonipat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9162826",
+   "valid_until": "14.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "ABC Techno Labs India Pvt Ltd, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6164516",
+   "valid_until": "04.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "AA Electro Magnetic Test Laboratory Pvt ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8165826",
+   "valid_until": "24.09.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Ace Test Lab Private Limited, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8166826",
+   "valid_until": "07.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "AGSS Analytical and Research Lab Pvt Ltd, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8166916",
+   "valid_until": "13.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Arihant Analytical Laboratory Pvt Ltd, Kundli, Sonepat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9167906",
+   "valid_until": "02.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Accurate Labs, Vijayawada",
+   "state": "Andhra Pradesh",
+   "type": "Private",
+   "osl": "6168516",
+   "valid_until": "03.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "AC Test Lab, Coterd Solotions (OPC) Pvt Limited, Greater Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8170806",
+   "valid_until": "15.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Amit Test and Calibration Centre, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8172006",
+   "valid_until": "16.04.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Analytical Development - R & D, EMAMI Limited, Kolkata",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5172106",
+   "valid_until": "03.05.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "AIC-AMTZ Medivalley Incubation Council (Medivalley laboratory), Visakhapatnam",
+   "state": "Andhra Pradesh",
+   "type": "Private",
+   "osl": "6172206",
+   "valid_until": "18.05.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "ATCC Test Labs LLP, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8172626",
+   "valid_until": "15.06.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Accurate Universal Laboratories Private Limited, Ahmedabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7174006",
+   "valid_until": "19.09.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Astute Labs Pvt Ltd, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7174321",
+   "valid_until": "05.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Absolute Testing Services, Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8174526",
+   "valid_until": "13.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Application Research and Development Centre Haldia Petrochemical Limited, Kolkata",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5174906",
+   "valid_until": "30.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Allumera Engineering Solutions Pvt Ltd, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8175206",
+   "valid_until": "13.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "ARDM Labs Pvt Ltd, New Delh",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8175706",
+   "valid_until": "11.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Adarsh Scientific Research Center and Testing Laboratory Pvt. Ltd., Raigad",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7175806",
+   "valid_until": "14.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "ALS Testing Services India Pvt. Ltd., Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6175606",
+   "valid_until": "11.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Atmy Analytical Labs Private Limited (Unit-2), Greater Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8176106",
+   "valid_until": "08.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Accuprec Research Labs. Pvt. Ltd., Ahmedabad.",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7176516",
+   "valid_until": "28.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Advance Firetec and Research Lab Pvt Ltd., New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8176606",
+   "valid_until": "03.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Absolute Expertise Testing Laboratory LLP, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8176726",
+   "valid_until": "11.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Aadco Testing & Research Laboratory Pvt Ltd (Unit-2), Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8176906",
+   "valid_until": "19.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "ADS Labtech, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8178326",
+   "valid_until": "15.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Adityapur Auto Cluster, Jharkhand",
+   "state": "Jharkhand",
+   "type": "Private",
+   "osl": "5178506",
+   "valid_until": "28.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Ajeo Testing Labs Pvt. Ltd., Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8178606",
+   "valid_until": "10.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Aaditech Test and Calibration Lab LLP., Rohini",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8179926",
+   "valid_until": "28.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "ALAIPURIA TEST HOUSE PRIVATE LIMITED, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8180426",
+   "valid_until": "03.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Advance Electrical Testing And Calibration Lab LLP, Vadodara",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7182426",
+   "valid_until": "17.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Aadit Fire Testing Laboratory Pvt Ltd, Thiruvallur",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6182836",
+   "valid_until": "27.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "ABB ELSP LAB, Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6184126",
+   "valid_until": "05.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "AANKAN CALIBRATION AND TESTING CENTRE LLP",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7184406",
+   "valid_until": "17.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "ALPHA TEST HOUSE SERVICES LLP (Unit-1), Mohali",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9184906",
+   "valid_until": "23.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "AADHAR TESTING SOLUTIONS LLP, Ghaziabad",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8185026",
+   "valid_until": "30.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "ALPHA TEST HOUSE PVT LTD, Bahadurgarh",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8185306",
+   "valid_until": "06.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Atckon Laboratories LLP, Bahadurgarh",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8186436",
+   "valid_until": "17.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Akshat Test Lab & Calibration Services, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8186526",
+   "valid_until": "19.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Accumetrix Testing Solutions Pvt. Ltd., Hoshiarpur",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9188436",
+   "valid_until": "18.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "ABB Global Industries and Services Pvt. Ltd. - Low voltage breakers and switches testing laboratory, Hyderabad",
+   "state": "Telangana",
+   "type": "Private",
+   "osl": "6189726",
+   "valid_until": "06.11.2028",
+   "currently_suspended": true
+  },
+  {
+   "name": "ARYAVRAT TEST HOUSE PRIVATE LIMITED, Howrah",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5191706",
+   "valid_until": "27.11.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "ACCURATE TEST SOLUTIONS LLP, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8192806",
+   "valid_until": "07.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "AADIDEV TEST & RESEARCH CENTRE LLP, North West Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8194926",
+   "valid_until": "23.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Agro Tech Aromatics Pvt Ltd",
+   "state": "Jammu & Kashmir",
+   "type": "Private",
+   "osl": "9198106",
+   "valid_until": "09.04.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Alpit Metal Works Laboratory, Aurangabad",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7198436",
+   "valid_until": "06.07.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "AUMNAMAH RADIOANALYTICAL LABORATORY LLP",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8198616",
+   "valid_until": "20.07.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "AADISHAKTI TESTING &RESEARCH LABORATORIES LLP, Sonipat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9198806",
+   "valid_until": "06.08.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bureau Veritas India Testing Services Private Ltd, Hyderabad",
+   "state": "Telangana",
+   "type": "Private",
+   "osl": "6108116",
+   "valid_until": "31.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bureau Veritas (India) Private Ltd., Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6108016",
+   "valid_until": "31.07.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bureau Veritas Consumer Products Services(I) P. Ltd, NOIDA",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8127706",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bharat Test House Pvt Ltd, Rai, Sonepat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9135626",
+   "valid_until": "19.03.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bharat Test House Pvt Ltd, 781, HSIIC, Rai, Sonepat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9137826",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bee Pharmo Labs Pvt Ltd, Thane",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7139416",
+   "valid_until": "15.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bharti Automation Pvt Ltd (A Testing Division), Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8141726",
+   "valid_until": "05.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bharat Test House Pvt Ltd, Sonepat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9168306",
+   "valid_until": "26.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bahadurgarh Footwear Development Services Pvt Ltd, Bahadurgarh",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8168806",
+   "valid_until": "02.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bluesky Lab LLP, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8170306",
+   "valid_until": "22.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Bangalore Analytical Research Center (P) Ltd., Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6174606",
+   "valid_until": "14.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Baroda Calibration Services LLP, Vadodara",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7175421",
+   "valid_until": "21.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "BISS Labs-Division of ITW India Private Limited, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6175936",
+   "valid_until": "10.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "BCH Electric Limited, Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8186026",
+   "valid_until": "04.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "BUNITECH METALLURGICAL SERVICES PRIVATE LIMITED, Ahmadabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7188906",
+   "valid_until": "26.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Byte Scientific Research Lab Private Limited, Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8189436",
+   "valid_until": "27.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Basil Quality Testing lab Private Limited, Gurugram",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8195736",
+   "valid_until": "07.01.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Cali-labs Pvt Ltd, Bhopal",
+   "state": "Madhya Pradesh",
+   "type": "Private",
+   "osl": "8118116",
+   "valid_until": "31.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "CEG Test House & Research Centre, Jaipur",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8119706",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Electrical Testing Laboratory, Kakkalur",
+   "state": "Tamil Nadu",
+   "type": "Govt",
+   "osl": "6104524",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Ahmedabad",
+   "state": "Gujarat",
+   "type": "Govt",
+   "osl": "7116134",
+   "valid_until": "31.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "CIPET: Centre for Skilling and Technical Support (CSTS), Amritsar",
+   "state": "Punjab",
+   "type": "Govt.",
+   "osl": "9120034",
+   "valid_until": "06.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Aurangabad",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7123534",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Bhopal",
+   "state": "Madhya Pradesh",
+   "type": "Govt.",
+   "osl": "8100534",
+   "valid_until": "31.12.2026",
+   "currently_suspended": true
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Bhubaneswar",
+   "state": "Odisha",
+   "type": "Govt.",
+   "osl": "5102634",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Govt.",
+   "osl": "6104634",
+   "valid_until": "31.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Guwahati",
+   "state": "Assam",
+   "type": "Govt.",
+   "osl": "5117534",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Hajipur",
+   "state": "Bihar",
+   "type": "Govt.",
+   "osl": "5118334",
+   "valid_until": "07.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Haldia",
+   "state": "West Bengal",
+   "type": "Govt.",
+   "osl": "5116334",
+   "valid_until": "14.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Hyderabad",
+   "state": "Andhra Pradesh",
+   "type": "Govt.",
+   "osl": "6111634",
+   "valid_until": "23.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Jaipur",
+   "state": "Rajasthan",
+   "type": "Govt.",
+   "osl": "8122834",
+   "valid_until": "21.02.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Petrochemicals Engineering & Technology, Lucknow",
+   "state": "Uttar Pradesh",
+   "type": "Govt.",
+   "osl": "9102534",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Mysore",
+   "state": "Karnataka",
+   "type": "Govt.",
+   "osl": "6113734",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Murthal, Panipat",
+   "state": "Haryana",
+   "type": "Govt.",
+   "osl": "9121934",
+   "valid_until": "09.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Road Transport, Pune",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7105101",
+   "valid_until": "15.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Chennai Mettex Lab Pvt. Ltd, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6120236",
+   "valid_until": "02.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "CPRI, Bangalore",
+   "state": "Karnataka",
+   "type": "Govt.",
+   "osl": "6101024",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "CPRI, Bhopal",
+   "state": "Madhya Pradesh",
+   "type": "Govt.",
+   "osl": "8100924",
+   "valid_until": "30.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "CSA India Pvt Ltd, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6131326",
+   "valid_until": "08.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Classic Instrumentation Pvt Ltd, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8135126",
+   "valid_until": "23.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "NDDB CALF LIMITED",
+   "state": "Gujarat",
+   "type": "Govt",
+   "osl": "7136414",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Choksi Laboratories Ltd, Indore",
+   "state": "Madhya Pradesh",
+   "type": "Private",
+   "osl": "8136916",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "C&I Calibration Pvt Ltd, Jaipur an",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8137526",
+   "valid_until": "17.07.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Centre for Bio-Polymer Science & Technology, A Unit of CIPET, Kochi",
+   "state": "Kerala",
+   "type": "Govt",
+   "osl": "6137634",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Electronics Centre, Indian Institute of Technology, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Govt",
+   "osl": "6138124",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "CQA(V) Laboratory, Ahmednagar",
+   "state": "Maharashtra",
+   "type": "Govt",
+   "osl": "7138534",
+   "valid_until": "31.12.2023",
+   "currently_suspended": true
+  },
+  {
+   "name": "Conformity Testing Labs Pvt Ltd, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8139626",
+   "valid_until": "05.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Madurai",
+   "state": "Tamil Nadu",
+   "type": "Govt",
+   "osl": "6139834",
+   "valid_until": "22.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Plastics Engineering & Technology, Vijayawada",
+   "state": "Andhra Pradesh",
+   "type": "Govt",
+   "osl": "6141334",
+   "valid_until": "06.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "CSIR-Central Electro-chemical Research Institute, Karaikudi",
+   "state": "Tamil Nadu",
+   "type": "Govt",
+   "osl": "6162524",
+   "valid_until": "24.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central institute of Petrochemicals Engineering & Technology (CIPET), Raipur",
+   "state": "Chhattisgarh",
+   "type": "Govt",
+   "osl": "5163604",
+   "valid_until": "25.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Cosmo Analytical Lab, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8167006",
+   "valid_until": "13.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "CLRI-CATERS",
+   "state": "Tamil Nadu",
+   "type": "Govt",
+   "osl": "6167704",
+   "valid_until": "02.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Chem-Tech Laboratories Private Limited, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7170010",
+   "valid_until": "07.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Customer Services & Development Centre, HPCL-Mittal Energy",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8171106",
+   "valid_until": "28.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "CIPET:CSTS-Agartala Plastics Testing Laboratory, Agartala",
+   "state": "Tripura",
+   "type": "Govt",
+   "osl": "5173304",
+   "valid_until": "20.07.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Petrochemicals Engineering & Technology, Ranchi",
+   "state": "Jharkhand",
+   "type": "Govt",
+   "osl": "5173614",
+   "valid_until": "09.08.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Petrochemicals Engineering & Technology, Chandrapur",
+   "state": "Maharashtra",
+   "type": "Govt",
+   "osl": "7173804",
+   "valid_until": "10.09.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Cotton Association of India Cotton Testing & Research Laboratory, Mumbai",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7174706",
+   "valid_until": "20.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Power Research Institute, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Govt",
+   "osl": "8177224",
+   "valid_until": "25.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Central Institute of Petrochemicals Engineering & Technology, Dehradun",
+   "state": "Uttarakhand",
+   "type": "Govt",
+   "osl": "9178004",
+   "valid_until": "24.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Cotton Association of India, Cotton Testing and Research laboratory, Amhedabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7178936",
+   "valid_until": "10.07.2025",
+   "currently_suspended": false
+  },
+  {
+   "name": "Cotton Association of India, Cotton Testing and Research laboratory, Khargone",
+   "state": "Madhya Pradesh",
+   "type": "Private",
+   "osl": "8180036",
+   "valid_until": "29.08.2025",
+   "currently_suspended": false
+  },
+  {
+   "name": "Criterion Network Labs, Criterion Networks India Private Limited, Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6180226",
+   "valid_until": "16.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "CTL Testing Laboratory Pvt. Ltd. , Jaipur",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8180306",
+   "valid_until": "24.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Classic Testing & Research Centre, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8180826",
+   "valid_until": "15.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "COCHIN TEST HOUSE, KOCHI",
+   "state": "Kerala",
+   "type": "Private",
+   "osl": "6183816",
+   "valid_until": "03.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "CEPT Advisory Foundation, Ahmadabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7186736",
+   "valid_until": "08.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "CIMEC Infralabs Private Limited, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8195606",
+   "valid_until": "07.01.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "COTTON ASSOCIATION OF INDIA, COTTON TESTING AND RESEARCH LABORATORY, JALGAON",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7195836",
+   "valid_until": "12.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Delhi Test House, Kudli (Sonepat)",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9127026",
+   "valid_until": "23.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Delhi Test House, Azadpur, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8131406",
+   "valid_until": "17.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Delhi Test House-2, Kundli, Sonepat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9138006",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Darshan Electrical Testing and Research Laboratory, Rajkot",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7165436",
+   "valid_until": "09.08.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Delhi Analytical Research Laboratory, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8169106",
+   "valid_until": "26.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Delta Testing and Research Laboratories Private Limited, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "9179506",
+   "valid_until": "21.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Delta Testing and Research Laboratories Private Limited (Unit II), North West",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8186836",
+   "valid_until": "23.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "DVG Laboratories & Consultants Pvt Ltd, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8193306",
+   "valid_until": "09.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "DYNAMIC TEST LABORATORIES LLP, Sonipat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9197626",
+   "valid_until": "15.03.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "D.Banerjee Centre of Excellence (DBCOE), Mysuru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6198536",
+   "valid_until": "07.07.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Edward Food Research and Analysis Centre Limited (efrac) , Kolkata",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5127516",
+   "valid_until": "07.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Electronics and Quality Development Centre, Gandhinagar",
+   "state": "Gujarat",
+   "type": "Govt.",
+   "osl": "7118234",
+   "valid_until": "09.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Envirocare Labs (P) Ltd., Thane",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7120616",
+   "valid_until": "25.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Environmental Laboratory (Unit of Mineral Engineering Services LLP), Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6130616",
+   "valid_until": "20.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "ERDA, Vadodara",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7101125",
+   "valid_until": "30.11.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "ERTL (E), Kolkata",
+   "state": "West Bengal",
+   "type": "Govt.",
+   "osl": "5109624",
+   "valid_until": "19.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "ERTL (N), Delhi",
+   "state": "Delhi",
+   "type": "Govt.",
+   "osl": "8101924",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "ERTL (W), Mumbai",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7108424",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "ETDC, Bangalore",
+   "state": "Karnataka",
+   "type": "Govt.",
+   "osl": "6117624",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "ETDC, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Govt.",
+   "osl": "6101724",
+   "valid_until": "06.07.2021",
+   "currently_suspended": false
+  },
+  {
+   "name": "Vimta Labs Limited, Hyderabad",
+   "state": "Telangana",
+   "type": "Private",
+   "osl": "6132436",
+   "valid_until": "25.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Electrical Research & Development Association, Rabale, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7132925",
+   "valid_until": "22.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Eurofins Analytical Services India Pvt Limited, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6133416",
+   "valid_until": "14.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "ELMEF Testing & Calibration Laboratories Pvt Ltd, Indore",
+   "state": "Madhya Pradesh",
+   "type": "Private",
+   "osl": "8138926",
+   "valid_until": "03.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Electrical Research and Testing Organisation, Vadodara",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7140126",
+   "valid_until": "10.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Eskaps (India) Private Limited, Kolkata",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5141106",
+   "valid_until": "08.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "EMC Testing and Compliance LLP, Gurugram",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8141526",
+   "valid_until": "19.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "EKO PRO Engineers Pvt Ltd, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8164006",
+   "valid_until": "27.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "ELCA Laboratories, Navi Mumabi",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7169736",
+   "valid_until": "02.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Eureka Analytical Services Pvt Ltd, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6171206",
+   "valid_until": "02.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "EAMP Laboratories LLP, Palghar",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7171526",
+   "valid_until": "13.09.2025",
+   "currently_suspended": false
+  },
+  {
+   "name": "Enviro Remediation & Research Laboratory LLP, Thane",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7171806",
+   "valid_until": "13.11.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Electrical Power Research Laboratory, Vadodara",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7175321",
+   "valid_until": "19.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Elutech Laboratory and Colibration Services, Jaipur",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "9179806",
+   "valid_until": "26.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Eko Pro Engineers Pvt. Ltd. Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "9179706",
+   "valid_until": "26.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Elenergy Lab Research Pvt. Ltd., Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6185426",
+   "valid_until": "07.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Eminent International Testing Center Pvt Ltd. Isnapur",
+   "state": "Telangana",
+   "type": "Private",
+   "osl": "6190736",
+   "valid_until": "12.11.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Electronic Safety Test Laboratory, EMC Division, SAMEER-Centre for Microwave Research, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7192524",
+   "valid_until": "03.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "ELECTROEDGE LABORATORY LLP, North Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8197426",
+   "valid_until": "11.03.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "EMC EMI TESTING LAB- HLL LIFECARE LIMITED, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8198324",
+   "valid_until": "02.07.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Eco Paryavaran Laboratories and Consultants Pvt. Ltd., Mohali",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9198906",
+   "valid_until": "10.08.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Dashmesh Test Lab Private Limited, Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8186926",
+   "valid_until": "15.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "FCRI, Palakkad",
+   "state": "Kerala",
+   "type": "Govt.",
+   "osl": "6114324",
+   "valid_until": "06.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "FDDI, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Govt.",
+   "osl": "8112814",
+   "valid_until": "31.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "FICCI Research & Analysis Centre, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8131215",
+   "valid_until": "08.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Fire Test and Research Laboratory, Sonepat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8123835",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "FHHL Private Limited, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7124016",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Fare labs Pvt ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8135716",
+   "valid_until": "09.03.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Fare labs Pvt ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8166516",
+   "valid_until": "25.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "EKO PRO ENGINEERS PVT LTD, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8188216",
+   "valid_until": "16.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "GEO-Chem, Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7115716",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Ghaziabad Testing Laboratories Pvt Ltd Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8125006",
+   "valid_until": "30.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Gujarat Test House, Ahmedabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7109836",
+   "valid_until": "15.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Gujarat Testlab Private Limited, Ahmedabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7137016",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Granite River Labs India Services Private Limited, Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6180326",
+   "valid_until": "30.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Cotecna Inspection India Private Limited, Gurugram",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8166106",
+   "valid_until": "28.10.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Global Lab and Consultancy Services LLP, Salem",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6170916",
+   "valid_until": "13.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Global Compliance Laboratory India, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "5172706",
+   "valid_until": "20.06.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "GODREJ - NASHIK",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7173406",
+   "valid_until": "30.07.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Giga Labs, Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6177526",
+   "valid_until": "03.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Gravitas Laboratories Private Limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8182606",
+   "valid_until": "19.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Global Testing Laboratory Private limited, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8184306",
+   "valid_until": "11.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Global Technical Services (Central Oil Testing Laboratory), Bhilwara",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8188316",
+   "valid_until": "18.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "GECS LAB PRIVATE LIMITED, Ambala",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9188536",
+   "valid_until": "21.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Global Scientific Solution (P) Ltd., North Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8189526",
+   "valid_until": "30.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Hi Physix Laboratory India Pvt. Ltd. Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7126926",
+   "valid_until": "20.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Hindustan Testing Solutions LLP, Ambala Cantt.",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9122136",
+   "valid_until": "12.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Hitechlab Healthcare & Research Centre LLP, Ahemdabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7131116",
+   "valid_until": "01.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "HTH Laboratories Private Limited, Panipat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9137406",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "HPCL, Vashi QC Laboratory, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Govt",
+   "osl": "7161816",
+   "valid_until": "23.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Hexiqon Laboratory Private Limited, Ahemdabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7167306",
+   "valid_until": "07.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Hasti Engineers LLP, Rajkot",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7173706",
+   "valid_until": "21.08.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "HT Product Services Private Limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8175006",
+   "valid_until": "03.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Hubert Enviro Care Systems Limited., Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6176216",
+   "valid_until": "15.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Hari Shankar Singhania Elastomer and Tyre Research Institute, HASETRI, MYSORE",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6183136",
+   "valid_until": "02.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Havells India Limited (Havells Research & Development Laboratory), Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8187226",
+   "valid_until": "06.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Indian Institute of Packaging, Mumbai",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7118404",
+   "valid_until": "30.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Institute of Autoparts & Hand Tools Technology, Ludhiana",
+   "state": "Punjab",
+   "type": "Govt.",
+   "osl": "9126034",
+   "valid_until": "17.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Interfield Laboratories, Cochin",
+   "state": "Kerala",
+   "type": "Private",
+   "osl": "6124716",
+   "valid_until": "02.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "International Centre for Automotive Technology, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8123735",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Interstellar Testing Centre Pvt Ltd, Panchkula",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9108716",
+   "valid_until": "31.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Intertek India Private Limted, Hyderabad",
+   "state": "Andhra Pradesh",
+   "type": "Private",
+   "osl": "6126316",
+   "valid_until": "18.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Intertek India Pvt. Ltd.",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8122426",
+   "valid_until": "27.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Intertek India Pvt Ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8125516",
+   "valid_until": "07.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Indian Rubber Materials Research Institute, Thane",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7119305",
+   "valid_until": "30.06.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "International Centre for Automotive Tech.(Unit-2), Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8135535",
+   "valid_until": "01.03.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Intertek India Pvt Ltd, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8136626",
+   "valid_until": "27.04.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Institute for Industrial Research & Toxicology, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8163116",
+   "valid_until": "17.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Inspection Syndicate of India Pvt Ltd, Kolkata",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5164306",
+   "valid_until": "16.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "IEC Test labs LLP, Bawana, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8165726",
+   "valid_until": "07.09.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Intertek India Pvt Ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8166336",
+   "valid_until": "05.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Intertek India Pvt Ltd, Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7170706",
+   "valid_until": "06.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Indian Testing Laboratory Private Limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8171306",
+   "valid_until": "15.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Interstellar Testing Centre Private Limited, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6173106",
+   "valid_until": "07.07.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "International Testing Centre, MSME Technology Development Centre, Meerut",
+   "state": "Uttar Pradesh",
+   "type": "Govt.",
+   "osl": "8177804",
+   "valid_until": "15.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "IAPMO India Pvt. Ltd. Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6107716",
+   "valid_until": "18.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "IRCLASS System and Solution Pvt. Ltd., Jaipur",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8179206",
+   "valid_until": "06.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Indian Rubber Material Research Institute, Tirupati",
+   "state": "Andhra Pradesh",
+   "type": "Private",
+   "osl": "6179035",
+   "valid_until": "22.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "INDIAN TEST HOUSE PRIVATE LIMITED, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8183336",
+   "valid_until": "30.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "International Testing and Compliance (OPC) Private Limited, Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8188026",
+   "valid_until": "07.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "IDMA LABORATORIES LIMITED, PANCHKULA",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9123236",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "JBS Testing Solutions Pvt Ltd, Jalandhar",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9164606",
+   "valid_until": "04.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Jubilant Pharma and Chemical Lab (OPC) Pvt Ltd, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7169416",
+   "valid_until": "12.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "JBS Testing Solution (Unit-2), Jalandhar",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9172306",
+   "valid_until": "22.05.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Jagdamba Laboratories (OPC) Pvt Ltd, Jaipur",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8183216",
+   "valid_until": "22.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Kailtech Test and Research Centre Pvt. Ltd., Indore",
+   "state": "Madhya Pradesh",
+   "type": "Private",
+   "osl": "8125636",
+   "valid_until": "18.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Karandikar Laboratories Pvt Ltd, Boisar (E), Palghar, Thane",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7121526",
+   "valid_until": "04.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Konark Research Foundation, Daman",
+   "state": "Dadra & Nagar Haveli and Daman & Diu",
+   "type": "Private",
+   "osl": "7119516",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Kalyani Laboratories Pvt Ltd, Bhubaneswar",
+   "state": "Odisha",
+   "type": "Private",
+   "osl": "5134116",
+   "valid_until": "11.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "K C India Test Laboratories LLP, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "9140406",
+   "valid_until": "06.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Krishna Digital Material Testing Laboratory, Bhopal",
+   "state": "Madhya Pradesh",
+   "type": "Private",
+   "osl": "8168706",
+   "valid_until": "19.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "KSA LABS LLP, Vadodara",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7186606",
+   "valid_until": "23.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "KPML Low Voltage Rotating Machine and Hydraulic Laboratory Karad Projects and motors Limited, Karad",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7187626",
+   "valid_until": "25.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Lucid Laboratories Pvt. Ltd., Hyderabad",
+   "state": "Andhra Pradesh",
+   "type": "Private",
+   "osl": "6121636",
+   "valid_until": "19.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Lilaba Analytical Laboratories LLP, Surat",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7137216",
+   "valid_until": "11.06.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "LANDMARK MATERIAL TESTING AND RESEARCH LABORATORY PVT LTD, Jaipur",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8182036",
+   "valid_until": "27.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Maarc Labs (P) Ltd, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7119116",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "MicroChem Silliker Private Ltd., Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7123316",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Modern Test Center, Ganjam",
+   "state": "Odisha",
+   "type": "Private",
+   "osl": "5123116",
+   "valid_until": "31.05.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Monarch Biotech (P), Ltd., Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6118616",
+   "valid_until": "04.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "MSME Development Institute, Coimbatore",
+   "state": "Tamil Nadu",
+   "type": "Govt.",
+   "osl": "6105534",
+   "valid_until": "14.01.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "MSME Testing Centre, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Govt.",
+   "osl": "6106704",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "MSME Testing Centre, Kolkata",
+   "state": "West Bengal",
+   "type": "Govt.",
+   "osl": "5108204",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "MSME Testing Centre, Mumbai",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7119404",
+   "valid_until": "22.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "MSME Testing Centre, New Delhi",
+   "state": "Delhi",
+   "type": "Govt.",
+   "osl": "8101204",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Mitra S.K. Private Limited, Kolkata",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5131716",
+   "valid_until": "20.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Mananda Test House, Derabassi",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9134736",
+   "valid_until": "02.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Matrix Test Labs, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8138626",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Intertek India Private Limited, Ahemdabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7166626",
+   "valid_until": "02.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "MATS India Private Limited, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6168016",
+   "valid_until": "29.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Marquis Technologies Private Limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8175126",
+   "valid_until": "13.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Material Testing Laboratory LLP, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8176306",
+   "valid_until": "18.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "MIGHTY TESTING PRIVATE LIMITED, GHAZIABAD",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8185126",
+   "valid_until": "04.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "MICRO ENGINEERING AND TESTING LABORATORY OPC PRIVATE LIMITED, Sonipat",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9186006",
+   "valid_until": "03.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Eurofins Consumer Product Testing India Private Limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8187006",
+   "valid_until": "28.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "MS TESTING LABORATORY LLP, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8187716",
+   "valid_until": "27.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "MBIS Tescon Private Limited, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8190506",
+   "valid_until": "10.11.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Mysore ESDM Cluster, Mysuru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6188826",
+   "valid_until": "12.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "MEKANIKA TESTING LABS LLP, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8191236",
+   "valid_until": "20.11.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "MORBI TEST HOUSE LLP, Morbi",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7195306",
+   "valid_until": "01.01.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Test House (NR), Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Govt.",
+   "osl": "8101304",
+   "valid_until": "26.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Test House (ER), Kolkata",
+   "state": "West Bengal",
+   "type": "Govt.",
+   "osl": "5123904",
+   "valid_until": "08.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Test House (NWR), Jaipur",
+   "state": "Rajasthan",
+   "type": "Govt.",
+   "osl": "8122904",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Test House (SR), Chennai",
+   "state": "Tamil Nadu",
+   "type": "Govt.",
+   "osl": "6122704",
+   "valid_until": "28.11.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Test House (WR), Mumbai",
+   "state": "Maharashtra",
+   "type": "Govt.",
+   "osl": "7107604",
+   "valid_until": "24.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "NaWal Analytical Labs India Private Limited, Hosur",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6126416",
+   "valid_until": "21.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "NCCBM, Hyderabad",
+   "state": "Telangana",
+   "type": "Govt.",
+   "osl": "6114835",
+   "valid_until": "14.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "NCCBM, Ballabhgarh",
+   "state": "Haryana",
+   "type": "Govt.",
+   "osl": "9102335",
+   "valid_until": "15.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "NSIC Technical Services, Rajkot",
+   "state": "Gujarat",
+   "type": "Govt.",
+   "osl": "7104734",
+   "valid_until": "14.06.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "NSIC, Rajpura",
+   "state": "Punjab",
+   "type": "Govt.",
+   "osl": "9111924",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Institute of Secondary Steel Technology, Punjab",
+   "state": "Punjab",
+   "type": "Govt",
+   "osl": "9135004",
+   "valid_until": "24.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Research & Technology Consortium, Parwanoo, Solan",
+   "state": "Himachal Pradesh",
+   "type": "Govt",
+   "osl": "9136024",
+   "valid_until": "10.04.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Nemko India (Test lab) Pvt. Ltd, Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8138426",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Test House-ER, Kolkata",
+   "state": "West Bengal",
+   "type": "Govt",
+   "osl": "5140804",
+   "valid_until": "14.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Nextron International Lab Pvt Ltd, Bawana, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "9140226",
+   "valid_until": "06.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Test House (NER), Guwahati",
+   "state": "Assam",
+   "type": "Govt",
+   "osl": "5169204",
+   "valid_until": "13.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "NBML Building Materials Testing Lab LLP, Raipur",
+   "state": "Chhattisgarh",
+   "type": "Private",
+   "osl": "5171706",
+   "valid_until": "29.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Northern Centre for Research and Testing Pvt Ltd, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8174806",
+   "valid_until": "23.11.2026",
+   "currently_suspended": true
+  },
+  {
+   "name": "NIIRT Calibration and Testing Private Limited, Panchkula",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9176026",
+   "valid_until": "06.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Novateur Electrical and Digital Systems Pvt. Ltd., Nashik",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7176426",
+   "valid_until": "21.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Commodities Management Services Limited-Commgrade- Testing Services Regional Laboratory (N), Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8178406",
+   "valid_until": "17.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "NDL Power Limited, Sampla",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9182206",
+   "valid_until": "10.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "National Soil Testing and Research laboratories, Panchkula",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9182936",
+   "valid_until": "28.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "NATIONAL TESTING BUREAU, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8186826",
+   "valid_until": "09.07.2028",
+   "currently_suspended": true
+  },
+  {
+   "name": "NayraLaboratories (India)LLP, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8188136",
+   "valid_until": "09.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "OPTIMAS TESTING SERVICES, OPTIMAS OE SOLUTIONS INDIA PRIVATE LIMITED, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7187406",
+   "valid_until": "19.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "OMRESEARCH & TESTING LABORATORY PRIVATE LIMITED, Ranchi",
+   "state": "Jharkhand",
+   "type": "Private",
+   "osl": "5197706",
+   "valid_until": "17.03.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Planet Analysis Pvt. Ltd., Kanpur",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "9125906",
+   "valid_until": "20.01.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Punjab Biotechnology Incubator, Mohali",
+   "state": "Punjab",
+   "type": "Govt.",
+   "osl": "9121314",
+   "valid_until": "18.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Pump Testing Laboratory, Ludhiana",
+   "state": "Punjab",
+   "type": "Govt",
+   "osl": "9133933",
+   "valid_until": "15.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Plastics Testing Centre (PTC), CIPET: CSTS-Baddi, Solan",
+   "state": "Himachal Pradesh",
+   "type": "Govt",
+   "osl": "9163904",
+   "valid_until": "16.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Precise Analytics Lab. (A Div of Meyer Organics Pvt.Ltd.), Thane",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7171406",
+   "valid_until": "23.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Perficio Testing and Research Centre, Vadodara",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7172436",
+   "valid_until": "28.05.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Precision Laboratories LLP, Ahmedabad",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7174106",
+   "valid_until": "31.10.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Planet Electro Labs Private Limited, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8174226",
+   "valid_until": "05.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Pioneer Testing Laboratory Private Limited, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8176806",
+   "valid_until": "10.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Pious laboratories Pvt. Ltd., Indore",
+   "state": "Madhya Pradesh",
+   "type": "Private",
+   "osl": "8183516",
+   "valid_until": "07.01.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "PIBCO LIMITED R&D CENTRE, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8184506",
+   "valid_until": "23.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Planet Electro Labs Private Limited, NEW DELHI",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8185226",
+   "valid_until": "07.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "PAAM Testing Labs Private Limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8185506",
+   "valid_until": "07.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Plastics Woven Bag Testing Lab- Technical Training & Research Centre - TTRC, Kanpur",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "9187136",
+   "valid_until": "30.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "POLYMER TESTING LABORATORY, CIPET:SARP- APDDRL, Bangalore",
+   "state": "Karnataka",
+   "type": "Govt.",
+   "osl": "6187504",
+   "valid_until": "25.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Perfect International Testing Lab, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8187826",
+   "valid_until": "01.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "PROMINENT TESTING CENTRE LLP, Patiala",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9189006",
+   "valid_until": "26.10.2028",
+   "currently_suspended": true
+  },
+  {
+   "name": "PUMP TEST LAB KSB LIMITED, Nashik",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7196526",
+   "valid_until": "02.02.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "PADKONDE M S TESTING LABORATORY LLP, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7197106",
+   "valid_until": "22.02.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "PRESTO LABORATORIES PRIVATE LIMITED, Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8199006",
+   "valid_until": "20.08.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Qualichem Laboratories, Nagpur",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7134016",
+   "valid_until": "12.07.2025",
+   "currently_suspended": false
+  },
+  {
+   "name": "QA Testing Laboratories Private Limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8169906",
+   "valid_until": "05.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "QVC Certification Services Pvt. Ltd, Ambala",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9171906",
+   "valid_until": "12.01.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Quality Testing & Research Lab, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8184006",
+   "valid_until": "23.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "QA TESTING LABORATORIES PRIVATE LIMITED LUCKNOW",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "9192006",
+   "valid_until": "02.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "QUALITY INTERNATIONAL RESEARCH & LABORATORIES PRIVATE LIMITED, Raipur",
+   "state": "Chhattisgarh",
+   "type": "Private",
+   "osl": "5197006",
+   "valid_until": "22.02.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "React Compliance and Testing Laboratories LLP, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6130526",
+   "valid_until": "10.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "RITES Easter Regional Laboratory, Kolkata",
+   "state": "West Bengal",
+   "type": "Govt",
+   "osl": "5135804",
+   "valid_until": "19.03.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Renewable Energy Test Centre, Murthal, Sonepat",
+   "state": "Haryana",
+   "type": "Govt",
+   "osl": "9137734",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Robust Testing Solutions Private Limited, Alwar",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8173526",
+   "valid_until": "02.08.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "RTRC Limited, Gurugram",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9177406",
+   "valid_until": "03.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Rohan Energy Solutions Pvt Ltd ( Testing Laboratory Division), Nashik",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7183416",
+   "valid_until": "05.01.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "RAMCO RESEARCH AND DEVELOPMENT CENTRE, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6183606",
+   "valid_until": "12.01.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Rajkot Metlab Services LLP, Rajkot",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7183706",
+   "valid_until": "12.01.2028",
+   "currently_suspended": true
+  },
+  {
+   "name": "RAHUL ENGINEERS LABORATORY PRIVATE",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8189106",
+   "valid_until": "26.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "RAMCO INDUSTRIES LIMITED (MATERIAL TESTING LABORATORY)",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6198036",
+   "valid_until": "01.04.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV SUD SOUTH ASIA PRIVATE LIMITED RANIPET",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6191806",
+   "valid_until": "01.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "S.B. Steel Company, Howrah",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5120906",
+   "valid_until": "06.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TERAWATT TESTING AND RESEARCH INSTITUTE PRIVATE LIMITED, Alwar",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8197526",
+   "valid_until": "12.03.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "SGS India Ltd, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6114716",
+   "valid_until": "14.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Shiva Analyticals (India) Private Limited, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6121716",
+   "valid_until": "21.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Shri Krishna Test House, New Modern Shahdara",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8122336",
+   "valid_until": "05.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Shriram Research Institute, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6104206",
+   "valid_until": "14.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "SIIR, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8102006",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Sipra labs (P) Ltd, Hyderabad",
+   "state": "Telangana",
+   "type": "Private",
+   "osl": "6117916",
+   "valid_until": "31.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Spectro Analytical Labs Private Limited, Greater Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8130426",
+   "valid_until": "04.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Sun-Tech, Ranchi",
+   "state": "Jharkhand",
+   "type": "Private",
+   "osl": "5126636",
+   "valid_until": "11.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "SMS Labs Services Pvt Ltd, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6132316",
+   "valid_until": "08.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "SGS India Private Limited, Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6132626",
+   "valid_until": "17.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "SGS India Private Limited, Kolkata",
+   "state": "West Bengal",
+   "type": "Private",
+   "osl": "5132706",
+   "valid_until": "08.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Saturn Quality Certifications Pvt Ltd, Bahadurgarh",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8133016",
+   "valid_until": "03.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "SGS India Pvt Ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8136216",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "S M Consultants, Bhubaneswar",
+   "state": "Odisha",
+   "type": "Private",
+   "osl": "5137936",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Sunren Telecom Laboratory, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7139526",
+   "valid_until": "15.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Sleen India Biz Venture Private Limited, Agra",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "9139736",
+   "valid_until": "15.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Star Wire (India) Laboratories Private Ltd., Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8141826",
+   "valid_until": "17.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "SGS India Private Limited, Consumer and Retail Testing Laboratory, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6162436",
+   "valid_until": "26.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Sierra Aircon Pvt Ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8163426",
+   "valid_until": "31.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Swastik Electronics Testing Centre (OPC) Pvt. Ltd., Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8163826",
+   "valid_until": "15.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "SGS India Pvt Ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8167436",
+   "valid_until": "16.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Standard Testing Laboratory Private Limited, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8170106",
+   "valid_until": "10.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "SKC Compliance Lab Private Limited, Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6170406",
+   "valid_until": "24.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Stellar Test House, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8171606",
+   "valid_until": "26.09.2025",
+   "currently_suspended": false
+  },
+  {
+   "name": "Shiva Test House Private Limited, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8177706",
+   "valid_until": "11.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Lauritz Knudsen Switchgear Testing Laboratories, MSW, SEIPL, Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7177626",
+   "valid_until": "11.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Standard Testing and Compliance Private Limited, Faridabad.",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "6178726",
+   "valid_until": "10.07.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Shriram Food and Pharma Research Centre, Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "9179606",
+   "valid_until": "20.08.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "STAR LABS TEST CENTRE LLP, Jaipur",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8180526",
+   "valid_until": "07.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Shri Bajrang Testing Labs, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8183006",
+   "valid_until": "01.12.2027",
+   "currently_suspended": true
+  },
+  {
+   "name": "SNEHA TEST HOUSE PRIVATE LIMITED, Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6184216",
+   "valid_until": "12.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Switchgear Testing Laboratories, Schneider Electric India Private Limited, Ahmednagar",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7184626",
+   "valid_until": "24.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Samridhi Test House Pvt. Ltd. North Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8184706",
+   "valid_until": "08.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "SHRI KRISHNA TEST HOUSE PVT LTD, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8185606",
+   "valid_until": "12.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "SCIENTIFIC AND INDUSTRIAL TESTING AND RESEARCH CENTRE (SITARC), Coimbatore",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6189206",
+   "valid_until": "27.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Spectro SSA Labs Private Limited, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7190106",
+   "valid_until": "09.11.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Samtek Testing Laboratory LLP, Lucknow",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "9194336",
+   "valid_until": "18.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Standard Testing and Research Lab, Haridwar",
+   "state": "Uttarakhand",
+   "type": "Private",
+   "osl": "9197206",
+   "valid_until": "23.02.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "TCR Engineering, Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7103506",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Testtex India Laboratories Pvt. Ltd, Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7126506",
+   "valid_until": "08.04.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV Rheinland (India) Pvt. Ltd. Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6126126",
+   "valid_until": "17.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV India Private Limited, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7133816",
+   "valid_until": "08.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Testtex India Laboratories Private Limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8138306",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "The National Small Industries Corporation Ltd, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Govt",
+   "osl": "6135404",
+   "valid_until": "30.01.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Tag Corporation, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6138806",
+   "valid_until": "10.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV India Pvt Ltd, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7139026",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Trustin Analytical Solutions Pvt Limited, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6139136",
+   "valid_until": "21.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV Rheinland (India) Pvt Ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "9140526",
+   "valid_until": "06.06.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV Rheinland (India) Pvt Limited (PV Module Testing laboratory), Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6162126",
+   "valid_until": "10.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV Rheinland (India) Pvt Ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8167106",
+   "valid_until": "19.01.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV Rheinland (India ) Pvt Ltd, Vishakhapatnam",
+   "state": "Andhra Pradesh",
+   "type": "Private",
+   "osl": "6167206",
+   "valid_until": "03.02.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV India Pvt Ltd, Bengulur",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6169526",
+   "valid_until": "23.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TVS Labs, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8171826",
+   "valid_until": "18.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Techvision Testing Lab Private Limited, New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "9173226",
+   "valid_until": "16.07.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Type Test Center Siemens Limited Kalwa, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7174421",
+   "valid_until": "07.11.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Tentamus India Pvt. Ltd. (Formely Megsan Labs Pvt. Ltd.) Hyderabad",
+   "state": "Telangana",
+   "type": "Private",
+   "osl": "6177006",
+   "valid_until": "20.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV SUD South Asia Pvt. Ltd., Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6180126",
+   "valid_until": "11.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Test Master, Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8180636",
+   "valid_until": "09.10.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TATA STEEL",
+   "state": "Jharkhand",
+   "type": "Private",
+   "osl": "5182706",
+   "valid_until": "25.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "TECHNOPOWER TECH SOLUTIONS LLP, Bhopal",
+   "state": "Madhya Pradesh",
+   "type": "Private",
+   "osl": "8187126",
+   "valid_until": "07.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "TEKNOLAB QUALITY SERVICES PRIVATE LIMITED, Faridabad",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8196926",
+   "valid_until": "19.02.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "TUV Rheinland (India) Private limited, Material Testing Laboratory, Bengaluru",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6197936",
+   "valid_until": "01.04.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "UL India Pvt Ltd, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8127226",
+   "valid_until": "07.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "UL India Pvt Ltd., Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6120526",
+   "valid_until": "12.05.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Unique Test House LLP, Mohali",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9134536",
+   "valid_until": "07.09.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "URS Products & Testing Pvt Ltd, NOIDA",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8136826",
+   "valid_until": "31.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "URS Products & Testing Pvt Ltd, NOIDA",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8168906",
+   "valid_until": "26.09.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Universal Testing and Research Centre (Division of Sustainable Stewardship Private Limited), New Delhi",
+   "state": "Delhi",
+   "type": "Private",
+   "osl": "8169306",
+   "valid_until": "28.11.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Umwelt Research Lab Private Limited, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7175516",
+   "valid_until": "26.12.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Ultra Plus Lubes Pvt. Ltd, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7185816",
+   "valid_until": "13.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Urja Metallurgical Services LLP, Pune",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7194806",
+   "valid_until": "22.12.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "UNITECH LABORATORIES SERVICES, Rajkot",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7196806",
+   "valid_until": "17.02.2029",
+   "currently_suspended": false
+  },
+  {
+   "name": "Vimta Labs, Hyderabad",
+   "state": "Telangana",
+   "type": "Private",
+   "osl": "6102906",
+   "valid_until": "31.03.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "VSIX Analytical Labs Private Limited, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6139316",
+   "valid_until": "18.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Vimta Labs Limited, Bangalore",
+   "state": "Karnataka",
+   "type": "Private",
+   "osl": "6164216",
+   "valid_until": "15.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Viridian Testing Laboratories, LLP, Tirupur",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6169806",
+   "valid_until": "20.02.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Vardan Envirolab, Gurgaon",
+   "state": "Haryana",
+   "type": "Private",
+   "osl": "8169616",
+   "valid_until": "26.12.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Vijai Electricals Limited, Haridwar",
+   "state": "Uttarakhand",
+   "type": "Private",
+   "osl": "9171026",
+   "valid_until": "14.07.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Vardhamana Testing Laboratory OPC Pvt. Ltd., Greater Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8178226",
+   "valid_until": "29.04.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Vimta labs limited, Noida",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8187316",
+   "valid_until": "12.08.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Vertex Testing Laboratory Pvt. Ltd. , Ghaziabad",
+   "state": "Uttar Pradesh",
+   "type": "Private",
+   "osl": "8185906",
+   "valid_until": "22.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Winwall Technology India Private Limited, Chennai",
+   "state": "Tamil Nadu",
+   "type": "Private",
+   "osl": "6171906",
+   "valid_until": "10.04.2026",
+   "currently_suspended": false
+  },
+  {
+   "name": "Well Tech Test and Research Center, Mohali",
+   "state": "Punjab",
+   "type": "Private",
+   "osl": "9177306",
+   "valid_until": "30.03.2027",
+   "currently_suspended": false
+  },
+  {
+   "name": "Wakefield Inspection Services India Pvt. Ltd. , Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7182136",
+   "valid_until": "29.10.2025",
+   "currently_suspended": false
+  },
+  {
+   "name": "Winwall Technology India Private Limited, Navi Mumbai",
+   "state": "Maharashtra",
+   "type": "Private",
+   "osl": "7189336",
+   "valid_until": "27.10.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Yadav Measurements P Ltd, Udaipur",
+   "state": "Rajasthan",
+   "type": "Private",
+   "osl": "8116426",
+   "valid_until": "31.05.2028",
+   "currently_suspended": false
+  },
+  {
+   "name": "Yorlab LLP, Rajkot",
+   "state": "Gujarat",
+   "type": "Private",
+   "osl": "7188606",
+   "valid_until": "06.10.2028",
+   "currently_suspended": false
+  }
+ ]
+}

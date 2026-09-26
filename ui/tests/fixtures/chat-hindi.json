@@ -1,19 +1,110 @@
 {
   "name": "chat-hindi",
-  "description": "Hindi QA fixture: Devanagari query answered with lang=hi so the UI lang badge shows हिंदी.",
-  "request": { "query": "नल के पानी का मानक कौन सा है?", "lang": "hi" },
+  "description": "Recorded Hindi answer: query rewritten to English for search, reply in Devanagari.",
+  "request": {
+    "query": "प्रेशर कुकर के लिए कौन सा मानक अनिवार्य है?"
+  },
   "response": {
-    "text": "**IS 10500:2012** (high confidence) — पेयजल विनिर्देश। दायरा: नल का पेयजल।\n\nज्ञात स्रोत से दायरा सत्यापित करें।",
+    "text": "प्रेशर कुकर के लिए दो अलग-अलग उत्पादों के लिए अलग-अलग मानक लागू होते हैं:\n\n1. घरेलू प्रेशर कुकर (Domestic Pressure Cooker) के लिए IS 2347:2017 मानक अनिवार्य है[1]।\n2. प्रेशर कुकर के रबर गैस्केट (Rubber Gaskets) के लिए IS 7466:1994 मानक अनिवार्य है[2]।\n\nदोनों ही उत्पादों के लिए BIS प्रमाणन (ISI Mark) Scheme-I के तहत अनिवार्य है[2][1]।",
     "refused": false,
-    "kind": "answered",
+    "kind": "llm_answer",
     "lang": "hi",
-    "citations": ["IS 10500:2012 [Active, last-checked 2026-09-18] + https://www.bis.gov.in/know-your-standard/"],
-    "pii": {},
+    "citations": [
+      "Products under compulsory BIS certification: Scheme-I (ISI Mark) › Domestic Pressure Cooker [compulsory_list], Source: https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
+      "Products under compulsory BIS certification: Scheme-I (ISI Mark) › Rubber Gaskets for Pressure Cookers [compulsory_list], Source: https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/"
+    ],
+    "sources": [
+      {
+        "evidence_type": "document_chunk",
+        "label": "COMPULSORY PRODUCT LIST",
+        "standard_number": "",
+        "title": "Products under compulsory BIS certification: Scheme-I (ISI Mark)",
+        "url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
+        "doc_type": "compulsory_list",
+        "score": 22.363,
+        "ref": 1,
+        "heading": "Domestic Pressure Cooker",
+        "chunk_text": "Quality Control Order details: (Quality Control) Order, 2020 (S.O. 294 (E) dated 21/01/2020) Domestic Pressure Cooker (Quality Control) (Amendment) Order, 2020 (S.O.2019(E) dated 23/06/2020)\n- IS 2347:2017: Domestic Pressure Cooker. Compulsory under (Quality Control) Order, 2020.",
+        "chunk_index": 86,
+        "source_file": "knowledge/generated/compulsory-scheme-i.md",
+        "rank": 2,
+        "selection_reason": "relevance_threshold_passed"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "COMPULSORY PRODUCT LIST",
+        "standard_number": "",
+        "title": "Products under compulsory BIS certification: Scheme-I (ISI Mark)",
+        "url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
+        "doc_type": "compulsory_list",
+        "score": 23.561,
+        "ref": 2,
+        "heading": "Rubber Gaskets for Pressure Cookers",
+        "chunk_text": "Quality Control Order details: Rubber Gaskets for Pressure Cookers (Quality Control) Order, 2023 S.O. 5371(E), dated 14th December 2023\n- IS 7466 :1994: Rubber Gaskets for Pressure Cookers. Compulsory under Rubber Gaskets for Pressure Cookers (Quality Control) Order, 2023.",
+        "chunk_index": 170,
+        "source_file": "knowledge/generated/compulsory-scheme-i.md",
+        "rank": 1,
+        "selection_reason": "relevance_threshold_passed"
+      }
+    ],
+    "rag_evidence": [
+      {
+        "evidence_type": "document_chunk",
+        "label": "COMPULSORY PRODUCT LIST",
+        "standard_number": "",
+        "title": "Products under compulsory BIS certification: Scheme-I (ISI Mark)",
+        "url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
+        "doc_type": "compulsory_list",
+        "score": 22.363,
+        "ref": 1,
+        "heading": "Domestic Pressure Cooker",
+        "chunk_text": "Quality Control Order details: (Quality Control) Order, 2020 (S.O. 294 (E) dated 21/01/2020) Domestic Pressure Cooker (Quality Control) (Amendment) Order, 2020 (S.O.2019(E) dated 23/06/2020)\n- IS 2347:2017: Domestic Pressure Cooker. Compulsory under (Quality Control) Order, 2020.",
+        "chunk_index": 86,
+        "source_file": "knowledge/generated/compulsory-scheme-i.md",
+        "rank": 2,
+        "selection_reason": "relevance_threshold_passed"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "COMPULSORY PRODUCT LIST",
+        "standard_number": "",
+        "title": "Products under compulsory BIS certification: Scheme-I (ISI Mark)",
+        "url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
+        "doc_type": "compulsory_list",
+        "score": 23.561,
+        "ref": 2,
+        "heading": "Rubber Gaskets for Pressure Cookers",
+        "chunk_text": "Quality Control Order details: Rubber Gaskets for Pressure Cookers (Quality Control) Order, 2023 S.O. 5371(E), dated 14th December 2023\n- IS 7466 :1994: Rubber Gaskets for Pressure Cookers. Compulsory under Rubber Gaskets for Pressure Cookers (Quality Control) Order, 2023.",
+        "chunk_index": 170,
+        "source_file": "knowledge/generated/compulsory-scheme-i.md",
+        "rank": 1,
+        "selection_reason": "relevance_threshold_passed"
+      }
+    ],
+    "rag_mode": "llm",
+    "rag_used_llm": true,
+    "model_available": true,
+    "pii": {
+      "phone": false,
+      "email": false,
+      "aadhaar_like": false
+    },
     "needs_info": false,
     "questions": [],
-    "known": [{ "slot": "use", "value": "पेयजल" }],
+    "known": [],
     "assumptions": [],
-    "context": { "history": [], "rounds": 0 },
+    "context": {
+      "history": [
+        "User: प्रेशर कुकर के लिए कौन सा मानक अनिवार्य है?",
+        "Assistant: प्रेशर कुकर के लिए दो अलग-अलग उत्पादों के लिए अलग-अलग मानक लागू होते हैं:\n\n1. घरेलू प्रेशर कुकर (Domestic Pressure Cooker) के लिए IS 2347:2017 मानक अनिवार्य है।\n2. प्रेशर कुकर के रबर गैस्केट (Rubber Gaskets) के लिए IS 7466:1994 मानक अनिवार्य है।\n\nदोनों ही उत्पादों के लिए BIS प्रमाणन (ISI Mark) Scheme-I के तहत अनिवार्य है।"
+      ],
+      "rounds": 0,
+      "force": false
+    },
+    "search_query": "Which Indian Standard is mandatory for pressure cooker?",
+    "intent": "general",
+    "intent_confidence": "low",
+    "context_summary": "",
     "thread_id": "thread-fixture-hindi",
     "owner_token": "owner-fixture-token"
   }

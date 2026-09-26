@@ -6,7 +6,17 @@ pattern (regex on raw text, for numeric answers like capacity/grade).
 from __future__ import annotations
 import re
 
-from .retriever import _tokens
+
+
+def _tokens(s: str) -> set[str]:
+    """Lower-case word tokens plus singular forms (bulbs -> bulb)."""
+    out: set[str] = set()
+    for t in re.findall(r"[a-z0-9\u0900-\u097F]+", s.lower()):
+        out.add(t)
+        if len(t) > 3 and t.endswith("s") and not t.endswith("ss"):
+            out.add(t[:-1])
+    return out
+
 
 _DB_SLOTS: dict[str, list[dict]] | None = None  # Phase 1: DB-backed override
 

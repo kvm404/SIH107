@@ -1,54 +1,142 @@
 {
   "name": "chat-answered",
-  "description": "Fixture mirroring POST /chat grounded answer incl. known/assumptions/thread fields the UI consumes.",
+  "description": "Recorded POST /chat answer: compulsory product list + catalogue, numbered citations.",
   "request": {
-    "query": "My startup makes vacuum insulated stainless steel water bottle. Which IS?",
-    "force": false
+    "query": "Which Indian Standard applies to steel water bottles, and is BIS certification compulsory?"
   },
   "response": {
-    "text": "**IS 17570:2021** (high confidence) — Vacuum insulated stainless steel flask. Scope: insulated flasks.\n\nVerify scope on Know-Your-Standard before manufacture.",
+    "text": "The applicable Indian Standard for steel water bottles is IS 17803: 2022, which covers Potable Water Bottles made of Copper, Stainless Steel, and Aluminum[1].\n\nBIS certification is compulsory for these products under the Potable Water Bottles (Quality Control) Order, 2023[1]. The certification follows Scheme-I (ISI Mark), which requires a licence for Indian manufacturers after factory assessment and product testing[2].\n\nTo proceed, you must apply for the ISI mark licence through the BIS IT system[3].",
     "refused": false,
-    "kind": "answered",
+    "kind": "llm_answer",
     "lang": "en",
     "citations": [
-      "IS 17570:2021 [Active, last-checked 2026-09-18] + https://www.bis.gov.in/know-your-standard/"
+      "Products under compulsory BIS certification: Scheme-I (ISI Mark) › Potable Water Bottles [compulsory_list], Source: https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
+      "BIS standard marks and certification schemes at a glance › Which scheme applies [bis_guide], Source: https://www.bis.gov.in/the-bureau/about-bis/",
+      "How to get a BIS licence for the ISI mark (Scheme-I) › Option 2: simplified procedure with third party test reports [bis_guide], Source: https://www.bis.gov.in/wp-content/uploads/2026/02/GrantofLicence-Guidelines-25Feb2026.pdf"
     ],
-    "pii": {},
-    "needs_info": false,
-    "questions": [],
-    "known": [
-      {
-        "slot": "material",
-        "value": "stainless steel"
-      }
-    ],
-    "assumptions": [
-      "intended use = food contact (you didn't specify this)"
-    ],
-    "context": {
-      "history": [],
-      "rounds": 0
-    },
-    "thread_id": "thread-fixture-answered",
-    "owner_token": "owner-fixture-token",
     "sources": [
       {
-        "standard_number": "IS 17570:2021",
-        "title": "Vacuum insulated stainless steel flask",
-        "url": "https://www.bis.gov.in/know-your-standard/",
-        "doc_type": "catalogue",
-        "heading": "Product Specification",
-        "chunk_text": "",
-        "chunk_index": 0,
-        "source_file": "",
-        "score": 9.5
+        "evidence_type": "document_chunk",
+        "label": "COMPULSORY PRODUCT LIST",
+        "standard_number": "",
+        "title": "Products under compulsory BIS certification: Scheme-I (ISI Mark)",
+        "url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
+        "doc_type": "compulsory_list",
+        "score": 22.483,
+        "ref": 1,
+        "heading": "Potable Water Bottles",
+        "chunk_text": "Quality Control Order details: Potable Water Bottles (Quality Control) Order, 2023 S.O. 2988(E), dated 5th July 2023 Potable Water Bottles (Quality Control) Order, 2024 S.O. 1071(E), dated 05th March 2024 Potable Water Bottles (Quality Control) Amendment Order, 2024 S.O. 3702(E), dated 29th August 2024 Amendment in the Quality Control Order S.O. 777(E) Dated 13th February, 2026\n- IS 17803: 2022: Potable Water Bottles (Copper, Stainless Steel, Aluminum). Compulsory under Potable Water Bottles (Quality Control) Order, 2023.",
+        "chunk_index": 124,
+        "source_file": "knowledge/generated/compulsory-scheme-i.md",
+        "rank": 1,
+        "selection_reason": "relevance_threshold_passed"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "BIS GUIDANCE PAGE",
+        "standard_number": "",
+        "title": "BIS standard marks and certification schemes at a glance",
+        "url": "https://www.bis.gov.in/the-bureau/about-bis/",
+        "doc_type": "bis_guide",
+        "score": 12.615,
+        "ref": 2,
+        "heading": "Which scheme applies",
+        "chunk_text": "- Product Certification Scheme (Scheme-I, ISI mark): licence for Indian manufacturers after factory assessment and product testing.\n- Compulsory Registration Scheme (CRS, Scheme-II): registration based on self-declaration and a test report from a BIS recognised lab, for electronics and IT goods notified by MeitY, solar photovoltaic goods notified by MNRE and some chemicals.\n- Foreign Manufacturers Certification Scheme (FMCS): ISI mark licence for foreign manufacturers, for all products except electronics and IT goods notified by MeitY.\n- Scheme-IV: Certificate of Conformity, for example stampings, laminations and cores of transformers.\n- Hallmarking Scheme: purity marking of gold and silver jewellery and artefacts by BIS recognised Assaying and Hallmarking Centres, with registered jewellers.\n- Management Systems Certification: IS/ISO 9001, 14001, 22000, 45001 and other management system standards.\n- Laboratory Recognition Scheme: recognition of testing laboratories whose reports BIS accepts.",
+        "chunk_index": 1,
+        "source_file": "knowledge/curated/marks-and-schemes.md",
+        "rank": 5,
+        "selection_reason": "relevance_threshold_passed"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "BIS GUIDANCE PAGE",
+        "standard_number": "",
+        "title": "How to get a BIS licence for the ISI mark (Scheme-I)",
+        "url": "https://www.bis.gov.in/wp-content/uploads/2026/02/GrantofLicence-Guidelines-25Feb2026.pdf",
+        "doc_type": "bis_guide",
+        "score": 0.0,
+        "ref": 3,
+        "heading": "Option 2: simplified procedure with third party test reports",
+        "chunk_text": "- Products processed under Option 2 are listed in Annexure-II(C). Option 2 is not available to foreign manufacturers.\n- The applicant first registers on the BIS IT system and gets a unique code, submits product samples to a third party laboratory with that code, and uploads the laboratory receipt.\n- The application is submitted with conforming test report(s) of the product (and of raw materials, if applicable) issued by a third party laboratory.\n- Accepted test reports: laboratories established, maintained or recognised by BIS for the product (including Group-2 labs under the Laboratory Recognition Scheme), and government laboratories empanelled by BIS.\n- Test reports must not be more than 90 days old, counted from the date of issue to the date the application is received. With multiple reports, the oldest must not be more than 180 days old.\n- BIS still visits the factory to assess it and draws samples for testing in a third party laboratory.",
+        "chunk_index": 1,
+        "source_file": "knowledge/curated/licence-process.md",
+        "selection_reason": "scheme_process"
       }
     ],
-    "rag_mode": "catalogue (24k BIS catalogue scan)",
-    "rag_used_llm": false,
-    "intent": "recommend_standard",
-    "intent_confidence": "high",
-    "context_summary": "My startup makes vacuum insulated stainless steel water bottle. Which IS?",
-    "guidance_adaptive": false
+    "rag_evidence": [
+      {
+        "evidence_type": "document_chunk",
+        "label": "COMPULSORY PRODUCT LIST",
+        "standard_number": "",
+        "title": "Products under compulsory BIS certification: Scheme-I (ISI Mark)",
+        "url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
+        "doc_type": "compulsory_list",
+        "score": 22.483,
+        "ref": 1,
+        "heading": "Potable Water Bottles",
+        "chunk_text": "Quality Control Order details: Potable Water Bottles (Quality Control) Order, 2023 S.O. 2988(E), dated 5th July 2023 Potable Water Bottles (Quality Control) Order, 2024 S.O. 1071(E), dated 05th March 2024 Potable Water Bottles (Quality Control) Amendment Order, 2024 S.O. 3702(E), dated 29th August 2024 Amendment in the Quality Control Order S.O. 777(E) Dated 13th February, 2026\n- IS 17803: 2022: Potable Water Bottles (Copper, Stainless Steel, Aluminum). Compulsory under Potable Water Bottles (Quality Control) Order, 2023.",
+        "chunk_index": 124,
+        "source_file": "knowledge/generated/compulsory-scheme-i.md",
+        "rank": 1,
+        "selection_reason": "relevance_threshold_passed"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "BIS GUIDANCE PAGE",
+        "standard_number": "",
+        "title": "BIS standard marks and certification schemes at a glance",
+        "url": "https://www.bis.gov.in/the-bureau/about-bis/",
+        "doc_type": "bis_guide",
+        "score": 12.615,
+        "ref": 2,
+        "heading": "Which scheme applies",
+        "chunk_text": "- Product Certification Scheme (Scheme-I, ISI mark): licence for Indian manufacturers after factory assessment and product testing.\n- Compulsory Registration Scheme (CRS, Scheme-II): registration based on self-declaration and a test report from a BIS recognised lab, for electronics and IT goods notified by MeitY, solar photovoltaic goods notified by MNRE and some chemicals.\n- Foreign Manufacturers Certification Scheme (FMCS): ISI mark licence for foreign manufacturers, for all products except electronics and IT goods notified by MeitY.\n- Scheme-IV: Certificate of Conformity, for example stampings, laminations and cores of transformers.\n- Hallmarking Scheme: purity marking of gold and silver jewellery and artefacts by BIS recognised Assaying and Hallmarking Centres, with registered jewellers.\n- Management Systems Certification: IS/ISO 9001, 14001, 22000, 45001 and other management system standards.\n- Laboratory Recognition Scheme: recognition of testing laboratories whose reports BIS accepts.",
+        "chunk_index": 1,
+        "source_file": "knowledge/curated/marks-and-schemes.md",
+        "rank": 5,
+        "selection_reason": "relevance_threshold_passed"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "BIS GUIDANCE PAGE",
+        "standard_number": "",
+        "title": "How to get a BIS licence for the ISI mark (Scheme-I)",
+        "url": "https://www.bis.gov.in/wp-content/uploads/2026/02/GrantofLicence-Guidelines-25Feb2026.pdf",
+        "doc_type": "bis_guide",
+        "score": 0.0,
+        "ref": 3,
+        "heading": "Option 2: simplified procedure with third party test reports",
+        "chunk_text": "- Products processed under Option 2 are listed in Annexure-II(C). Option 2 is not available to foreign manufacturers.\n- The applicant first registers on the BIS IT system and gets a unique code, submits product samples to a third party laboratory with that code, and uploads the laboratory receipt.\n- The application is submitted with conforming test report(s) of the product (and of raw materials, if applicable) issued by a third party laboratory.\n- Accepted test reports: laboratories established, maintained or recognised by BIS for the product (including Group-2 labs under the Laboratory Recognition Scheme), and government laboratories empanelled by BIS.\n- Test reports must not be more than 90 days old, counted from the date of issue to the date the application is received. With multiple reports, the oldest must not be more than 180 days old.\n- BIS still visits the factory to assess it and draws samples for testing in a third party laboratory.",
+        "chunk_index": 1,
+        "source_file": "knowledge/curated/licence-process.md",
+        "selection_reason": "scheme_process"
+      }
+    ],
+    "rag_mode": "llm",
+    "rag_used_llm": true,
+    "model_available": true,
+    "pii": {
+      "phone": false,
+      "email": false,
+      "aadhaar_like": false
+    },
+    "needs_info": false,
+    "questions": [],
+    "known": [],
+    "assumptions": [],
+    "context": {
+      "history": [
+        "User: Which Indian Standard applies to steel water bottles, and is BIS certification compulsory?",
+        "Assistant: The applicable Indian Standard for steel water bottles is IS 17803: 2022, which covers Potable Water Bottles made of Copper, Stainless Steel, and Aluminum.\n\nBIS certification is compulsory for these products under the Potable Water Bottles (Quality Control) Order, 2023. The certification follows Scheme-I (ISI Mark), which requires a licence for Indian manufacturers after factory assessment and product testing.\n\nTo proceed, you must apply for the ISI mark licence through the BIS IT system."
+      ],
+      "rounds": 0,
+      "force": false
+    },
+    "search_query": "",
+    "intent": "general",
+    "intent_confidence": "low",
+    "context_summary": "",
+    "thread_id": "thread-fixture-answered",
+    "owner_token": "owner-fixture-token"
   }
 }

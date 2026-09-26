@@ -44,14 +44,22 @@ function assertChatResponse(resp, label) {
   // Thread continuation fields the UI relies on (server.py mints thread_id + owner_token).
   if (resp.thread_id !== undefined) assert.equal(typeof resp.thread_id, "string", `${label}: thread_id must be string`);
   if (resp.owner_token !== undefined) assert.equal(typeof resp.owner_token, "string", `${label}: owner_token must be string`);
-  // needs_info invariant: must carry at least one question so the UI has something to render.
-  if (resp.needs_info) {
-    assert.ok(resp.questions.length > 0, `${label}: needs_info=true requires ≥1 question`);
+  // Answers are LLM-written; clarification questions and slot chips are gone.
+  assert.equal(resp.needs_info, false, `${label}: needs_info is no longer produced`);
+  assert.equal(resp.questions.length, 0, `${label}: questions are no longer produced`);
+  // Citation contract: every [n] in the text points at sources[n-1], and
+  // sources are exactly the cited ones, numbered 1..k in order.
+  const refs = [...resp.text.matchAll(/\[(\d{1,2})\]/g)].map((m) => Number(m[1]));
+  const sources = resp.sources ?? [];
+  sources.forEach((s, i) => assert.equal(s.ref, i + 1, `${label}: sources must be numbered 1..k`));
+  for (const n of refs) {
+    assert.ok(n >= 1 && n <= sources.length, `${label}: [${n}] has no matching source`);
   }
-  // Refusal invariant: refusals carry no known/assumptions (nothing grounded to show).
-  if (resp.refused) {
-    assert.equal(resp.known.length, 0, `${label}: refused answers must not carry known[]`);
-    assert.equal(resp.assumptions.length, 0, `${label}: refused answers must not carry assumptions[]`);
+  for (const s of sources) assert.ok(refs.includes(s.ref), `${label}: source ${s.ref} is never cited`);
+  assert.doesNotMatch(resp.text, /\[Source\s*\d/i, `${label}: raw [Source N] markers must be renumbered`);
+  if (resp.related_sources !== undefined) {
+    assert.ok(Array.isArray(resp.related_sources), `${label}: related_sources must be array`);
+    for (const s of resp.related_sources) assert.equal(s.ref, undefined, `${label}: related sources are unnumbered`);
   }
 }
 
@@ -59,13 +67,11 @@ describe("ui contract fixtures", () => {
   it("fixture set is complete", () => {
     for (const expected of [
       "chat-answered.json",
-      "chat-needs-info.json",
       "chat-hindi.json",
-      "chat-hinglish.json",
+      "chat-lab.json",
       "chat-refused.json",
+      "chat-busy.json",
       "feedback.json",
-      "thread-export.json",
-      "kb-diff.json",
     ]) {
       assert.ok(files.includes(expected), `missing fixture ${expected}`);
     }
@@ -78,23 +84,35 @@ describe("ui contract fixtures", () => {
     }
   });
 
-  it("needs_info flow fixture carries questions + thread continuation", () => {
-    const j = load("chat-needs-info.json");
-    assert.equal(j.response.needs_info, true);
-    assert.ok(j.response.questions.length >= 1 && j.response.questions.length <= 2);
-    assert.ok(j.response.thread_id, "needs_info must carry thread_id for follow-ups");
-  });
-
-  it("hindi fixtures use lang=hi (lang badge shows हिंदी)", () => {
-    for (const f of ["chat-hindi.json", "chat-hinglish.json"]) {
-      const j = load(f);
-      assert.equal(j.response.lang, "hi", `${f}: lang badge contract requires lang=hi`);
+  it("answers cite official sources", () => {
+    for (const f of ["chat-answered.json", "chat-hindi.json", "chat-lab.json"]) {
+      const r = load(f).response;
+      assert.equal(r.kind, "llm_answer", f);
+      assert.ok(r.sources.length > 0, `${f}: answers must cite sources`);
+      for (const s of r.sources) assert.ok(isHttpUrl(s.url), `${f}: source url must be http(s)`);
     }
-    const dev = load("chat-hindi.json").response.text;
-    assert.match(dev, /[\u0900-\u097F]/, "chat-hindi fixture must contain Devanagari");
+    const lab = load("chat-lab.json").response;
+    assert.ok(lab.sources.some((s) => s.doc_type === "lab_directory"), "lab answer cites LIMS labs");
   });
 
-  it("RAG/intent fields are validated when present (issue #4 P1-12)", () => {
+  it("hindi fixture replies in Devanagari after an English search rewrite", () => {
+    const r = load("chat-hindi.json").response;
+    assert.equal(r.lang, "hi");
+    assert.match(r.text, /[\u0900-\u097F]/);
+    assert.match(r.search_query, /^[\x00-\x7F]+$/, "search query is English");
+  });
+
+  it("refusal and busy states carry no cited sources", () => {
+    const refused = load("chat-refused.json").response;
+    assert.equal(refused.kind, "grounding_refusal");
+    assert.equal(refused.sources.length, 0);
+    assert.ok(refused.related_sources.length > 0, "refusal offers related documents");
+    const busy = load("chat-busy.json").response;
+    assert.equal(busy.kind, "model_busy");
+    assert.equal(busy.retryable, true);
+  });
+
+  it("RAG fields are validated when present", () => {
     for (const f of files.filter((x) => x.startsWith("chat-"))) {
       const resp = load(f).response;
       if (resp.sources !== undefined) {
@@ -114,10 +132,6 @@ describe("ui contract fixtures", () => {
       }
       if (resp.guidance_adaptive !== undefined) assert.equal(typeof resp.guidance_adaptive, "boolean");
     }
-    const c = load("chat-corpus.json").response;
-    assert.equal(c.kind, "corpus_answer");
-    assert.equal(c.rag_used_llm, true);
-    assert.ok(c.sources.length > 0 && c.sources[0].standard_number.includes("IS 101"));
   });
 
   it("feedback fixture matches POST /feedback contract", () => {
@@ -131,46 +145,6 @@ describe("ui contract fixtures", () => {
       assert.ok([1, -1].includes(ex.rating), "rating must be 1|-1");
       if (ex.note !== undefined) assert.ok(ex.note.length <= j.contract.note_max_length);
     }
-  });
-
-  it("thread-export fixture matches GET /threads/{id} redacted shape", () => {
-    const r = load("thread-export.json").response;
-    assert.equal(typeof r.thread_id, "string");
-    assert.equal(typeof r.rounds, "number");
-    assert.equal(typeof r.lang, "string");
-    assert.ok(Array.isArray(r.messages) && r.messages.length > 0);
-    for (const m of r.messages) {
-      for (const k of ["role", "text_redacted", "citations_json", "kind", "ms", "created_at"]) {
-        assert.ok(k in m, `thread message missing ${k}`);
-      }
-      assert.ok(!("text" in m), "export must use redacted text_redacted, never raw text");
-      assert.ok(!("owner_token_hash" in m), "export must not leak token hashes");
-    }
-  });
-
-  it("kb-diff fixture matches the admin diff/publish shapes", () => {
-    const j = load("kb-diff.json");
-    // Live backend shapes the UI normalises (documented in-fixture, asserted here).
-    assert.deepEqual(j.live_shapes.get_diff.change_type_enum, ["added", "changed", "missing-upstream"]);
-    assert.equal(j.live_shapes.get_diff.auth_header, "x-admin-key");
-    const pub = j.live_shapes.publish.body_example;
-    assert.equal(typeof pub.diff_id, "number");
-    assert.equal(typeof pub.approve, "boolean");
-    assert.ok(pub.publisher_key && pub.approver_key, "2-person publish needs both keys");
-    // Normalised/fixture diff shape the UI table consumes.
-    const d = j.diff;
-    assert.equal(typeof d.diff_id, "string");
-    assert.equal(typeof d.generated_at, "string");
-    assert.ok(Array.isArray(d.changes) && d.changes.length > 0);
-    for (const c of d.changes) {
-      assert.equal(typeof c.id, "string");
-      assert.equal(typeof c.is_number, "string");
-      // Superset: live change_type values plus "withdrawn", which the UI renders as a warning row.
-      assert.ok(["added", "changed", "missing-upstream", "withdrawn"].includes(c.change), `bad change kind ${c.change}`);
-    }
-    assert.ok(["approve", "reject"].includes(j.publish_request_example.decision));
-    assert.equal(j.publish_response.ok, true);
-    assert.equal(j.publish_response.diff_id, d.diff_id);
   });
 
   it("local transcript redact matches server PII rules", () => {

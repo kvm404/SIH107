@@ -1,5 +1,5 @@
 import type { ChatResponse, Lang } from "./types";
-import type { FeedbackResult, KbDiff, KbPublishResult, ThreadExport } from "./types";
+import type { FeedbackResult } from "./types";
 
 export interface ServerThread {
   id: string;
@@ -7,32 +7,6 @@ export interface ServerThread {
 }
 
 const CHAT_TIMEOUT_MS = 120_000;
-
-/** Fixture KB diff used when the admin backend (GET /kb/diff) is not yet live (plan §5 stub). */
-export const FIXTURE_KB_DIFF: KbDiff = {
-  diff_id: "diff-fixture-001",
-  generated_at: "2026-09-18T00:00:00+00:00",
-  changes: [
-    {
-      id: "is-10500",
-      is_number: "IS 10500:2012",
-      change: "changed",
-      old_status: "Active",
-      new_status: "Active",
-      source_url: "https://www.bis.gov.in/know-your-standard/",
-      last_checked: "2026-09-18",
-    },
-    {
-      id: "is-99999",
-      is_number: "IS 99999:2026",
-      change: "withdrawn",
-      old_status: "Active",
-      new_status: "Withdrawn",
-      source_url: "https://www.bis.gov.in/know-your-standard/",
-      last_checked: "2026-09-18",
-    },
-  ],
-};
 
 async function req(path: string, init?: RequestInit, timeoutMs = 15000) {
   const ctl = new AbortController();
@@ -149,6 +123,9 @@ export function normalizeChatResponse(raw: unknown, query = ""): ChatResponse {
     owner_token: typeof r.owner_token === "string" ? r.owner_token : undefined,
     sources: arr(r.sources ?? r.rag_evidence),
     rag_evidence: arr(r.rag_evidence ?? r.sources),
+    related_sources: arr(r.related_sources),
+    search_query: typeof r.search_query === "string" ? r.search_query : undefined,
+    retryable: r.retryable === true,
     rag_mode: typeof r.rag_mode === "string" ? r.rag_mode : undefined,
     rag_used_llm: r.rag_used_llm === true,
     model_available: r.model_available === true,
@@ -189,33 +166,6 @@ export const bisChat = {
   },
 };
 
-/** Stateful closure for non-React callers; React (App.tsx) keeps thread in state. */
-export function createBisChat(initialLang: Lang = "auto") {
-  let thread: ServerThread | null = null;
-  let lang: Lang = initialLang;
-  return {
-    getThread: (): ServerThread | null => thread,
-    setLang: (l: Lang): void => {
-      lang = l;
-    },
-    newTopic(): void {
-      thread = null;
-    },
-    async send(
-      query: string,
-      opts: { force?: boolean; fresh?: boolean; lang?: Lang } = {},
-    ): Promise<{ resp: ChatResponse; ms: number; thread: ServerThread | null }> {
-      const out = await bisChat.send(query, {
-        lang: opts.lang ?? lang,
-        thread: opts.fresh ? null : thread,
-        force: opts.force ?? false,
-        fresh: opts.fresh ?? false,
-      });
-      thread = bisChat.shouldKeepThread(out.resp) ? out.thread : null;
-      return out;
-    },
-  };
-}
 /**
  * POST /feedback when the backend ships it
  * (body {thread_id, rating: -1..1, note}, X-Owner-Token for owned threads).
@@ -286,86 +236,4 @@ export async function deleteThread(thread: ServerThread): Promise<void> {
   } catch {
     /* abandoned threads expire server-side via thread TTL */
   }
-}
-
-/** GET /threads/{id} with owner token; throws so callers can fall back to the local transcript. */
-export async function fetchThreadExport(thread: ServerThread): Promise<ThreadExport> {
-  return (await req(`/api/threads/${encodeURIComponent(thread.id)}`, {
-    headers: { "X-Owner-Token": thread.token },
-  })) as ThreadExport;
-}
-
-/** Live pending_diffs row shape from GET /kb/diff (Phase 4 backend). */
-interface LiveDiffRow {
-  id: number;
-  snapshot_id: number;
-  change_type: string;
-  is_number: string;
-  details_json: string;
-  status: string;
-  decided_at: string | null;
-}
-
-function normaliseLiveDiff(j: { pending: LiveDiffRow[]; reviewed_by?: string }): KbDiff {
-  return {
-    diff_id: "live",
-    generated_at: new Date().toISOString(),
-    reviewed_by: j.reviewed_by,
-    changes: j.pending.map((r) => ({
-      id: String(r.id),
-      is_number: r.is_number,
-      change: (["added", "changed", "missing-upstream"].includes(r.change_type)
-        ? r.change_type
-        : "changed") as KbDiff["changes"][number]["change"],
-      snapshot_id: r.snapshot_id,
-      details: r.details_json,
-    })),
-  };
-}
-
-/** Admin diff-review: live GET /kb/diff (x-admin-key). 403/network is failure, never a fixture unlock. */
-export async function fetchKbDiff(adminKey: string): Promise<{ diff: KbDiff; fixture: boolean }> {
-  const j = (await req("/api/kb/diff", {
-    headers: adminKey ? { "x-admin-key": adminKey } : {},
-  })) as KbDiff & { pending?: LiveDiffRow[]; reviewed_by?: string };
-  if (Array.isArray(j.pending)) {
-    return { diff: normaliseLiveDiff(j as { pending: LiveDiffRow[]; reviewed_by?: string }), fixture: false };
-  }
-  throw new Error("KB diff is not a live pending payload");
-}
-
-/**
- * Publish decision: live POST /kb/publish
- * ({diff_id: int, approve: bool, publisher_key, approver_key} — 2-person, distinct actors)
- * only when the row id is numeric (a real pending_diffs id) and both keys are
- * present; otherwise record locally as fixture-ok WITHOUT posting a shape
- * the backend would 422 (issue #4 P1-14).
- */
-export async function publishKbDiff(
-  changeId: string,
-  decision: "approve" | "reject",
-  publisherKey: string,
-  approverKey?: string,
-): Promise<KbPublishResult> {
-  const pub = publisherKey.trim();
-  const appr = (approverKey ?? "").trim();
-  if (pub && appr && pub !== appr && /^\d+$/.test(changeId)) {
-    try {
-      const j = await req("/api/kb/publish", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          diff_id: Number(changeId),
-          approve: decision === "approve",
-          publisher_key: pub,
-          approver_key: appr,
-        }),
-      });
-      if (j && j.ok === true) return { ok: true, diff_id: changeId, decision };
-      return { ok: false, diff_id: changeId, decision, error: "backend rejected the publish" };
-    } catch (e) {
-      return { ok: false, diff_id: changeId, decision, error: e instanceof Error ? e.message : "request failed" };
-    }
-  }
-  return { ok: true, diff_id: changeId, decision, fixture: true };
 }

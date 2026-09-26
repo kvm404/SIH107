@@ -1,0 +1,142 @@
+{
+  "name": "chat-lab",
+  "description": "Recorded lab lookup: LIMS labs for the product's IS number.",
+  "request": {
+    "query": "Suggest BIS recognised labs to test two-wheeler helmets"
+  },
+  "response": {
+    "text": "For testing two-wheeler helmets under IS 4151:2015, the following BIS recognised laboratories are listed with their locations and charges[1]:\n\n*   PRESTO LABORATORIES PRIVATE LIMITED, Haryana; charges Rs. 14,000 excluding taxes[1].\n*   Samridhi Test House Pvt. Ltd., Delhi; charges Rs. 14,000 excluding taxes[1].\n*   Bharat Test House Pvt. Ltd., Sonipat, Haryana; charges Rs. 14,200 excluding taxes[1].\n*   Delta Testing and Research Laboratories Private Limited, Delhi; charges Rs. 55,000 excluding taxes[1].\n*   PIONEER TESTING LABORATORY PRIVATE LIMITED, Delhi; charges Rs. 37,350 excluding taxes[1].\n*   Testtex India Laboratories Private Limited, Noida, Uttar Pradesh; charges Rs. 20,000 or Rs. 31,500 excluding taxes depending on the specific entry[1].\n\nYou can verify current scopes and availability on the LIMS portal at lims.bis.gov.in[2][3].",
+    "refused": false,
+    "kind": "llm_answer",
+    "lang": "en",
+    "citations": [
+      "IS 4151:2015: BIS LIMS: laboratories testing IS 4151:2015 [lab_directory], Source: https://lims.bis.gov.in/home/search_is_number/?is_number__doc_no=4151",
+      "BIS laboratories, recognised labs and testing › Laboratory FAQ [bis_guide], Source: https://www.bis.gov.in/laboratorys/laboratory-services-overview/laboratory-faq/",
+      "BIS laboratories, recognised labs and testing › Laboratory services overview [bis_guide], Source: https://www.bis.gov.in/laboratorys/laboratory-services-overview/"
+    ],
+    "sources": [
+      {
+        "evidence_type": "document_chunk",
+        "label": "LAB DIRECTORY",
+        "standard_number": "IS 4151:2015",
+        "title": "BIS LIMS: laboratories testing IS 4151:2015",
+        "url": "https://lims.bis.gov.in/home/search_is_number/?is_number__doc_no=4151",
+        "doc_type": "lab_directory",
+        "score": 0.0,
+        "ref": 1,
+        "heading": "2015: Helmet for riders of Two Wheeler Motor Vehicles",
+        "chunk_text": "Laboratories that test IS 4151:2015 (2015: Helmet for riders of Two Wheeler Motor Vehicles), from BIS LIMS:\n- PRESTO LABORATORIES PRIVATE LIMITED, Haryana; scope: All; testing charges Rs. 14000 excluding taxes; recognition valid until 21 Aug, 2029\n- Samridhi Test House Pvt. Ltd., Delhi; testing charges Rs. 14000 excluding taxes\n- Bharat Test House Pvt. Ltd. 1668 Sonipat, Haryana; scope: Protective helmets for motorcycle riders; testing charges Rs. 14200 excluding taxes\n- Delta Testing and Research Laboratories Private Limited (C5), Delhi; scope: All Grade / Type / Size / Designation; testing charges Rs. 55000 excluding taxes; recognition valid until 21 Aug, 2027\n- PIONEER TESTING LABORATORY PRIVATE LIMITED, Delhi; scope: All Type; testing charges Rs. 37350 excluding taxes; recognition valid until 10 Mar, 2030\n- Testtex India Laboratories Private Limited, Noida, Uttar Pradesh; scope: All; testing charges Rs. 20000 excluding taxes; recognition valid until 31 Dec, 2029\n- BIS, Central Laboratory (CL)\n- Testtex India Laboratories Private Limited, Noida, Uttar Pradesh; scope: All; testing charges Rs. 31500 excluding taxes",
+        "chunk_index": 0,
+        "source_file": "",
+        "selection_reason": "lab_lookup"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "BIS GUIDANCE PAGE",
+        "standard_number": "",
+        "title": "BIS laboratories, recognised labs and testing",
+        "url": "https://www.bis.gov.in/laboratorys/laboratory-services-overview/laboratory-faq/",
+        "doc_type": "bis_guide",
+        "score": 23.095,
+        "ref": 2,
+        "heading": "Laboratory FAQ",
+        "chunk_text": "4. What is the fee structure for getting my Labs Recognized by BIS?\nThe Fee Structure for Laboratory Recognition is given in the Laboratory Recognition Scheme and subsequent amendments.\n5. Where can I find the test facilities available in any particular BIS Lab /BIS Recognized Lab?\nThe details of the test facilities available in the BIS labs, BIS recognised labs and BIS empanelled labs are available at LIMS portal (lims.bis.gov.in). For Indian Standard wise information of the laboratory, select the ‘Search by IS number’ tile on the LIMS portal.\n6. Do BIS labs test products for any customer?\nNo, BIS Laboratories only tests the product for the Conformity Assessment Schemes of BIS and does not carry out commercial testing. For commercial testing, the services of BIS recognised/empanelled labs as well as other outside laboratories can be utilised.\n7. I am a manufacturer and want to get my product tested in BIS lab/BIS recognised lab/BIS empanelled lab for applying for license/recognition under option-2 (simplified procedure), how should I submit my product sample for testing? What are the testing charges for such samples?",
+        "chunk_index": 2,
+        "source_file": "knowledge/generated/laboratories.md",
+        "rank": 2,
+        "selection_reason": "relevance_threshold_passed"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "BIS GUIDANCE PAGE",
+        "standard_number": "",
+        "title": "BIS laboratories, recognised labs and testing",
+        "url": "https://www.bis.gov.in/laboratorys/laboratory-services-overview/",
+        "doc_type": "bis_guide",
+        "score": 19.953,
+        "ref": 3,
+        "heading": "Laboratory services overview",
+        "chunk_text": "To protect consumer’s interest,BIS operates various conformity assessment schemes.Under these schemes, BIS grants licenses/registrations to such manufacturers who are capable of producing goods conforming to relevant Indian Standards, on continuous basis. To support these scheme,which requires testing of products on regular basis for checking conformity to the relevant Indian Standards, BIS has established a network of eight laboratories.\nTesting facility & Testing Charges\n- BIS Lab-Wise Test Facilities\n- BIS Recognized LAB-Wise Test Facilities\n- Indian Standard- Wise Test Facilities In BIS LAB /Recognized Labs\nList of BIS Recognised / Empanelled Labs\n- Indian Standard Wise List Of Recognized Laboratories\n- The full details of laboratories,scope of testing and testing charges are available at lims.bis.gov.in\nNABL Accredited Laboratories\nLab Recognition scheme\n- Laboratory Recognition Scheme 2020\n- Laboratory Recognition Scheme Amendment 2020\n- LRS forms and undertakings\n- How to apply for BIS recognitions\nUnified Test Report Formats(UTRFs) For CRS Products\nFor any further enquiry, please contact the following:\n- Laboratory Policy and Planning Department / Laboratory Recognition and",
+        "chunk_index": 0,
+        "source_file": "knowledge/generated/laboratories.md",
+        "rank": 3,
+        "selection_reason": "relevance_threshold_passed"
+      }
+    ],
+    "rag_evidence": [
+      {
+        "evidence_type": "document_chunk",
+        "label": "LAB DIRECTORY",
+        "standard_number": "IS 4151:2015",
+        "title": "BIS LIMS: laboratories testing IS 4151:2015",
+        "url": "https://lims.bis.gov.in/home/search_is_number/?is_number__doc_no=4151",
+        "doc_type": "lab_directory",
+        "score": 0.0,
+        "ref": 1,
+        "heading": "2015: Helmet for riders of Two Wheeler Motor Vehicles",
+        "chunk_text": "Laboratories that test IS 4151:2015 (2015: Helmet for riders of Two Wheeler Motor Vehicles), from BIS LIMS:\n- PRESTO LABORATORIES PRIVATE LIMITED, Haryana; scope: All; testing charges Rs. 14000 excluding taxes; recognition valid until 21 Aug, 2029\n- Samridhi Test House Pvt. Ltd., Delhi; testing charges Rs. 14000 excluding taxes\n- Bharat Test House Pvt. Ltd. 1668 Sonipat, Haryana; scope: Protective helmets for motorcycle riders; testing charges Rs. 14200 excluding taxes\n- Delta Testing and Research Laboratories Private Limited (C5), Delhi; scope: All Grade / Type / Size / Designation; testing charges Rs. 55000 excluding taxes; recognition valid until 21 Aug, 2027\n- PIONEER TESTING LABORATORY PRIVATE LIMITED, Delhi; scope: All Type; testing charges Rs. 37350 excluding taxes; recognition valid until 10 Mar, 2030\n- Testtex India Laboratories Private Limited, Noida, Uttar Pradesh; scope: All; testing charges Rs. 20000 excluding taxes; recognition valid until 31 Dec, 2029\n- BIS, Central Laboratory (CL)\n- Testtex India Laboratories Private Limited, Noida, Uttar Pradesh; scope: All; testing charges Rs. 31500 excluding taxes",
+        "chunk_index": 0,
+        "source_file": "",
+        "selection_reason": "lab_lookup"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "BIS GUIDANCE PAGE",
+        "standard_number": "",
+        "title": "BIS laboratories, recognised labs and testing",
+        "url": "https://www.bis.gov.in/laboratorys/laboratory-services-overview/laboratory-faq/",
+        "doc_type": "bis_guide",
+        "score": 23.095,
+        "ref": 2,
+        "heading": "Laboratory FAQ",
+        "chunk_text": "4. What is the fee structure for getting my Labs Recognized by BIS?\nThe Fee Structure for Laboratory Recognition is given in the Laboratory Recognition Scheme and subsequent amendments.\n5. Where can I find the test facilities available in any particular BIS Lab /BIS Recognized Lab?\nThe details of the test facilities available in the BIS labs, BIS recognised labs and BIS empanelled labs are available at LIMS portal (lims.bis.gov.in). For Indian Standard wise information of the laboratory, select the ‘Search by IS number’ tile on the LIMS portal.\n6. Do BIS labs test products for any customer?\nNo, BIS Laboratories only tests the product for the Conformity Assessment Schemes of BIS and does not carry out commercial testing. For commercial testing, the services of BIS recognised/empanelled labs as well as other outside laboratories can be utilised.\n7. I am a manufacturer and want to get my product tested in BIS lab/BIS recognised lab/BIS empanelled lab for applying for license/recognition under option-2 (simplified procedure), how should I submit my product sample for testing? What are the testing charges for such samples?",
+        "chunk_index": 2,
+        "source_file": "knowledge/generated/laboratories.md",
+        "rank": 2,
+        "selection_reason": "relevance_threshold_passed"
+      },
+      {
+        "evidence_type": "document_chunk",
+        "label": "BIS GUIDANCE PAGE",
+        "standard_number": "",
+        "title": "BIS laboratories, recognised labs and testing",
+        "url": "https://www.bis.gov.in/laboratorys/laboratory-services-overview/",
+        "doc_type": "bis_guide",
+        "score": 19.953,
+        "ref": 3,
+        "heading": "Laboratory services overview",
+        "chunk_text": "To protect consumer’s interest,BIS operates various conformity assessment schemes.Under these schemes, BIS grants licenses/registrations to such manufacturers who are capable of producing goods conforming to relevant Indian Standards, on continuous basis. To support these scheme,which requires testing of products on regular basis for checking conformity to the relevant Indian Standards, BIS has established a network of eight laboratories.\nTesting facility & Testing Charges\n- BIS Lab-Wise Test Facilities\n- BIS Recognized LAB-Wise Test Facilities\n- Indian Standard- Wise Test Facilities In BIS LAB /Recognized Labs\nList of BIS Recognised / Empanelled Labs\n- Indian Standard Wise List Of Recognized Laboratories\n- The full details of laboratories,scope of testing and testing charges are available at lims.bis.gov.in\nNABL Accredited Laboratories\nLab Recognition scheme\n- Laboratory Recognition Scheme 2020\n- Laboratory Recognition Scheme Amendment 2020\n- LRS forms and undertakings\n- How to apply for BIS recognitions\nUnified Test Report Formats(UTRFs) For CRS Products\nFor any further enquiry, please contact the following:\n- Laboratory Policy and Planning Department / Laboratory Recognition and",
+        "chunk_index": 0,
+        "source_file": "knowledge/generated/laboratories.md",
+        "rank": 3,
+        "selection_reason": "relevance_threshold_passed"
+      }
+    ],
+    "rag_mode": "llm",
+    "rag_used_llm": true,
+    "model_available": true,
+    "pii": {
+      "phone": false,
+      "email": false,
+      "aadhaar_like": false
+    },
+    "needs_info": false,
+    "questions": [],
+    "known": [],
+    "assumptions": [],
+    "context": {
+      "history": [
+        "User: Suggest BIS recognised labs to test two-wheeler helmets",
+        "Assistant: For testing two-wheeler helmets under IS 4151:2015, the following BIS recognised laboratories are listed with their locations and charges:\n\n*   PRESTO LABORATORIES PRIVATE LIMITED, Haryana; charges Rs. 14,000 excluding taxes.\n*   Samridhi Test House Pvt. Ltd., Delhi; charges Rs. 14,000 excluding taxes.\n*   Bharat Test House Pvt. Ltd., Sonipat, Haryana; charges Rs. 14,200 excluding taxes.\n*   Delta Testing and Research Laboratories Private Limited, Delhi; charges Rs. 55,000 excluding taxes.\n*   PIONEER TESTING LABORATORY PRIVATE LIMITED, Delhi; charges Rs. 37,350 excluding taxes.\n*   Testtex In"
+      ],
+      "rounds": 0,
+      "force": false
+    },
+    "search_query": "",
+    "intent": "general",
+    "intent_confidence": "low",
+    "context_summary": "",
+    "thread_id": "thread-fixture-lab",
+    "owner_token": "owner-fixture-token"
+  }
+}

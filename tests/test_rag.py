@@ -206,7 +206,7 @@ def _document_source_reply(messages):
     designation = "IS 101 (Part 2/Sec 6):2026"
     source = re.search(
         r"\[Source (\d+)\]\n"
-        r"Evidence type: RETRIEVED DOCUMENT CHUNK[^\n]*\n"
+        r"Evidence type: STANDARD DOCUMENT EXCERPT[^\n]*\n"
         r"Designation: " + re.escape(designation) + r"\n",
         prompt,
     )
@@ -328,7 +328,7 @@ def test_full_text_request_reaches_prompt_when_model_is_configured(mini_db, monk
     r = answer("Give me the full text summary of IS 14478 plain bearings scope")
     assert not r["refused"] and r["kind"] == "llm_answer"
     assert r["text"].startswith("I can summarize")
-    system = calls[0][0]["content"].lower()
+    system = " ".join(calls[0][0]["content"].lower().split())
     assert "substantial verbatim excerpts" in system
 
 
@@ -347,7 +347,8 @@ def test_certification_safety_rule_is_sent_to_model(mini_db, monkeypatch):
     r = answer("What does IS 14478 cover? plain bearings")
     assert r["kind"] == "llm_answer"
     assert r["text"] == neutral_reply
-    assert "never claim that a user's product is approved" in calls[0][0]["content"].lower()
+    assert "never say a user's specific product is approved" in " ".join(
+        calls[0][0]["content"].lower().split())
 
 
 def test_retrieved_text_is_marked_as_untrusted_input(mini_db, monkeypatch):

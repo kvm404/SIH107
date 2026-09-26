@@ -55,9 +55,13 @@ def _pct(xs: list[int], p: float) -> int:
 
 
 def kb_staleness_days() -> int:
+    """Days since the BIS knowledge pages were last fetched (-1 if unknown)."""
     try:
-        from .retriever import load_kb
-        dates = [s.get("last_checked", "") for s in load_kb()[0] if s.get("last_checked")]
+        from pathlib import Path
+        from .knowledge import knowledge_files, parse_knowledge_file
+        root = Path(__file__).resolve().parents[2] / "data" / "knowledge"
+        dates = [parse_knowledge_file(p)["retrieved"] for p in knowledge_files(root)]
+        dates = [d for d in dates if d]
         if not dates:
             return -1
         return max(0, (date.today() - date.fromisoformat(max(dates)[:10])).days)

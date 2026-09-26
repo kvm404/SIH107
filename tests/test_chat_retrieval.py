@@ -232,9 +232,14 @@ def test_document_results_are_deduplicated_and_diversified(tmp_path):
 
     assert result
     assert all(item["evidence_type"] == "document_chunk" for item in result)
-    assert len([item for item in result if item["standard_number"] == "IS 1:2025"]) <= 3
+    # Gazette schedules are filed under one standard but list many, so
+    # non-exact hits keep that filing only as related_standard.
+    def filed(item):
+        return item.get("related_standard") or item["standard_number"]
+
+    assert len([item for item in result if filed(item) == "IS 1:2025"]) <= 3
     assert len({" ".join(item["chunk_text"].split()) for item in result}) == len(result)
-    assert any(item["standard_number"] == "IS 2:2025" for item in result)
+    assert any(filed(item) == "IS 2:2025" for item in result)
     assert diagnostics["branch"] == "document_chunks"
     assert diagnostics["selected_count"] == len(result)
     assert diagnostics["rejection_reasons"].get("duplicate_chunk", 0) >= 1

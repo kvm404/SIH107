@@ -12,6 +12,10 @@ from pathlib import Path
 
 from .allowlist import KYS_PORTAL, safe_public_url
 
+# Same cap as rag_retriever: coverage of a long message is measured
+# against at most this many query terms.
+MAX_RELEVANCE_TERMS = 8
+
 _TOKEN_RE = re.compile(r"[a-z0-9]+", re.IGNORECASE)
 _PORTAL = KYS_PORTAL
 
@@ -29,6 +33,8 @@ _QUERY_EXPANSIONS = {
     "bottle": ("bottles", "container", "containers", "flask"),
     "plastic": ("plastics", "polymer", "polymers"),
     "water": ("drinking", "packaged"),
+    "bulb": ("lamp", "lamps"),
+    "fridge": ("refrigerator", "refrigerating"),
 }
 
 
@@ -169,7 +175,8 @@ def search_catalogue(query: str, db_path: str | Path | None = None,
             # can support a hit but cannot make a broad single-token match
             # look like a precise product match.
             relevance = min(1.0, (name_weight + 0.25 * dept_weight
-                                  + 0.25 * number_weight) / max(1, len(qt)))
+                                  + 0.25 * number_weight)
+                            / max(1, min(len(qt), MAX_RELEVANCE_TERMS)))
             if exact:
                 relevance = 1.0
             if relevance <= 0 and not exact:
@@ -204,6 +211,7 @@ def search_catalogue(query: str, db_path: str | Path | None = None,
                 "source_url": url_by_sid.get(r["standard_id"], _PORTAL),
                 "score": score,
                 "relevance": round(relevance, 6),
+                "rank_score": round(relevance * 0.9 + (0.5 if exact else 0.0), 6),
                 "exact_match": exact,
                 "relevant": relevant,
                 "evidence_type": "catalogue_record",

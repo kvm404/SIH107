@@ -20,8 +20,33 @@ information info is are was were do does did done for on in of to a an and or my
 i me we you your yours how when where who whom it its these those by as at be
 been being have has had will would can could should suggest recommend suitable
 applicable product startup manufacturing manufacture makes make want start
-starting company care
+starting company care need needed needs required require necessary get
 """.split())
+
+
+# Everyday words mapped to the vocabulary BIS documents use. Applied to query
+# terms only; both sides still go through _normalise_token.
+_SYNONYMS = {
+    "mandatory": ("compulsory",), "compulsory": ("mandatory",),
+    "lab": ("laboratory",), "labs": ("laboratory",), "laboratory": ("lab",),
+    "bulb": ("lamp",), "bulbs": ("lamp",), "fridge": ("refrigerating", "refrigerator"),
+    "phone": ("mobile",), "mobile": ("phone",), "licence": ("license",),
+    "license": ("licence",), "complain": ("complaint",), "fake": ("misuse",),
+    "jewelry": ("jewellery",), "jeweler": ("jeweller",), "cert": ("certification",),
+}
+
+# Retrieval weight per evidence type. Official guidance pages and the
+# compulsory-product lists answer most user questions directly; gazette
+# schedules list many unrelated standards per chunk and rank last.
+DOC_TYPE_WEIGHTS = {
+    "bis_guide": 1.25, "compulsory_list": 1.25, "lab_directory": 1.15,
+    "product_manual": 1.0, "catalogue": 0.9, "gazette": 0.55,
+}
+KNOWLEDGE_DOC_TYPES = ("bis_guide", "compulsory_list", "lab_directory")
+
+
+def doc_type_weight(doc_type: str) -> float:
+    return DOC_TYPE_WEIGHTS.get((doc_type or "").lower(), 0.8)
 
 
 def extract_is_numbers(query: str) -> list[str]:
@@ -104,6 +129,7 @@ def _normalize_is(s: str) -> str:
 def _fts_query(query: str) -> str:
     toks = [t for t in _TOKEN_RE.findall(query.lower())
             if len(t) > 2 and _normalise_token(t) not in _STOP]
+    toks += [syn for t in list(toks) for syn in _SYNONYMS.get(t, ())]
     # keep IS digits glued: 'IS 101' -> 'IS101' token variant too
     extra = []
     for m in extract_is_numbers(query):
@@ -121,7 +147,7 @@ def _fts_query(query: str) -> str:
         if t and t not in seen:
             seen.add(t)
             out.append(f'"{t}"')
-        if len(out) >= 12:
+        if len(out) >= 16:
             break
     ordinary = " OR ".join(out)
     return f"({ordinary}) OR ({exact_clause})" if exact_clause and ordinary else (
@@ -145,8 +171,18 @@ def _normalise_token(token: str) -> str:
 
 
 def _query_terms(query: str) -> set[str]:
-    return {_normalise_token(token) for token in _TOKEN_RE.findall(query.lower())
-            if len(token) > 2 and token not in _STOP}
+    terms = set()
+    for token in _TOKEN_RE.findall(query.lower()):
+        if len(token) > 2 and token not in _STOP:
+            terms.add(_normalise_token(token))
+    return terms
+
+
+def _expanded_terms(query_terms: set[str]) -> set[str]:
+    out = set(query_terms)
+    for term in query_terms:
+        out.update(_normalise_token(s) for s in _SYNONYMS.get(term, ()))
+    return out
 
 
 def _normalised_terms(text: str) -> set[str]:
@@ -154,30 +190,60 @@ def _normalised_terms(text: str) -> set[str]:
             if len(token) > 2}
 
 
-def _max_local_overlap(query_terms: set[str], text: str,
-                       window_size: int = 12) -> int:
-    """Return the strongest query-term support in a short body-text window."""
-    max_overlap = 0
+def _best_local_window(query_terms: set[str], text: str,
+                       window_size: int = 12) -> set[str]:
+    """Return the tokens of the body-text window with the most query terms."""
+    best: set[str] = set()
+    best_hits = 0
     for segment in re.split(r"(?<=[.!?;:])\s+|[\r\n]+", text or ""):
         tokens = [_normalise_token(token) for token in _TOKEN_RE.findall(segment.lower())]
         for start in range(max(1, len(tokens) - window_size + 1)):
             window = set(tokens[start:start + window_size])
-            max_overlap = max(max_overlap, len(query_terms & window))
-    return max_overlap
+            hits = len(query_terms & window)
+            if hits > best_hits:
+                best, best_hits = window, hits
+    return best
+
+
+def _max_local_overlap(query_terms: set[str], text: str,
+                       window_size: int = 12) -> int:
+    """Return the strongest query-term support in a short body-text window."""
+    return len(query_terms & _best_local_window(query_terms, text, window_size))
+
+
+MAX_RELEVANCE_TERMS = 8
 
 
 def _chunk_relevance(query_terms: set[str], row: dict,
-                     semantic_score: float = 0.0) -> tuple[float, bool]:
-    title_heading_hits = max((
-        len(query_terms & _normalised_terms(row.get(field, "")))
-        for field in ("title", "heading")
-    ), default=0)
-    local_body_hits = _max_local_overlap(query_terms, row.get("chunk_text", ""))
-    lexical_relevance = max(title_heading_hits, local_body_hits) / max(1, len(query_terms))
-    relevance = max(lexical_relevance, max(0.0, semantic_score))
-    strong_title_heading = bool(query_terms) and title_heading_hits >= min(2, len(query_terms))
-    tight_body_context = bool(query_terms) and local_body_hits >= min(3, len(query_terms))
-    return relevance, strong_title_heading or tight_body_context
+                     semantic_score: float = 0.0) -> tuple[float, bool, int]:
+    """Return (relevance, enough_terms, title_heading_hits).
+
+    Synonyms can satisfy a query term (``mandatory`` matches ``compulsory``)
+    but each original term counts at most once.
+    """
+    def matched(tokens: set[str]) -> set[str]:
+        return {term for term in query_terms
+                if term in tokens or any(_normalise_token(s) in tokens
+                                         for s in _SYNONYMS.get(term, ()))}
+
+    title_terms = matched(_normalised_terms(
+        f"{row.get('title', '')} {row.get('heading', '')}"))
+    body_terms = matched(_best_local_window(_expanded_terms(query_terms),
+                                            row.get("chunk_text", "")))
+    covered = title_terms | body_terms
+    n = max(1, len(query_terms))
+    # Long, multi-question messages would otherwise dilute every passage
+    # below the threshold, so coverage is measured against at most
+    # MAX_RELEVANCE_TERMS terms.
+    relevance = max(min(1.0, len(covered) / min(n, MAX_RELEVANCE_TERMS)),
+                    max(0.0, semantic_score))
+    # Body-only support needs three terms in one short window; a title or
+    # heading hit lowers that to two terms overall.
+    enough = bool(query_terms) and (
+        len(body_terms) >= min(3, n)
+        or len(title_terms) >= min(2, n)
+        or (title_terms and len(covered) >= min(2, n)))
+    return relevance, enough, len(title_terms)
 
 
 def _finish_diagnostics(diagnostics: dict | None, *, candidate_count: int,
@@ -398,9 +464,13 @@ def search_rag(query: str, top_k: int = 5,
         candidate_count = len(ordered)
         relevant: list[dict] = []
         for item in ordered:
-            relevance, enough_terms = _chunk_relevance(
+            relevance, enough_terms, title_hits = _chunk_relevance(
                 query_terms, item, float(item.get("semantic", 0.0) or 0.0))
             item["relevance"] = round(relevance, 6)
+            item["title_hits"] = title_hits
+            item["rank_score"] = round(
+                relevance * doc_type_weight(item.get("doc_type", ""))
+                + 0.05 * title_hits + (0.5 if item.get("exact_match") else 0.0), 6)
             exact = bool(item.get("exact_match"))
             if exact or (relevance >= minimum_relevance and enough_terms):
                 item["evidence_type"] = "document_chunk"
@@ -413,15 +483,17 @@ def search_rag(query: str, top_k: int = 5,
                     reason = "insufficient_query_term_overlap"
                 reasons[reason] = reasons.get(reason, 0) + 1
 
-        # Remove duplicate chunk text and limit repeated passages from the
-        # same standard so one source cannot crowd out other relevant sources.
+        relevant.sort(key=lambda item: (-item["rank_score"], -item["rrf_score"],
+                                        -item["score"]))
+        # Remove duplicate chunk text (the same gazette schedule is attached to
+        # several standards) and limit repeated passages from one source so it
+        # cannot crowd out other relevant sources.
         selected: list[dict] = []
-        seen_chunks: set[tuple] = set()
+        seen_chunks: set[str] = set()
         per_standard: dict[str, int] = {}
         for item in relevant:
             standard = item.get("standard_number") or f"doc:{item.get('doc_id')}"
-            norm_chunk = " ".join((item.get("chunk_text") or "").lower().split())
-            key = (standard, norm_chunk)
+            key = " ".join((item.get("chunk_text") or "").lower().split())
             if key in seen_chunks:
                 reasons["duplicate_chunk"] = reasons.get("duplicate_chunk", 0) + 1
                 continue
@@ -435,6 +507,15 @@ def search_rag(query: str, top_k: int = 5,
         if len(selected) > top_k:
             reasons["top_k_limit"] = reasons.get("top_k_limit", 0) + len(selected) - top_k
             selected = selected[:top_k]
+        for item in selected:
+            if (item.get("doc_type") or "").lower() == "gazette" and not item.get("exact_match"):
+                # A gazette notification lists many standards; it is filed under
+                # one of them in the source manifest. Unless the user asked for
+                # that standard, do not present the schedule as its text: the
+                # passage itself names the standards it covers.
+                item["related_standard"] = item.get("standard_number", "")
+                item["standard_number"] = ""
+                item["title"] = "BIS Gazette notification (standards established, revised or withdrawn)"
         _finish_diagnostics(diagnostics, candidate_count=candidate_count,
                             selected=selected, reasons=reasons)
         return selected

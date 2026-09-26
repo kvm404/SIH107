@@ -144,6 +144,14 @@ def load_llm_config() -> dict:
             "BIS_LLM_TIMEOUT_S", float(file_cfg.get("timeout_s", 10.0))),
         "retries": _int_env(
             "BIS_LLM_RETRIES", int(file_cfg.get("retries", 0))),
+        # Second model on the same provider, used when the primary is rate
+        # limited or failing. Empty disables the fallback.
+        "fallback_model": os.environ.get(
+            "BIS_LLM_FALLBACK_MODEL", str(file_cfg.get("fallback_model", "") or "")),
+        # Small, fast model for query rewriting and chat titles. Empty uses the
+        # fallback model, then the primary model.
+        "utility_model": os.environ.get(
+            "BIS_LLM_UTILITY_MODEL", str(file_cfg.get("utility_model", "") or "")),
     }
 
 

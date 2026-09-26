@@ -89,7 +89,8 @@ class H(BaseHTTPRequestHandler):
         ctx = {"history": history, "rounds": rounds,
                "force": bool(payload.get("force"))}
         resp = answer(q, payload.get("lang"), ctx)
-        new_history = threadmod.push_history(history, redact(q)[:2000])
+        new_history = threadmod.normalize_context(resp.get("context"))["history"] \
+            or threadmod.push_history(history, redact(q)[:2000])
         new_rounds = threadmod.rounds_from(resp.get("context"), default=rounds)
         if tid is None:
             tid = secrets.token_hex(8)

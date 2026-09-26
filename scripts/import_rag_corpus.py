@@ -3,6 +3,7 @@
 Usage:
   PYTHONPATH=src python scripts/import_rag_corpus.py --corpus new_data/bis-rag-text-corpus-2026-09-18 --db kb/bis_rag.db
   Add --embedding-model BAAI/bge-small-en-v1.5 to build a local dense index.
+  BIS knowledge pages in data/knowledge/ are imported too (--knowledge "" skips them).
 
 Idempotent per source_file (re-import replaces that document's chunks).
 Preserves unmatched TXT files (empty provenance) instead of dropping them.
@@ -28,13 +29,19 @@ def main() -> None:
     ap.add_argument("--embedding-model",
                     default=os.environ.get("BIS_RAG_EMBEDDING_MODEL", ""),
                     help="optional sentence-transformers model for a dense index")
+    ap.add_argument("--knowledge",
+                    default=str(Path(__file__).resolve().parents[1] / "data" / "knowledge"),
+                    help="BIS knowledge Markdown directory (default data/knowledge)")
     args = ap.parse_args()
     corpus = Path(args.corpus)
     if not (corpus / "Files").is_dir() or not (corpus / "data").is_dir():
         raise SystemExit(f"corpus dir {corpus} must contain Files/ and data/")
-    stats = import_corpus(corpus, args.db, embedding_model=args.embedding_model)
+    stats = import_corpus(corpus, args.db, embedding_model=args.embedding_model,
+                          knowledge_dir=args.knowledge or None)
     print(f"imported {stats.get('documents',0)} documents, {stats.get('chunks',0)} chunks, "
           f"{stats.get('catalogue',0)} catalogue rows -> {args.db}")
+    print(f"  knowledge: {stats.get('knowledge_documents', 0)} pages, "
+          f"{stats.get('knowledge_chunks', 0)} chunks")
     if args.embedding_model:
         print(f"  dense index: {stats.get('embedded_chunks', 0)} chunks using {args.embedding_model}")
     print(f"  matched={stats.get('matched',0)} unmatched={stats.get('unmatched',0)} "

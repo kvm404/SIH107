@@ -3,8 +3,11 @@ import type { RagSource } from "./types";
 import {
   CheckIcon,
   ChevronDownIcon,
+  ClockIcon,
   CopyIcon,
   ExternalLinkIcon,
+  InfoIcon,
+  ManakEmblemIcon,
   XIcon,
   ThumbsDownIcon,
   ThumbsUpIcon,
@@ -362,9 +365,21 @@ function SourceExcerpt({ text }: { text: string }) {
   const [full, setFull] = useState(false);
   const long = text.length > EXCERPT_PREVIEW;
   const shown = !long || full ? text : `${text.slice(0, EXCERPT_PREVIEW).trimEnd()}…`;
+  // Knowledge pages store lists as "- item" lines; show them as bullets.
+  const lines = shown.split("\n").map((l) => l.trim()).filter(Boolean);
   return (
     <>
-      <p className="src-page-excerpt">{shown}</p>
+      <div className="src-page-excerpt">
+        {lines.map((l, i) =>
+          /^[-•*]\s+/.test(l) ? (
+            <div key={i} className="src-ex-item">
+              <span>{l.replace(/^[-•*]\s+/, "")}</span>
+            </div>
+          ) : (
+            <p key={i} className="src-ex-line">{l}</p>
+          ),
+        )}
+      </div>
       {long && (
         <button type="button" className="src-expand" onClick={() => setFull((v) => !v)}>
           {full ? "Show less" : "Show more"}
@@ -485,17 +500,22 @@ export function SourceStrip({
   );
 }
 
+/** How a non-answer reply is framed: couldn't verify, or model busy/offline. */
+export type AnswerTone = "refusal" | "busy";
+
 /** Answer prose (typewriter or static) with clickable [n] citations and its sources. */
 export function AnswerBody({
   text,
   animate,
   sources,
   related,
+  tone,
 }: {
   text: string;
   animate: boolean;
   sources?: RagSource[] | null;
   related?: RagSource[] | null;
+  tone?: AnswerTone;
 }) {
   const [focus, setFocus] = useState<number | null>(null);
   const [relatedFocus, setRelatedFocus] = useState<number | null>(null);
@@ -505,9 +525,22 @@ export function AnswerBody({
   };
   return (
     <CitationContext.Provider value={cited.length ? onCite : null}>
-      <div className="answer-prose">
-        {animate ? <TypewriterText text={text} /> : <RichText text={text} />}
-      </div>
+      {tone ? (
+        <div className={`answer-notice notice-${tone}`}>
+          {tone === "busy" ? (
+            <ClockIcon className="notice-icon" size={16} />
+          ) : (
+            <InfoIcon className="notice-icon" size={16} />
+          )}
+          <div className="answer-prose">
+            <RichText text={text} />
+          </div>
+        </div>
+      ) : (
+        <div className="answer-prose">
+          {animate ? <TypewriterText text={text} /> : <RichText text={text} />}
+        </div>
+      )}
       <SourceStrip sources={cited} focus={focus} onFocus={setFocus} />
       <SourceStrip sources={related} focus={relatedFocus} onFocus={setRelatedFocus} related />
     </CitationContext.Provider>
@@ -541,7 +574,9 @@ export function StarterPrompts({
           onClick={() => onPick(p.text)}
         >
           <span className="starter-who">{p.who}</span>
-          <span className="starter-text">{p.text}</span>
+          <span className="starter-text" lang={/[\u0900-\u097F]/.test(p.text) ? "hi" : undefined}>
+            {p.text}
+          </span>
         </button>
       ))}
     </div>
@@ -661,19 +696,37 @@ export function FeedbackButtons({
   );
 }
 
-/** Shimmer placeholder while the model answer streams in. */
+/** The answer pipeline's stages, shown while a reply is on its way. */
+const LOADING_STEPS: { after: number; text: string }[] = [
+  { after: 0, text: "Searching BIS sources" },
+  { after: 3500, text: "Writing a cited answer" },
+  { after: 9000, text: "Checking each citation" },
+];
+
+/** Placeholder while the answer is prepared: stage line plus shimmer. */
 export function SkeletonAnswer() {
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const timers = LOADING_STEPS.slice(1).map((s, i) =>
+      window.setTimeout(() => setStep(i + 1), s.after),
+    );
+    return () => timers.forEach((t) => window.clearTimeout(t));
+  }, []);
   return (
     <div className="assistant-message-row" role="status">
       <div className="assistant-avatar sk-avatar" aria-hidden="true">
-        <span />
+        <ManakEmblemIcon size={24} />
       </div>
-      <div className="assistant-content sk-lines" aria-hidden="true">
-        <span className="sk-line sk-w90" />
-        <span className="sk-line sk-w70" />
-        <span className="sk-line sk-w80" />
+      <div className="assistant-content">
+        <p className="sk-status">
+          {LOADING_STEPS[step].text}
+          <span className="sk-dots" aria-hidden="true" />
+        </p>
+        <div className="sk-lines" aria-hidden="true">
+          <span className="sk-line sk-w90" />
+          <span className="sk-line sk-w70" />
+        </div>
       </div>
-      <span className="sr-only">Waiting for the assistant&apos;s response</span>
     </div>
   );
 }

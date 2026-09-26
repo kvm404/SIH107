@@ -10,7 +10,7 @@ import {
   StarterPrompts,
   cleanAnswerText,
 } from "./components";
-import type { StarterPrompt } from "./components";
+import type { AnswerTone, StarterPrompt } from "./components";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -50,8 +50,18 @@ const STARTER_PROMPTS: StarterPrompt[] = [
   { who: "हिंदी", text: "प्रेशर कुकर के लिए कौन सा मानक अनिवार्य है?" },
 ];
 
+/** Devanagari text gets lang="hi" so screen readers switch voice. */
+const DEVANAGARI_RE = /[\u0900-\u097F]/;
+
 /** Temporary states where the same question can simply be sent again. */
 const RETRYABLE_KINDS = new Set(["model_unavailable", "model_busy"]);
+
+/** Replies that are not answers get a notice frame instead of plain prose. */
+function toneOf(kind: string | undefined): AnswerTone | undefined {
+  if (!kind) return undefined;
+  if (RETRYABLE_KINDS.has(kind)) return "busy";
+  return kind === "grounding_refusal" ? "refusal" : undefined;
+}
 
 const LANG_OPTIONS: { id: Lang; label: string }[] = [
   { id: "auto", label: "Auto" },
@@ -185,6 +195,20 @@ function loadHistory(): HistoryEntry[] {
   }
 }
 
+const THEME_KEY = "manak-mitra-theme";
+
+/** Saved theme, else the system preference (index.html applies it before paint). */
+function loadDarkMode(): boolean {
+  try {
+    const saved = window.localStorage.getItem(THEME_KEY);
+    if (saved === "dark" || saved === "light") return saved === "dark";
+  } catch {
+    /* storage blocked: fall through to the system preference */
+  }
+  return typeof window.matchMedia === "function"
+    && window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
 function loadDevFlag(): boolean {
   try {
     return window.localStorage.getItem(DEV_FLAG_KEY) === "1";
@@ -230,7 +254,7 @@ export default function App() {
   const [thread, setThread] = useState<ServerThread | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(loadDarkMode);
   const [toast, setToast] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>(() =>
     typeof window === "undefined" ? [] : loadHistory(),
@@ -256,6 +280,14 @@ export default function App() {
   const recognizerRef = useRef<SpeechRecognizer | null>(null);
   const mediaRecRef = useRef<MediaRecorder | null>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
+  // Bumped when the user leaves a chat; replies to an older generation are
+  // dropped instead of landing in the chat that replaced it.
+  const genRef = useRef(0);
+  const busyRef = useRef(false);
+  const markBusy = useCallback((v: boolean) => {
+    busyRef.current = v;
+    setBusy(v);
+  }, []);
 
   const speechSupported =
     typeof window !== "undefined" &&
@@ -267,9 +299,28 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark-theme", darkMode);
-    return () => document.documentElement.classList.remove("dark-theme");
+    const root = document.documentElement;
+    // Swap every colour at once; per-element transitions would fade unevenly.
+    root.classList.add("theme-switching");
+    root.classList.toggle("dark-theme", darkMode);
+    const t = window.setTimeout(() => root.classList.remove("theme-switching"), 50);
+    return () => {
+      window.clearTimeout(t);
+      root.classList.remove("dark-theme");
+    };
   }, [darkMode]);
+
+  const toggleTheme = useCallback(() => {
+    setDarkMode((v) => {
+      const next = !v;
+      try {
+        window.localStorage.setItem(THEME_KEY, next ? "dark" : "light");
+      } catch {
+        /* private mode: session only */
+      }
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -430,8 +481,9 @@ export default function App() {
   const send = useCallback(
     async (query: string, opts?: { force?: boolean; fresh?: boolean; streamIn?: boolean }) => {
       const q = query.trim();
-      if (!q || busy) return;
-      setBusy(true);
+      if (!q || busyRef.current) return;
+      markBusy(true);
+      const gen = genRef.current;
       const streamIn = opts?.streamIn !== false;
       const userMsg: Msg = { id: nextId++, role: "user", text: q };
       setMsgs((m) => [...m, userMsg]);
@@ -447,6 +499,7 @@ export default function App() {
             force: opts?.force ?? false,
             fresh,
           });
+          if (genRef.current !== gen) return;
           setMsgs((m) => [
             ...m,
             {
@@ -462,6 +515,7 @@ export default function App() {
           rememberTopic(q, fresh, topicKey);
           setThread(bisChat.shouldKeepThread(resp) ? next : null);
         } catch (e) {
+          if (genRef.current !== gen) return;
           const msg = e instanceof Error ? e.message : "request failed";
           const { text: friendly, expired } = friendlyError(msg);
           if (expired && !fresh) {
@@ -476,10 +530,10 @@ export default function App() {
       try {
         await attempt(opts?.fresh ?? false);
       } finally {
-        setBusy(false);
+        if (genRef.current === gen) markBusy(false);
       }
     },
-    [busy, lang, thread, topicKey, rememberTopic],
+    [lang, thread, topicKey, rememberTopic, markBusy],
   );
 
   useEffect(() => {
@@ -493,8 +547,9 @@ export default function App() {
     async (id: number) => {
       const target = msgs.find((m) => m.id === id);
       const q = target?.retryQ?.trim();
-      if (!q || busy || target?.role !== "assistant") return;
-      setBusy(true);
+      if (!q || busyRef.current || target?.role !== "assistant") return;
+      markBusy(true);
+      const gen = genRef.current;
       setMsgs((m) => m.map((x) => (x.id === id ? { ...x, retrying: true } : x)));
       const t0 = Date.now();
       let outcome: Partial<Msg> | null = null;
@@ -513,29 +568,34 @@ export default function App() {
       // Let the shimmer paint at least briefly so the retry reads as intentional.
       const wait = 600 - (Date.now() - t0);
       if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+      if (genRef.current !== gen) return;
       const final = outcome;
       setMsgs((m) => m.map((x) => (x.id === id ? { ...x, ...final, retrying: false } : x)));
-      setBusy(false);
+      markBusy(false);
     },
-    [msgs, busy, lang, thread, topicKey, rememberTopic],
+    [msgs, lang, thread, topicKey, rememberTopic, markBusy],
   );
 
   const newTopic = useCallback(() => {
     // A new chat is a clean break: drop the server thread (erased, not just
     // hidden), clear messages, draft, and pending state.
     if (thread) void deleteThread(thread);
+    genRef.current += 1;
+    markBusy(false);
     setThread(null);
     setMsgs([]);
     setInput("");
     setTopicKey((k) => k + 1);
     setSidebarOpen(false);
     inputRef.current?.focus();
-  }, [thread]);
+  }, [thread, markBusy]);
 
   const openHistoryTopic = useCallback(
     (q: string) => {
       const entry = history.find((e) => e.q === q);
       if (thread) void deleteThread(thread);
+      genRef.current += 1;
+      markBusy(false);
       setThread(null);
       setInput("");
       const reopened = topicKey + 1;
@@ -552,7 +612,7 @@ export default function App() {
       setMsgs([]);
       void send(q, { fresh: true, streamIn: false });
     },
-    [send, thread, history, topicKey, persistHistory],
+    [send, thread, history, topicKey, persistHistory, markBusy],
   );
 
   // Upgrade the instant heuristic title with an LLM one once the first
@@ -968,7 +1028,7 @@ export default function App() {
             <button
               type="button"
               className={`icon-btn icon-btn-lg${darkMode ? " toggled" : ""}`}
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={toggleTheme}
               aria-label="Toggle theme"
               aria-pressed={darkMode}
               title="Toggle light / dark mode"
@@ -995,6 +1055,11 @@ export default function App() {
                 <h1 className="hero-headline">
                   Namaste, I&apos;m <span className="hero-bold-name">{APP_NAME}</span>
                 </h1>
+                <p className="hero-sub">
+                  Ask about Indian Standards, ISI and CRS certification, hallmarking,
+                  lab testing and BIS services, in English or हिंदी. Every answer cites
+                  its official source.
+                </p>
 
                 {renderComposer(true)}
                 <StarterPrompts
@@ -1009,7 +1074,7 @@ export default function App() {
                   m.role === "user" ? (
                     <div key={m.id} className={`user-message-row${m.streamIn ? " msg-enter" : ""}`}>
                       <div className="user-stack">
-                        <div className="user-bubble">
+                        <div className="user-bubble" lang={DEVANAGARI_RE.test(m.text) ? "hi" : undefined}>
                           <RichText text={m.text} />
                         </div>
                         <div className="user-actions-row">
@@ -1022,7 +1087,7 @@ export default function App() {
                       <div className="assistant-avatar">
                         <ManakEmblemIcon size={24} />
                       </div>
-                      <div className="assistant-content">
+                      <div className="assistant-content" lang={m.resp?.lang === "hi" ? "hi" : undefined}>
                         {m.retrying ? (
                           <div className="clean-answer-container">
                             <div className="sk-lines" aria-hidden="true">
@@ -1051,6 +1116,7 @@ export default function App() {
                               animate={!!m.streamIn && !RETRYABLE_KINDS.has(m.resp?.kind ?? "")}
                               sources={m.resp?.sources}
                               related={m.resp?.related_sources}
+                              tone={toneOf(m.resp?.kind)}
                             />
                             {m.resp && <RawJson data={m.resp} enabled={devMode} />}
 
@@ -1070,11 +1136,13 @@ export default function App() {
                                   </button>
                                 )}
                               </div>
-                              <FeedbackButtons
-                                value={m.feedback}
-                                disabled={busy}
-                                onRate={(r) => rate(m.id, r)}
-                              />
+                              {!RETRYABLE_KINDS.has(m.resp?.kind ?? "") && (
+                                <FeedbackButtons
+                                  value={m.feedback}
+                                  disabled={busy}
+                                  onRate={(r) => rate(m.id, r)}
+                                />
+                              )}
                             </div>
                           </div>
                         )}

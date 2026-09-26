@@ -54,7 +54,7 @@ html {
   width: var(--sidebar-width);
   height: 100%;
   background: var(--bg-sidebar);
-  border-right: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--sidebar-border);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -68,7 +68,7 @@ html {
 .clean-sidebar.collapsed {
   width: var(--sidebar-rail);
   padding: 0 8px 12px;
-  border-right: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--sidebar-border);
   visibility: visible;
 }
 
@@ -184,7 +184,7 @@ html {
 }
 
 .sidebar-rail-toggle:hover {
-  background: var(--surface-hover);
+  background: var(--sidebar-hover);
   color: var(--text-main);
 }
 
@@ -289,12 +289,12 @@ html {
 }
 
 .history-item:hover {
-  background: var(--surface-hover);
+  background: var(--sidebar-hover);
   color: var(--text-main);
 }
 
 .history-item.active {
-  background: var(--surface-hover);
+  background: var(--sidebar-active);
   color: var(--text-main);
   font-weight: 500;
 }
@@ -440,16 +440,6 @@ html {
   color: var(--text-main);
   margin: 0 0 10px 0;
   letter-spacing: -0.02em;
-}
-
-.hero-sub {
-  max-width: 600px;
-  text-wrap: balance;
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--text-muted);
-  animation: hero-in var(--dur-slow) 0.12s var(--ease-out) both;
 }
 
 .hero-bold-name {
@@ -998,7 +988,7 @@ html {
 }
 
 .btn-new-chat:hover {
-  background: var(--surface-hover);
+  background: var(--surface-card);
   border-color: var(--border-hover);
   color: var(--text-main);
 }
@@ -1040,7 +1030,7 @@ html {
 /* Sidebar footer note */
 .sidebar-foot {
   padding: 12px 8px 4px 8px;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--sidebar-border);
 }
 
 .sidebar-foot-text {
@@ -1315,14 +1305,6 @@ details.src-acc[open] > .src-acc-sum > .src-acc-chevron {
   50% { box-shadow: 0 0 0 6px rgba(5, 150, 105, 0); }
 }
 
-.composer-disclaimer {
-  text-align: center;
-  font-size: 11.5px;
-  color: var(--text-dim);
-  margin: 8px 0 0 0;
-  padding: 0 16px;
-}
-
 /* Narrow screens: hide product subtitle, tighten topbar */
 @media (max-width: 680px) {
   .topbar-title-sub {
@@ -1330,9 +1312,6 @@ details.src-acc[open] > .src-acc-sum > .src-acc-chevron {
   }
   .clean-topbar {
     padding: 0 12px;
-  }
-  .composer-disclaimer {
-    font-size: 10.5px;
   }
 }
 
@@ -1351,7 +1330,7 @@ details.src-acc[open] > .src-acc-sum > .src-acc-chevron {
   transform: none;
   width: 100%;
   max-width: 720px;
-  margin: 26px auto 0 auto;
+  margin: 30px auto 0 auto;
   padding: 0;
   background: none;
   z-index: auto;

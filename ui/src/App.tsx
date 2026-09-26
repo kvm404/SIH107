@@ -301,13 +301,13 @@ export default function App() {
   useEffect(() => {
     const root = document.documentElement;
     // Swap every colour at once; per-element transitions would fade unevenly.
+    // Reading layout applies the new colours to the whole page while
+    // transitions are off, so removing the class afterwards starts none.
     root.classList.add("theme-switching");
     root.classList.toggle("dark-theme", darkMode);
-    const t = window.setTimeout(() => root.classList.remove("theme-switching"), 50);
-    return () => {
-      window.clearTimeout(t);
-      root.classList.remove("dark-theme");
-    };
+    void document.body.offsetHeight;
+    root.classList.remove("theme-switching");
+    return () => root.classList.remove("dark-theme");
   }, [darkMode]);
 
   const toggleTheme = useCallback(() => {
@@ -835,10 +835,6 @@ export default function App() {
           <ArrowUpIcon size={16} />
         </button>
       </form>
-      <p className="composer-disclaimer">
-        {APP_NAME} answers from official BIS sources. Verify critical compliance decisions
-        with BIS.
-      </p>
     </div>
   );
 
@@ -1055,11 +1051,6 @@ export default function App() {
                 <h1 className="hero-headline">
                   Namaste, I&apos;m <span className="hero-bold-name">{APP_NAME}</span>
                 </h1>
-                <p className="hero-sub">
-                  Ask about Indian Standards, ISI and CRS certification, hallmarking,
-                  lab testing and BIS services, in English or हिंदी. Every answer cites
-                  its official source.
-                </p>
 
                 {renderComposer(true)}
                 <StarterPrompts

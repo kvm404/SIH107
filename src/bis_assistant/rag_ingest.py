@@ -21,6 +21,7 @@ import re
 from pathlib import Path
 
 from .chunking import chunk_text, clean_text, normalize_for_dedup
+from .knowledge import chunk_sections, knowledge_files, parse_knowledge_file
 from .rag_store import connect_rag, counts, has_fts, now
 
 IS_IN_TEXT_RE = re.compile(r"IS\s*\d[\d/\-()A-Za-z ]{0,40}:\d{4}")
@@ -136,9 +137,59 @@ def map_txt_to_metadata(txt_rel: str, index: dict) -> dict:
     }
 
 
+def import_knowledge(conn, knowledge_dir: str | Path) -> dict:
+    """Import data/knowledge Markdown pages as corpus documents.
+
+    Source files are keyed ``knowledge/<relative path>``; pages removed from
+    the directory are deleted from the corpus so the index never keeps stale
+    guidance. Returns {"knowledge_documents", "knowledge_chunks"}.
+    """
+    root = Path(knowledge_dir)
+    stats = {"knowledge_documents": 0, "knowledge_chunks": 0}
+    keep: set[str] = set()
+    for path in knowledge_files(root):
+        doc = parse_knowledge_file(path)
+        source_file = "knowledge/" + path.relative_to(root).as_posix()
+        keep.add(source_file)
+        old = conn.execute("SELECT id FROM corpus_documents WHERE source_file=?",
+                           (source_file,)).fetchone()
+        if old:
+            conn.execute("DELETE FROM corpus_chunks WHERE doc_id=?", (old["id"],))
+            conn.execute("DELETE FROM corpus_documents WHERE id=?", (old["id"],))
+        raw = path.read_text(encoding="utf-8")
+        cur = conn.execute(
+            "INSERT INTO corpus_documents(source_file, standard_id, standard_number,"
+            " title, department, committee, doc_type, category, source_url, source_pdf,"
+            " source_ref, extraction_method, translation, chars, raw_text, cleaned_text,"
+            " imported_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            (source_file, None, "", doc["title"], "", "", doc["doc_type"], "knowledge",
+             doc["source_url"], "", doc["retrieved"], "bis_web_page", "", len(raw),
+             raw, raw, now()))
+        doc_id = cur.lastrowid
+        for index, chunk in enumerate(chunk_sections(doc["sections"])):
+            conn.execute(
+                "INSERT INTO corpus_chunks(doc_id, chunk_index, chunk_text, heading,"
+                " char_start, char_end, token_count, standard_number, doc_type, source_url)"
+                " VALUES (?,?,?,?,?,?,?,?,?,?)",
+                (doc_id, index, chunk["chunk_text"], chunk["heading"], 0,
+                 len(chunk["chunk_text"]), max(1, int(len(chunk["chunk_text"].split()) / 0.75)),
+                 "", doc["doc_type"], chunk["source_url"] or doc["source_url"]))
+            stats["knowledge_chunks"] += 1
+        stats["knowledge_documents"] += 1
+    stale = [row["id"] for row in conn.execute(
+        "SELECT id, source_file FROM corpus_documents WHERE source_file LIKE 'knowledge/%'")
+        if row["source_file"] not in keep]
+    for doc_id in stale:
+        conn.execute("DELETE FROM corpus_chunks WHERE doc_id=?", (doc_id,))
+        conn.execute("DELETE FROM corpus_documents WHERE id=?", (doc_id,))
+    conn.commit()
+    return stats
+
+
 def import_corpus(corpus_dir: str | Path, db_path: str | Path,
                   batch_commit: bool = True,
-                  embedding_model: str = "") -> dict:
+                  embedding_model: str = "",
+                  knowledge_dir: str | Path | None = None) -> dict:
     """Import catalogue, documents, chunks and FTS; optionally build dense vectors.
 
     ``batch_commit`` commits every 50 documents so a 359-doc import never
@@ -231,6 +282,8 @@ def import_corpus(corpus_dir: str | Path, db_path: str | Path,
             if batch_commit and stats["documents"] % 50 == 0:
                 conn.commit()
         conn.commit()
+        if knowledge_dir and Path(knowledge_dir).is_dir():
+            stats.update(import_knowledge(conn, knowledge_dir))
         try:
             if has_fts(conn):
                 conn.execute(

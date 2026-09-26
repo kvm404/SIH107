@@ -53,14 +53,8 @@ llm:
   api_key: ""           # BIS_LLM_API_KEY; keep real keys in the ignored .env
   base_url: https://api.openai.com/v1  # local and provider-specific endpoints are supported
   temperature: 0.2
-  max_tokens: 768         # 768 for Hindi: Devanagari is token-hungry (issue #4 P1-11)
-  timeout_s: 10.0           # interactive budget vs latency_p95_ms (issue #4 P1-10)
+  max_tokens: 900         # Hindi (Devanagari) answers with citations are token-hungry
+  timeout_s: 20.0           # interactive budget; answers with citations can take ~5-10s
   retries: 1              # BIS_LLM_RETRIES — one bounded retry for transient provider errors
-
-memory:
-  expand_turns: 2       # BIS_MEMORY_EXPAND_TURNS — history turns feeding retrieval
-  expand_terms: 6       # BIS_MEMORY_EXPAND_TERMS — new terms carried over, max
-  expand_chars: 200     # BIS_MEMORY_EXPAND_CHARS — added-character budget
-
-guidance:
-  adaptive: true        # BIS_GUIDANCE_ADAPTIVE — user-tailored certification next steps
+  fallback_model: ""      # BIS_LLM_FALLBACK_MODEL — same-provider model used on rate limits/errors
+  utility_model: ""       # BIS_LLM_UTILITY_MODEL — small model for query rewrites and titles

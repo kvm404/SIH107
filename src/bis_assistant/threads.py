@@ -9,7 +9,7 @@ with their existing owners; only the shape arithmetic lives here.
 """
 from __future__ import annotations
 
-HISTORY_LIMIT = 6  # server-kept redacted turns per thread (unchanged)
+HISTORY_LIMIT = 8  # server-kept redacted entries per thread (4 user/assistant pairs)
 BRIDGE_LIMIT = 4  # legacy client-held context turns accepted per call (unchanged)
 
 
@@ -36,6 +36,20 @@ def with_force(ctx: dict) -> dict:
 def push_history(history: list, entry: str, limit: int = HISTORY_LIMIT) -> list:
     """Bounded append for persisted (redacted) thread history."""
     return (list(history) + [entry])[-limit:]
+
+
+def push_turn(history: list, user_text: str, assistant_text: str = "",
+              limit: int = HISTORY_LIMIT) -> list:
+    """Append one exchange as "User: ..." / "Assistant: ..." entries.
+
+    The model needs its own previous answer to resolve follow-ups such as
+    "which labs test it?". An empty assistant text (errors, refusals) is
+    skipped.
+    """
+    out = list(history) + [f"User: {user_text}"]
+    if assistant_text:
+        out.append(f"Assistant: {assistant_text}")
+    return out[-limit:]
 
 
 def append_turn(history: list, entry: str) -> list:

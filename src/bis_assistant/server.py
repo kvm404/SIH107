@@ -207,7 +207,8 @@ def _record_retrieval_telemetry(diagnostics: dict, response: dict, latency_ms: i
     metrics_mod.incr(f"rag_retrieval_branch_{branch}_total")
     metrics_mod.incr("rag_retrieval_selected_total", diagnostics["selected_count"])
     metrics_mod.incr("rag_retrieval_rejected_total", diagnostics["rejected_count"])
-    outcome = "model_unavailable" if response.get("kind") == "model_unavailable" else (
+    outcome = "model_unavailable" if response.get("kind") in (
+        "model_unavailable", "model_busy") else (
         "refused" if response.get("refused") else
         "needs_info" if response.get("needs_info") else "answered")
     metrics_mod.incr(f"rag_retrieval_outcome_{outcome}_total")
@@ -470,7 +471,8 @@ def chat(body: ChatIn, request: Request,
         else:
             # Never pass through arbitrary diagnostic keys or retrieved content.
             resp["retrieval_diagnostics"] = retrieval_diagnostics
-        new_history = threadmod.push_history(history, redact(q)[:2000])
+        new_history = threadmod.normalize_context(resp.get("context"))["history"] \
+            or threadmod.push_history(history, redact(q)[:2000])
         new_rounds = threadmod.rounds_from(resp.get("context"), default=rounds)
         if tid is None:  # mint server thread (bridge + fresh turns)
             tid = secrets.token_hex(8)
@@ -503,18 +505,23 @@ def chat(body: ChatIn, request: Request,
             _record_retrieval_telemetry(retrieval_diagnostics, resp, ms)
         log.info("chat response completed", extra={"ctx": {
             "kind": resp.get("kind") if resp.get("kind") in {
-                "llm_answer", "model_unavailable", "erasure", "refused"} else "other",
+                "llm_answer", "model_unavailable", "model_busy", "grounding_refusal",
+                "erasure", "refused"} else "other",
             "lang": resp.get("lang") if resp.get("lang") in {"en", "hi"} else "other",
             "needs_info": bool(resp.get("needs_info")), "ms": ms,
             "rag_mode": resp.get("rag_mode") if resp.get("rag_mode") in {
-                "llm", "model unavailable", "rag", "none"} else "other",
+                "llm", "model unavailable", "model busy", "llm_grounding_guard",
+                "rag", "none"} else "other",
+            "rewritten": bool(resp.get("search_query")),
             "rag_used_llm": bool(resp.get("rag_used_llm", False)),
             "source_count": len(resp.get("sources") or resp.get("rag_evidence") or []),
             "pii": [k for k, v in find_pii(q).items() if v]}})
         metrics_mod.incr("chat_total")
         metrics_mod.observe_latency_ms(ms)
-        if resp.get("kind") == "model_unavailable":
+        if resp.get("kind") in ("model_unavailable", "model_busy"):
             metrics_mod.incr("model_unavailable_total")
+            if resp.get("kind") == "model_busy":
+                metrics_mod.incr("model_busy_total")
         elif resp.get("refused"):
             metrics_mod.incr("refused_total")
         else:

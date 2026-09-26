@@ -42,9 +42,15 @@ export interface ChatResponse {
   structured_citations?: StructuredCitation[];
   thread_id?: string;
   owner_token?: string;
-  /** RAG corpus evidence (title/standard number/link per chunk). */
+  /** Sources the answer cites, in citation order: `[n]` in text = sources[n-1]. */
   sources?: RagSource[];
   rag_evidence?: RagSource[];
+  /** Unnumbered related documents shown when an answer could not be verified. */
+  related_sources?: RagSource[];
+  /** English search query used when the question was rewritten (Hindi, follow-ups). */
+  search_query?: string;
+  /** true for temporary states (model_busy) where resending should work. */
+  retryable?: boolean;
   rag_mode?: string;
   rag_used_llm?: boolean;
   model_available?: boolean;
@@ -61,11 +67,19 @@ export interface RagSource {
   title: string;
   url: string;
   doc_type: string;
-  heading: string;
-  chunk_text: string;
-  chunk_index: number;
-  source_file: string;
+  heading?: string;
+  chunk_text?: string;
+  chunk_index?: number;
+  source_file?: string;
   score: number;
+  /** citation number used in the answer text */
+  ref?: number;
+  /** evidence type label, e.g. "COMPULSORY PRODUCT LIST" */
+  label?: string;
+  evidence_type?: "document_chunk" | "catalogue_record";
+  metadata_only?: boolean;
+  department?: string;
+  date?: string;
 }
 
 export interface FeedbackPayload {
@@ -79,53 +93,6 @@ export interface FeedbackResult {
   /** true when the live backend lacks POST /feedback and the UI used the fixture fallback */
   fixture?: boolean;
   /** set when the call itself failed — show it instead of thanking */
-  error?: string;
-}
-
-export interface ThreadMessage {
-  role: string;
-  text_redacted: string;
-  citations_json: string;
-  kind: string;
-  ms: number;
-  created_at: string;
-}
-
-export interface ThreadExport {
-  thread_id: string;
-  rounds: number;
-  lang: string;
-  messages: ThreadMessage[];
-}
-
-export type KbChangeKind = "added" | "changed" | "missing-upstream" | "withdrawn";
-
-export interface KbChange {
-  id: string;
-  is_number: string;
-  change: KbChangeKind;
-  old_status?: string;
-  new_status?: string;
-  source_url?: string;
-  last_checked?: string;
-  /** live rows only: originating snapshot + raw details_json payload */
-  snapshot_id?: number;
-  details?: string;
-}
-
-export interface KbDiff {
-  diff_id: string;
-  generated_at: string;
-  changes: KbChange[];
-  /** live GET /kb/diff only: which admin key reviewed */
-  reviewed_by?: string;
-}
-
-export interface KbPublishResult {
-  ok: boolean;
-  diff_id: string;
-  decision: "approve" | "reject";
-  fixture?: boolean;
   error?: string;
 }
 

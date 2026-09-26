@@ -1,18 +1,55 @@
-import React, { useEffect, useRef, useState } from "react";
-import type { Question } from "./types";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import type { RagSource } from "./types";
 import {
-  AlertTriangleIcon,
   CheckIcon,
   ChevronDownIcon,
   CopyIcon,
   ExternalLinkIcon,
-  ManakEmblemIcon,
   XIcon,
   ThumbsDownIcon,
   ThumbsUpIcon,
 } from "./icons";
 
-/** Inline markdown: **bold** + auto-linked https:// URLs. No deps, no HTML injection. */
+/** Opens source n (1-based) of the answer being rendered; null outside answers. */
+const CitationContext = createContext<((n: number) => void) | null>(null);
+
+/** Superscript citation marker; clicking opens that source in the panel. */
+function Cite({ n }: { n: number }) {
+  const onCite = useContext(CitationContext);
+  if (!onCite) return <sup className="cite cite-static">{n}</sup>;
+  return (
+    <sup>
+      <button
+        type="button"
+        className="cite"
+        onClick={() => onCite(n)}
+        aria-label={`Source ${n}`}
+        title={`Show source ${n}`}
+      >
+        {n}
+      </button>
+    </sup>
+  );
+}
+
+const CITE_RE = /\[(\d{1,2})\]/g;
+
+function citeify(text: string, keyPrefix: string): React.ReactNode[] {
+  const out: React.ReactNode[] = [];
+  let last = 0;
+  let k = 0;
+  let m: RegExpExecArray | null;
+  CITE_RE.lastIndex = 0;
+  while ((m = CITE_RE.exec(text)) !== null) {
+    if (m.index > last) out.push(<React.Fragment key={`${keyPrefix}-${k++}`}>{text.slice(last, m.index)}</React.Fragment>);
+    out.push(<Cite key={`${keyPrefix}-${k++}`} n={Number(m[1])} />);
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) out.push(<React.Fragment key={`${keyPrefix}-${k++}`}>{text.slice(last)}</React.Fragment>);
+  return out;
+}
+
+/** Inline markdown: **bold**, [n] citations, auto-linked https:// URLs. No HTML injection. */
 const URL_RE = /(https?:\/\/[^\s)<\]]+)/g;
 
 export function renderInline(body: string, keyPrefix: string): React.ReactNode[] {
@@ -47,7 +84,7 @@ function linkifyChunk(chunk: string, keyPrefix: string): React.ReactNode[] {
       url = url.slice(0, -suffix.length);
     }
     if (m.index > last) {
-      out.push(<React.Fragment key={`${keyPrefix}-${k++}`}>{chunk.slice(last, m.index)}</React.Fragment>);
+      out.push(...citeify(chunk.slice(last, m.index), `${keyPrefix}-c${k++}`));
     }
     out.push(
       <a
@@ -64,7 +101,7 @@ function linkifyChunk(chunk: string, keyPrefix: string): React.ReactNode[] {
     if (suffix) out.push(<React.Fragment key={`${keyPrefix}-${k++}`}>{suffix}</React.Fragment>);
     last = m.index + m[1].length;
   }
-  if (last < chunk.length) out.push(<React.Fragment key={`${keyPrefix}-${k++}`}>{chunk.slice(last)}</React.Fragment>);
+  if (last < chunk.length) out.push(...citeify(chunk.slice(last), `${keyPrefix}-c${k++}`));
   return out;
 }
 
@@ -265,47 +302,9 @@ export function TypewriterText({ text }: { text: string }) {
   );
 }
 
-/** Server-provided `known[]` rendered as clean parameter chips. */
-export function KnownChips({ known }: { known: { slot: string; value: string }[] }) {
-  if (!known || known.length === 0) return null;
-  return (
-    <div className="known" role="group" aria-label="Identified parameters">
-      <div className="known-title">Identified Parameters:</div>
-      <ul className="known-list">
-        {known.map((k) => (
-          <li key={k.slot} className="known-chip">
-            <span className="chip-k">{k.slot}</span>
-            <span className="chip-sep">:</span>
-            <span className="chip-v">{k.value}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-/** Server-provided `assumptions[]` rendered as an official caution card. */
-export function AssumptionsBanner({ items }: { items: string[] }) {
-  if (!items || items.length === 0) return null;
-  return (
-    <div className="assume" role="note" aria-label="Answer uses assumptions">
-      <div className="assume-header">
-        <AlertTriangleIcon className="assume-icon" />
-        <strong>Answer generated with assumed parameters</strong>
-      </div>
-      <p className="assume-sub">Please confirm these parameters with BIS or an approved lab:</p>
-      <ul>
-        {items.map((a, i) => (
-          <li key={i}>{a}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-/** Strip model source markers so the answer stays readable. */
+/** Tidy answer text. Numbered [n] citations stay; stray model markers go. */
 export function cleanAnswerText(text: string): string {
-  let s = text.replace(/\s*\[Source\s*\d+\]/gi, "");
+  let s = text.replace(/\s*\[Sources?\s*[\d,\sand&]+\]/gi, "");
   s = s.replace(/\s*\[IS[^\]]*\]/g, "");
   s = s.replace(/\s*,\s*,/g, ",");
   s = s.replace(/\s*,\s*\./g, ".");
@@ -315,77 +314,40 @@ export function cleanAnswerText(text: string): string {
   return s.trim();
 }
 
-function parseCitationLine(raw: string): { standard: string; title: string } | null {
-  const stdMatch = raw.match(/\bIS[\s\d()\/,A-Za-z.:-]+?(?=:|\s[-–]|\s\[|$)/);
-  const standard = (stdMatch ? stdMatch[0] : "").trim();
-  let title = raw;
-  if (standard) title = title.replace(standard, "");
-  title = title.replace(/https?:\/\/\S+/g, "").replace(/\[[^\]]*\]/g, "");
-  title = title.replace(/^[:\s,-]+/, "").replace(/,\s*Source:?.*$/i, "").trim();
-  if (!standard && !title) return null;
-  return { standard: standard || "BIS document", title };
-}
-
-function pillLabel(standard: string): string {
-  const t = standard.replace(/\s+/g, " ").trim();
-  return t.length > 18 ? `${t.slice(0, 17)}…` : t;
-}
-
-type SourceChip = {
-  key: string;
-  standard: string;
-  title: string;
-  heading: string;
-  docType: string;
-  excerpt: string;
-  sourceFile: string;
+const LABEL_NAMES: Record<string, string> = {
+  "BIS GUIDANCE PAGE": "BIS guidance",
+  "COMPULSORY PRODUCT LIST": "Compulsory product list",
+  "LAB DIRECTORY": "Lab directory",
+  "STANDARD DOCUMENT EXCERPT": "Standard excerpt",
 };
 
-function chipsFromEvidence(items: EvidenceItem[]): SourceChip[] {
-  const out: SourceChip[] = [];
-  const seen = new Set<string>();
-  for (const e of items) {
-    const standard = (e.standard_number || "").trim() || "BIS document";
-    const id = (e.source_file || "").trim() || `${standard}|${e.chunk_index}`;
-    if (seen.has(id)) continue;
-    seen.add(id);
-    out.push({
-      key: id,
-      standard,
-      title: (e.title || "").trim(),
-      heading: (e.heading || "").trim(),
-      docType: (e.doc_type || "").trim(),
-      excerpt: (e.chunk_text || "").trim(),
-      sourceFile: (e.source_file || "").trim(),
-    });
-    if (out.length >= 5) break;
-  }
-  return out;
+function sourceKind(s: RagSource): string {
+  if (s.evidence_type === "catalogue_record" || s.metadata_only) return "Standards catalogue";
+  const label = (s.label || "").toUpperCase();
+  for (const [k, v] of Object.entries(LABEL_NAMES)) if (label.startsWith(k)) return v;
+  if (s.doc_type === "product_manual") return "Product manual";
+  if (s.doc_type === "gazette") return "Gazette notification";
+  return "BIS document";
 }
 
-function chipsFromCitations(items: string[]): SourceChip[] {
-  const out: SourceChip[] = [];
-  const seen = new Set<string>();
-  for (const raw of items) {
-    const parsed = parseCitationLine(raw);
-    if (!parsed) continue;
-    if (seen.has(parsed.standard)) continue;
-    seen.add(parsed.standard);
-    out.push({
-      key: parsed.standard,
-      standard: parsed.standard,
-      title: parsed.title,
-      heading: "",
-      docType: "",
-      excerpt: "",
-      sourceFile: "",
-    });
-    if (out.length >= 5) break;
-  }
-  return out;
+function sourceName(s: RagSource): string {
+  return (s.standard_number || s.heading || s.title || "BIS document").trim();
 }
 
-const EXCERPT_PREVIEW = 280;
+function shortName(s: RagSource): string {
+  const t = sourceName(s).replace(/\s+/g, " ");
+  return t.length > 34 ? `${t.slice(0, 33)}…` : t;
+}
+
+function hostOf(url: string): string {
+  try {
+    return new URL(url).host.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+}
+
+const EXCERPT_PREVIEW = 320;
 
 function SourceExcerpt({ text }: { text: string }) {
   const [full, setFull] = useState(false);
@@ -403,106 +365,109 @@ function SourceExcerpt({ text }: { text: string }) {
   );
 }
 
-/** One bundled source control. Click opens a right-side accordion of our corpus. */
+/**
+ * Numbered source chips under an answer plus a side panel with each source's
+ * excerpt and official link. `focus` is the 1-based source to open (null = closed).
+ */
 export function SourceStrip({
   sources,
-  citations,
+  focus,
+  onFocus,
+  related = false,
 }: {
-  sources?: EvidenceItem[] | null;
-  citations?: string[] | null;
+  sources?: RagSource[] | null;
+  focus: number | null;
+  onFocus: (n: number | null) => void;
+  /** unnumbered "related documents" (answer could not be verified) */
+  related?: boolean;
 }) {
-  const chips =
-    sources && sources.length > 0
-      ? chipsFromEvidence(sources)
-      : chipsFromCitations(citations ?? []);
-  const [open, setOpen] = useState(false);
-  const [compact, setCompact] = useState(true);
-
+  const items = (sources ?? []).slice(0, 8);
   useEffect(() => {
-    if (!open) return;
+    if (focus === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") onFocus(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [focus, onFocus]);
+  const openRef = useRef<HTMLDetailsElement | null>(null);
+  useEffect(() => {
+    openRef.current?.scrollIntoView({ block: "nearest" });
+  }, [focus]);
 
-  if (chips.length === 0) return null;
-
-  const bundleLabel =
-    chips.length === 1 ? pillLabel(chips[0].standard) : `${chips.length} sources`;
-
-  const openPanel = () => {
-    setOpen(true);
-    window.history.replaceState(null, "", "#/sources");
-  };
-
-  const closePanel = () => {
-    setOpen(false);
-    if (window.location.hash.startsWith("#/source")) {
-      window.history.replaceState(null, "", window.location.pathname + window.location.search);
-    }
-  };
+  if (items.length === 0) return null;
+  const numberOf = (s: RagSource, i: number) => s.ref ?? i + 1;
 
   return (
     <>
-      <button
-        type="button"
-        className="src-trigger"
-        onClick={openPanel}
-        aria-expanded={open}
-        aria-haspopup="dialog"
-        title={chips.map((c) => c.standard).join(", ")}
-      >
-        <ManakEmblemIcon size={16} />
-        <span className="src-trigger-label">{bundleLabel}</span>
-      </button>
-      {open && (
+      <div className="src-row" role="list" aria-label={related ? "Related documents" : "Sources"}>
+        <span className="src-row-label">{related ? "Related" : "Sources"}</span>
+        {items.map((s, i) => (
+          <button
+            key={`${sourceName(s)}-${i}`}
+            type="button"
+            role="listitem"
+            className="src-chip"
+            onClick={() => onFocus(numberOf(s, i))}
+            title={`${sourceKind(s)}: ${sourceName(s)}`}
+          >
+            {!related && <span className="src-chip-n">{numberOf(s, i)}</span>}
+            <span className="src-chip-text">{shortName(s)}</span>
+          </button>
+        ))}
+      </div>
+      {focus !== null && (
         <div className="src-page" role="dialog" aria-modal="true" aria-labelledby="src-page-title">
-          <button type="button" className="src-page-scrim" onClick={closePanel} aria-label="Close sources" />
-          <div className={`src-page-panel${compact ? " compact" : ""}`}>
+          <button type="button" className="src-page-scrim" onClick={() => onFocus(null)} aria-label="Close sources" />
+          <div className="src-page-panel">
             <div className="src-page-top">
               <div id="src-page-title" className="src-page-std">
-                {chips.length === 1 ? "Source" : "Sources"}
+                {related ? "Related documents" : items.length === 1 ? "Source" : "Sources"}
               </div>
-              <div className="src-page-actions">
-                <button
-                  type="button"
-                  className="src-mode"
-                  onClick={() => setCompact((v) => !v)}
-                  aria-pressed={compact}
-                >
-                  {compact ? "Comfortable" : "Compact"}
-                </button>
-                <button type="button" className="icon-btn" onClick={closePanel} aria-label="Close">
-                  <XIcon size={16} />
-                </button>
-              </div>
+              <button type="button" className="icon-btn" onClick={() => onFocus(null)} aria-label="Close">
+                <XIcon size={16} />
+              </button>
             </div>
             <div className="src-acc-list">
-              {chips.map((c, i) => (
-                <details key={c.key} className="src-acc" open={!compact && i === 0}>
-                  <summary className="src-acc-sum">
-                    <div className="src-acc-copy">
-                      <div className="src-card-std">{c.standard}</div>
-                      {c.title && <div className="src-card-title">{c.title}</div>}
-                      {c.docType && <span className="src-page-badge">{c.docType}</span>}
+              {items.map((s, i) => {
+                const n = numberOf(s, i);
+                const isOpen = n === focus;
+                return (
+                  <details
+                    key={`${sourceName(s)}-${i}`}
+                    className={`src-acc${isOpen ? " focused" : ""}`}
+                    open={isOpen}
+                    ref={isOpen ? openRef : undefined}
+                  >
+                    <summary className="src-acc-sum">
+                      {!related && <span className="src-acc-n">{n}</span>}
+                      <div className="src-acc-copy">
+                        <span className="src-page-badge">{sourceKind(s)}</span>
+                        <div className="src-card-std">{sourceName(s)}</div>
+                        {s.title && s.title !== sourceName(s) && (
+                          <div className="src-card-title">{s.title}</div>
+                        )}
+                      </div>
+                      <ChevronDownIcon className="src-acc-chevron" size={14} />
+                    </summary>
+                    <div className="src-acc-body">
+                      {s.chunk_text ? (
+                        <SourceExcerpt text={s.chunk_text} />
+                      ) : (
+                        <p className="src-page-excerpt src-page-empty">
+                          Catalogue entry: title and designation only. Open the official page for the full standard.
+                        </p>
+                      )}
+                      {s.url && (
+                        <a className="src-open" href={s.url} target="_blank" rel="noreferrer">
+                          <span>Open on {hostOf(s.url) || "official site"}</span>
+                          <ExternalLinkIcon className="link-ext-icon" />
+                        </a>
+                      )}
                     </div>
-                    <ChevronDownIcon className="src-acc-chevron" size={14} />
-                  </summary>
-                  <div className="src-acc-body">
-                    {c.heading && <div className="src-page-heading">{c.heading}</div>}
-                    {c.sourceFile && <div className="src-page-file">{c.sourceFile}</div>}
-                    {c.excerpt ? (
-                      <SourceExcerpt text={c.excerpt} />
-                    ) : (
-                      <p className="src-page-excerpt src-page-empty">
-                        No passage stored for this source.
-                      </p>
-                    )}
-                  </div>
-                </details>
-              ))}
+                  </details>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -511,26 +476,67 @@ export function SourceStrip({
   );
 }
 
-/** @deprecated Use SourceStrip. Kept so older imports keep typechecking. */
-export function Sources({ items }: { items: string[] | null | undefined }) {
-  return <SourceStrip citations={items} />;
+/** Answer prose (typewriter or static) with clickable [n] citations and its sources. */
+export function AnswerBody({
+  text,
+  animate,
+  sources,
+  related,
+}: {
+  text: string;
+  animate: boolean;
+  sources?: RagSource[] | null;
+  related?: RagSource[] | null;
+}) {
+  const [focus, setFocus] = useState<number | null>(null);
+  const [relatedFocus, setRelatedFocus] = useState<number | null>(null);
+  const cited = sources ?? [];
+  const onCite = (n: number) => {
+    if (n >= 1 && n <= cited.length) setFocus(n);
+  };
+  return (
+    <CitationContext.Provider value={cited.length ? onCite : null}>
+      <div className="answer-prose">
+        {animate ? <TypewriterText text={text} /> : <RichText text={text} />}
+      </div>
+      <SourceStrip sources={cited} focus={focus} onFocus={setFocus} />
+      <SourceStrip sources={related} focus={relatedFocus} onFocus={setRelatedFocus} related />
+    </CitationContext.Provider>
+  );
 }
 
-export interface EvidenceItem {
-  standard_number: string;
-  title: string;
-  url: string;
-  doc_type: string;
-  heading: string;
-  chunk_text: string;
-  chunk_index: number;
-  source_file: string;
-  score: number;
+export interface StarterPrompt {
+  who: string;
+  text: string;
 }
 
-/** @deprecated Use SourceStrip. */
-export function EvidenceSources({ items }: { items: EvidenceItem[] | null | undefined }) {
-  return <SourceStrip sources={items} />;
+/** Example questions on the empty screen, one per kind of user. */
+export function StarterPrompts({
+  prompts,
+  onPick,
+  disabled,
+}: {
+  prompts: StarterPrompt[];
+  onPick: (text: string) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <div className="starter-grid" role="list" aria-label="Example questions">
+      {prompts.map((p) => (
+        <button
+          key={p.text}
+          type="button"
+          role="listitem"
+          className="starter-card"
+          disabled={disabled}
+          onClick={() => onPick(p.text)}
+        >
+          <span className="starter-who">{p.who}</span>
+          <span className="starter-text">{p.text}</span>
+        </button>
+      ))}
+    </div>
+  );
 }
 
 /** Raw response JSON inspector — rendered only when developer mode is on. */
@@ -593,59 +599,6 @@ export function RawJson({ data, enabled }: { data: unknown; enabled: boolean }) 
         <pre className="rawjson-code">{JSON.stringify(data, null, 2)}</pre>
       </div>
     </details>
-  );
-}
-
-/** Clarifying questions as clean, interactive action cards. */
-export function QuestionPills({
-  questions,
-  disabled,
-  onPick,
-  onAssume,
-  onNewTopic,
-}: {
-  questions: Question[];
-  disabled?: boolean;
-  onPick: (answer: string) => void | Promise<void>;
-  onAssume: () => void | Promise<void>;
-  onNewTopic: () => void | Promise<void>;
-}) {
-  if (!questions || questions.length === 0) return null;
-  return (
-    <div className="qs">
-      <div className="qs-header">
-        <span className="qs-label">Clarification Required</span>
-        <span className="qs-hint">Select an option to identify the exact standard:</span>
-      </div>
-      {questions.map((q) => (
-        <div key={q.slot} className="q-card">
-          <div className="qq">{q.text}</div>
-          <div className="qopts">
-            {q.options.map((o) => (
-              <button
-                key={o.send}
-                type="button"
-                className="pill-btn"
-                disabled={disabled}
-                onClick={() => onPick(o.send)}
-              >
-                {o.label}
-              </button>
-            ))}
-            {q.options.length === 0 && <span className="hint">Reply in your own words in the chat box</span>}
-          </div>
-        </div>
-      ))}
-      <div className="qacts">
-        <button type="button" className="pill-btn" disabled={disabled} onClick={onAssume}>
-          Answer with assumptions
-        </button>
-        <span className="qacts-sep" aria-hidden="true">·</span>
-        <button type="button" className="pill-btn" disabled={disabled} onClick={onNewTopic}>
-          Start new inquiry
-        </button>
-      </div>
-    </div>
   );
 }
 

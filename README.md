@@ -1,179 +1,134 @@
-# BIS Standards & Services Assistant (MVP)
+# Manak Mitra: BIS Standards & Services Assistant
 
-Conversational BIS assistant. Retrieval uses allowlisted BIS metadata and the checked-in
-BIS gazette/product-manual corpus. Paid full-standard text is excluded.
+A conversational assistant for Indian Standards and BIS services (SIH problem
+statement 26107). Ask in English or Hindi; every factual answer cites the
+official BIS page, product list, lab directory or standard it came from.
 
-Coverage: 16 curated rows (15 real + 1 withdrawn demo) in `data/*.json` +
-breadth tier (~22,471 list-level metadata rows) via `scripts/breadth_crawl.py`
-into SQLite. Curated scope/keywords/slots stay authoritative; breadth rows carry
-`qco_status=unknown`, no clause refs.
+What it answers, and from which source:
 
-## Run backend (stdlib only, Python ≥3.10)
+| Need | Source in the knowledge base |
+|---|---|
+| Which Indian Standard applies to a product | 24k-row BIS standards catalogue, product manuals, compulsory product lists |
+| Is certification compulsory, under which QCO and scheme | BIS lists for Scheme-I (ISI mark), Scheme-II (CRS), Scheme-IV and upcoming QCOs |
+| How to get a licence / CRS registration, fees, timelines | BIS product certification FAQ, Grant of Licence guidelines, CRS portal pages |
+| Hallmarking, HUID, BIS Care app, complaints | BIS hallmarking, consumer and app pages |
+| Which labs can test my product, near me | BIS LIMS (search by IS number) joined with the Group-1 recognised lab list |
+| Management systems, FMCS, training, Standards Clubs | BIS pages for each scheme |
+| Hindi questions and follow-ups | Query rewritten to English for search; answer in the user's language |
+
+Full paid standard text is never ingested or reproduced.
+
+## How an answer is made
+
+1. **Rewrite** (only for Hindi or follow-up questions): a small model turns the
+   message into a standalone English search query, using the conversation.
+2. **Retrieve**: SQLite FTS5/BM25 over the corpus plus the catalogue, with exact
+   IS-number boosting. Official guidance pages and compulsory lists rank above
+   gazette schedules; duplicate passages are removed.
+3. **Add context**: lab questions get live BIS LIMS rows for the product's IS
+   number (cached in `data/lims_labs.json`); a compulsory-list hit brings the
+   matching scheme's process page so "next steps" are grounded.
+4. **Generate**: the LLM answers from that evidence only, citing each fact as
+   `[Source N]`.
+5. **Verify**: every IS number must be supported by a source cited in the same
+   sentence, clause numbers must appear in a cited excerpt, and a title-only
+   catalogue record cannot carry legal claims. One repair attempt, then a
+   refusal that lists related documents.
+6. **Cite**: markers are renumbered `[1]..[n]` and the response carries exactly
+   the cited sources. The UI shows them as clickable superscripts and chips.
+
+If the model is rate limited the reply is a retryable `model_busy` state;
+if it is missing, `model_unavailable`. Retrieved text is never shown as an
+answer on its own.
+
+## Run it
+
+Backend (Python 3.10+):
+
 ```
 pip install -r requirements-dev.txt
-PYTHONPATH=src python -m bis_assistant.cli
-PYTHONPATH=src python -m bis_assistant.api   # POST /chat on :8000 (thread_id + X-Owner-Token)
-PYTHONPATH=src python -m pytest tests/ -q
+cp .env.example .env            # choose one LLM provider block, add the key
+set -a; source .env; set +a
+PYTHONPATH=src python scripts/import_rag_corpus.py \
+  --corpus new_data/bis-rag-text-corpus-2026-09-18 --db kb/bis_rag.db
+PYTHONPATH=src uvicorn bis_assistant.server:app --port 8000
 ```
-Stdlib-only subset (no pytest): `PYTHONPATH=src python -m unittest tests.test_assistant -v`.
 
-## Run browser UI (TypeScript + React, in `ui/`)
+The import prints `imported 359 documents ... knowledge: 19 pages, ~400 chunks`.
+Re-run it whenever `data/knowledge/` changes.
+
+UI (React + TypeScript, in `ui/`):
+
 ```
 cd ui && npm install && npm run dev   # http://127.0.0.1:5173, /api proxied to :8000
 ```
-Keep the Python API running on :8000 first. Test console: sample queries (EN/Hindi/refusal),
-citations panel, answered/refused + PII badges, raw-JSON toggle, EN/HI switch.
-Phase 5 adds: per-answer 👍/👎 (fixture-driven until `POST /feedback` ships), "known so far"
-chips + assumptions banner, redacted conversation export, token-gated admin KB diff-review
-screen, WCAG-AA pass (see `ui/A11Y.md`), and contract fixtures (`npm run test:contract`).
 
-## UI console
-The React console in `ui/` is the only frontend (the legacy static `web/` page was removed).
+The empty screen shows one example question per kind of user. Answers carry
+numbered citations; clicking one opens the source excerpt and its official link.
 
-## Chat answer contract
-- Every valid chat turn is answered by the configured LLM, using retrieved lab passages as context.
-- The model writes the answer. Retrieved passages are never shown as a substitute answer.
-- If the model is missing or fails, `/chat` returns a clear model-unavailable message.
-- The system prompt requires evidence-only BIS claims, source citations, no invented clauses or status, and natural clarifications instead of fixed slot questions.
-- The model can answer its name and current India date/time from trusted runtime context. Other unrelated questions receive a model-written scope refusal.
+## Configuration
 
-## Demo queries
-- "steel water bottle vacuum flask which IS?"
-- "LED bulb manufacturing, CRS needed?"
-- "How to verify gold HUID?"
-- "नल के पानी का मानक कौन सा है?"
-
-## Full-text RAG corpus (BIS gazettes + product manuals)
-
-The `new_data/bis-rag-text-corpus-2026-09-18` snapshot holds 359 extracted
-TXT documents plus `data/standards_metadata.ndjson` (~24k catalogue rows),
-`data/standard_documents.ndjson` (attachment provenance),
-`data/files.ndjson` (public attachment URLs) and the conversion manifests.
-`/chat` retrieves from these BIS source chunks. Retrieval starts with exact IS matching and SQLite
-FTS5/BM25. An optional local sentence-transformers index adds dense search and
-reciprocal-rank fusion; an optional CrossEncoder reranks the candidates. The
-LLM synthesizes an answer from the selected passages. There is no metadata,
-extractive, or raw-passage answer path. If no LLM is configured or generation
-fails, the app returns the model-unavailable state.
-
-### 1. Ingest the corpus
-
-```
-PYTHONPATH=src python scripts/import_rag_corpus.py \
-  --corpus new_data/bis-rag-text-corpus-2026-09-18 \
-  --db kb/bis_rag.db
-```
-
-Expected output: `imported 359 documents, ~4292 chunks, 24133 catalogue rows`.
-Re-running is idempotent per `source_file`. Every TXT is preserved — files
-without a manifest match keep blank provenance instead of being dropped.
-Part/section designations (e.g. `IS 101 (Part 2/Sec 6)` vs
-`IS 101 (Part 5/Sec 1)`) stay distinct catalogue rows. Tables created:
-`corpus_documents` (raw text kept), `corpus_chunks`, `corpus_embeddings`,
-`catalogue_standards`, and the `corpus_chunks_fts` FTS5 index over chunk text,
-standard number, document type and heading. The default import does not download
-ML models. Reimport with the same `--embedding-model` value to rebuild dense
-vectors; a corpus reimport without that option clears the old vectors.
-
-Dense retrieval uses the optional `sentence-transformers` dependency and the
-configured English model `BAAI/bge-small-en-v1.5`. The application only loads
-models from the local Hugging Face cache; it never downloads a model during
-startup or chat retrieval. Without the optional package, cached model, or a
-matching dense index, chat continues with FTS/lexical retrieval.
-
-Install the optional dependency and explicitly build the index. This command
-may download the model if it is not already cached:
-
-```
-python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
-python -m pip install 'sentence-transformers>=3.0'
-PYTHONPATH=src python scripts/import_rag_corpus.py \
-  --corpus new_data/bis-rag-text-corpus-2026-09-18 \
-  --db kb/bis_rag.db \
-  --embedding-model BAAI/bge-small-en-v1.5
-```
-
-The first command installs the CPU-only PyTorch wheel; run it before installing
-`sentence-transformers` so pip reuses that wheel.
-
-The command reports an embedding warning and leaves the imported corpus usable
-for lexical retrieval if optional model loading or vector generation fails.
-Set `BIS_RAG_EMBEDDING_MODEL` to the same model when starting the API (or keep
-the config default). If configuring `BIS_RAG_RERANKER_MODEL`, that model must
-also already be present in the local cache. Dense search uses the SQLite vector
-table; no separate vector service is required. See the
-[BGE-small English model card](https://huggingface.co/BAAI/bge-small-en-v1.5)
-for model details.
-
-### 2. Environment variables
+Settings live in `config.yaml`; `BIS_<SECTION>_<KEY>` environment variables win.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `BIS_RAG_ENABLED` | `1` | `0` to disable lab retrieval |
-| `BIS_RAG_DB_PATH` | `kb/bis_rag.db` | SQLite corpus index |
-| `BIS_RAG_TOP_K` | `5` | evidence chunks per query |
-| `BIS_RAG_SEMANTIC` | `1` | use dense search when the matching index exists |
-| `BIS_RAG_EMBEDDING_MODEL` | `BAAI/bge-small-en-v1.5` | model name used to build and query the dense index; loaded cache-only at runtime |
-| `BIS_RAG_RERANKER_MODEL` | empty | optional CrossEncoder model for final reranking |
-| `BIS_LLM_PROVIDER` | `openai-compatible` | `ollama`, `openai-compatible`, `gemini`, or `anthropic` |
-| `BIS_LLM_MODEL` | empty | provider model id; empty makes the chatbot unavailable |
-| `BIS_LLM_API_KEY` | empty | required for cloud APIs; keep it in ignored `.env` |
-| `BIS_LLM_BASE_URL` | provider default | local server or cloud API endpoint |
-| `BIS_LLM_TIMEOUT_S` | `10` | request timeout in seconds; local models may need more |
+| `BIS_LLM_PROVIDER` | `openai-compatible` | `openai-compatible`, `ollama`, `gemini` or `anthropic` |
+| `BIS_LLM_MODEL` | empty | model id; empty means the chatbot is offline |
+| `BIS_LLM_API_KEY` | empty | cloud API key (keep it in `.env`) |
+| `BIS_LLM_BASE_URL` | provider default | e.g. `https://api.groq.com/openai/v1` |
+| `BIS_LLM_FALLBACK_MODEL` | empty | same-provider model used when the main one is rate limited or failing |
+| `BIS_LLM_UTILITY_MODEL` | empty | small model for query rewrites and chat titles |
+| `BIS_LLM_TIMEOUT_S` | `20` | request timeout |
+| `BIS_RAG_DB_PATH` | `kb/bis_rag.db` | SQLite index built by the import script |
+| `BIS_RAG_TOP_K` | `5` | evidence passages per question |
+| `BIS_LIMS_LIVE` | `1` | `0` = lab lookups use only the committed cache |
 
-Same keys exist as `rag:`/`llm:` sections in `config.yaml`
-(env `BIS_<SECTION>_<KEY>` wins). Copy `.env.example` to `.env`, uncomment one
-provider block, then load it before starting the API with
-`set -a; source .env; set +a`.
+Recommended Groq setup for demos (separate rate-limit buckets):
+`BIS_LLM_MODEL=qwen/qwen3.8-27b`, `BIS_LLM_FALLBACK_MODEL=openai/gpt-oss-120b`,
+`BIS_LLM_UTILITY_MODEL=openai/gpt-oss-20b`.
 
-For Ollama, set `BIS_LLM_PROVIDER=ollama`, `BIS_LLM_MODEL` to a pulled model,
-and `BIS_LLM_BASE_URL=http://localhost:11434`. LM Studio works through
-`openai-compatible` with a base URL such as `http://localhost:1234/v1`; local
-servers on localhost do not need an API key. For cloud APIs, set the provider,
-model, endpoint when needed, and secret key in `.env`, then export those values
-before starting the API. OpenAI and Groq use `openai-compatible`; Anthropic and
-Gemini have native adapters. Provider errors return an explicit offline notice.
+Optional dense retrieval: install `sentence-transformers` (CPU torch first) and
+pass `--embedding-model BAAI/bge-small-en-v1.5` to the import script. Without
+it, search stays lexical. Models are only loaded from the local cache at runtime.
 
-Groq's Qwen 3.8 27B adapter uses instruct mode for interactive answers. To run
-the repository's 50-question live-provider acceptance set, configure the Groq
-block above and run:
+## Data
 
-```
-BIS_EVAL_ALLOW_ENV=1 PYTHONPATH=src .venv/bin/python eval/run_groq_50.py
-```
+- `new_data/bis-rag-text-corpus-2026-09-18/`: 359 BIS gazette notifications and
+  product manuals (extracted text) plus the 24k-row standards catalogue.
+- `data/knowledge/generated/`: official BIS web pages and compulsory-product
+  tables, fetched by `python scripts/build_knowledge.py`. Each section keeps
+  the URL it came from. Re-run the script when BIS updates its pages and
+  review the diff.
+- `data/knowledge/curated/`: short pages assembled from the same official
+  text for topics spread over several pages (licence steps, finding your
+  standard, marks and schemes, Standards Clubs).
+- `data/recognised_labs.json`: BIS Group-1 recognised labs with state and OSL code.
+- `data/lims_labs.json`: cached LIMS lab lists for common standards
+  (`PYTHONPATH=src python scripts/prefetch_lims.py [IS numbers]`).
 
-### 3. Run the app on the corpus index
+## Demo questions
 
-```
-export BIS_RAG_DB_PATH=kb/bis_rag.db BIS_RAG_TOP_K=5
-PYTHONPATH=src python -m bis_assistant.api        # stdlib POST /chat on :8000
-# or: uvicorn bis_assistant.server:app --port 8000  # FastAPI server + threads
-```
+- Which Indian Standard applies to steel water bottles, and is BIS certification compulsory?
+- I make LED bulbs. Do I need CRS registration? (then: "what are the steps?")
+- Suggest BIS recognised labs in Pune to test two-wheeler helmets
+- How do I verify the HUID on my gold jewellery?
+- How do I complain about a fake ISI mark?
+- प्रेशर कुकर के लिए कौन सा मानक अनिवार्य है?
+- Is ISI mark mandatory for pressure cookers? (then: "which labs can test it?", "what is the fee?")
 
-Responses carry `citations[]` plus `sources[]`/`rag_evidence[]`
-(`standard_number`, `title`, `url`, `doc_type`, `heading`, `chunk_text`,
-`score`), `rag_mode`, `rag_used_llm`, and `model_available`. Successful answer
-text is always generated by the LLM. The React console types
-(`ui/src/types.ts`) include these fields.
-
-### 4. Example corpus-backed queries
-
-- "What does IS 101 (Part 2/Sec 6):2026 cover? formaldehyde" → LLM synthesis
-  grounded in the matching gazette chunk with source citations.
-- "IS 14478 plain bearings product manual scope" → product-manual chunks
-  (classification, packing/marking) with the BIS object-storage source URL.
-- "thick-walled bushes plain bearings specification" → keyword retrieval
-  from the known `IS 14478:2026` manual (no IS number in the query).
-- "What is your name?" and "What time is it?" → LLM answers from runtime
-  identity/time context, not its training memory.
-- "steel bottle" → the LLM answers or asks a natural, query-specific question
-  using the lab evidence. There are no predefined slot questions.
-- Out-of-scope questions → the LLM gives a brief scope refusal.
-
-### 5. Tests
+## Tests
 
 ```
-.venv/bin/python -m pytest tests/test_rag.py tests/test_sih_gaps.py -q
-.venv/bin/python -m pytest tests/test_assistant.py tests/test_retrieval_v2.py tests/test_config.py tests/test_kb.py -q
-BIS_EVAL_ALLOW_ENV=1 PYTHONPATH=src .venv/bin/python eval/run_groq_50.py  # configured LLM required
+PYTHONPATH=src python -m pytest tests/ -q        # unit + contract tests, no network
+cd ui && npm run typecheck && npm run test:contract && npm run build
+BIS_EVAL_ALLOW_ENV=1 BIS_EVAL_PAUSE_S=6 PYTHONPATH=src python eval/run_groq_50.py   # live model
 ```
+
+The UI contract fixtures in `ui/tests/fixtures/` are recorded backend responses.
+
+## Other endpoints
+
+The FastAPI server also provides server-side threads with owner tokens,
+feedback, consent, erasure and export (`/me`), speech-to-text (`/transcribe`),
+chat titles (`/title`), Prometheus metrics (`/metrics`) and a two-person
+review flow for knowledge-base diffs (`/kb/diff`, `/kb/publish`).

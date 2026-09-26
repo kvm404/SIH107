@@ -683,50 +683,6 @@ html {
   margin-left: 2px;
 }
 
-/* Clarifying Questions Pills */
-
-.qs {
-  background: var(--surface-hover);
-  border-radius: var(--r-md);
-  padding: 12px 14px;
-  margin-top: 6px;
-}
-
-.qs-header {
-  margin-bottom: 8px;
-}
-
-.qs-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent-green);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  display: block;
-}
-
-.qs-hint {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.q-card {
-  margin-top: 8px;
-}
-
-.qq {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--text-main);
-  margin-bottom: 6px;
-}
-
-.qopts {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
 /* Labeled action (retry, options, notes). Rectangle, not a capsule. */
 .pill-btn {
   display: inline-flex;
@@ -863,84 +819,6 @@ html {
   margin: 0 0 10px 0;
   line-height: 1.5;
 }
-
-/* Known / assumptions / clarifications */
-.known {
-  background: var(--surface-card);
-  border: 1px solid var(--border-default);
-  border-radius: var(--r-md);
-  padding: 10px 12px;
-  font-size: 13px;
-}
-
-.known-title {
-  font-weight: 600;
-  color: var(--text-main);
-  margin-bottom: 6px;
-}
-
-.known-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.known-chip {
-  background: var(--surface-hover);
-  border: 1px solid var(--border-default);
-  border-radius: var(--r-pill);
-  padding: 3px 10px;
-  font-size: 12.5px;
-  color: var(--text-secondary);
-}
-
-.chip-k { font-weight: 600; color: var(--text-main); }
-.chip-sep { margin: 0 4px; color: var(--text-dim); }
-.chip-v { color: var(--text-secondary); }
-.hint { font-size: 12.5px; color: var(--text-muted); }
-
-.assume {
-  background: var(--warn-bg);
-  border: 1px solid var(--warn-border);
-  border-radius: var(--r-md);
-  padding: 12px 14px;
-  font-size: 13.5px;
-  color: var(--text-secondary);
-}
-
-.dark-theme .assume {
-  background: rgba(217, 119, 6, 0.12);
-  border-color: rgba(217, 119, 6, 0.35);
-  color: var(--text-secondary);
-}
-
-.assume-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--warn-text);
-  margin-bottom: 4px;
-}
-
-.assume-icon { flex-shrink: 0; }
-
-.dark-theme .assume-header { color: var(--warn-text); }
-.assume-sub { margin: 4px 0 6px 0; font-size: 13px; }
-.assume ul { margin: 0; padding-left: 18px; }
-
-.qacts {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.qacts-sep { color: var(--text-dim); }
 
 /* Prose extras */
 .prose-container .gap { height: 10px; }
@@ -1382,59 +1260,6 @@ details[open] > .ev-summary > .ev-chevron {
   text-decoration: underline;
 }
 
-.src-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-top: 10px;
-  max-width: 180px;
-  padding: 6px 10px;
-  border: 1px solid var(--border-default);
-  border-radius: var(--r-sm);
-  background: var(--surface-card);
-  color: var(--text-secondary);
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
-}
-
-.src-trigger:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-hover);
-  color: var(--text-main);
-}
-
-.src-trigger-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.src-page-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.src-mode {
-  border: 0;
-  background: transparent;
-  color: var(--text-muted);
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 500;
-  padding: 6px 8px;
-  border-radius: var(--r-sm);
-  cursor: pointer;
-}
-
-.src-mode:hover {
-  background: var(--surface-hover);
-  color: var(--text-main);
-}
-
 .src-acc-list {
   display: flex;
   flex-direction: column;
@@ -1481,9 +1306,6 @@ details.src-acc[open] > .src-acc-sum > .src-acc-chevron {
   padding: 0 14px 14px;
 }
 
-.src-page-panel.compact .src-acc-sum {
-  padding: 8px 12px;
-}
 
 .src-card-std {
   font-size: 13.5px;
@@ -1956,5 +1778,193 @@ details[open] > .expand-wrap {
   }
   .icon-btn svg {
     transition: none;
+  }
+}
+
+/* Citations: [n] markers in answers */
+.cite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  margin-left: 1px;
+  border: 1px solid var(--accent-green-border);
+  border-radius: var(--r-xs);
+  background: var(--accent-green-light);
+  color: var(--accent-green-dark);
+  font: inherit;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: 2px;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.cite:hover {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: #fff;
+}
+
+.cite:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.cite-static {
+  cursor: default;
+}
+
+/* Numbered source chips under an answer */
+.src-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.src-row-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-right: 2px;
+}
+
+.src-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 260px;
+  padding: 4px 9px 4px 5px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-sm);
+  background: var(--surface-card);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.src-chip:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+  color: var(--text-main);
+}
+
+.src-chip-n,
+.src-acc-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--r-xs);
+  background: var(--accent-green-light);
+  color: var(--accent-green-dark);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.src-chip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.src-acc-n {
+  margin-top: 2px;
+}
+
+.src-acc.focused {
+  border-color: var(--accent-green-border);
+  box-shadow: 0 0 0 3px var(--accent-green-light);
+}
+
+.src-open {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--accent-green);
+  text-decoration: none;
+}
+
+.src-open:hover {
+  text-decoration: underline;
+}
+
+/* Starter prompts on the empty screen */
+.starter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 22px;
+  animation: hero-in var(--dur-slow) 0.2s var(--ease-out) both;
+}
+
+.starter-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-md);
+  background: var(--surface-card);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 13.5px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-instant) var(--ease-out);
+}
+
+.starter-card:hover:not(:disabled) {
+  background: var(--accent-green-light);
+  border-color: var(--accent-green-border);
+  color: var(--text-main);
+}
+
+.starter-card:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.starter-card:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.starter-who {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent-green);
+}
+
+@media (max-width: 680px) {
+  .starter-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .starter-card:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starter-grid {
+    animation: none;
   }
 }

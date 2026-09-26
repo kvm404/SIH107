@@ -1,10 +1,11 @@
-"""Citation verifier (plan §4 stage 3): output claims must match cited KB rows.
+"""Grounding checks for model answers against the evidence they cite.
 
-Checks:
-- every IS number mentioned in text appears in citations (uncited IS -> violation)
-- answered-with-IS-claims requires non-empty citations
-- clause numbers require a cited row with non-empty section_ref (v1 KB has none,
-  so clause wording can never pass until §2 section fields are populated + reviewed)
+The model cites evidence with ``[Source N]`` markers. ``verify_grounded_response``
+checks the high-risk claim forms: every IS designation must be supported by a
+source cited in the same sentence, clause numbers must appear in a cited
+excerpt, and catalogue records (title-only metadata) cannot carry legal or
+certification claims on their own. ``finalize_citations`` then renumbers the
+markers to the sources actually cited, for display.
 """
 from __future__ import annotations
 import logging
@@ -14,24 +15,26 @@ log = logging.getLogger("bis.verifier")
 
 # Case-sensitive IS so English "is 1 litre" is not Indian Standard 1.
 IS_RE = re.compile(r"(?<![A-Za-z])IS\s*(\d+(?:-\d+)?)")
-CLAUSE_RE = re.compile(r"clause\s*\d", re.IGNORECASE)
-SOURCE_RE = re.compile(r"\[Source\s+(\d+)\]", re.IGNORECASE)
+# "[Source 2]", "[Source 1, 3]", "[Sources 1 and 2]", "[Source 1][Source 2]".
+SOURCE_RE = re.compile(r"\[\s*Sources?\s*(\d+(?:\s*(?:,|and|&)\s*(?:Source\s*)?\d+)*)\s*\]",
+                       re.IGNORECASE)
+# Case-sensitive "IS": the English word "is" followed by a number
+# ("the fee is 1000") is not an Indian Standard.
 STANDARD_DESIGNATION_RE = re.compile(
-    r"\bIS\s*(?P<base>\d+(?:-\d+)?)(?:\s*(?P<qualifier>\([^\n)]{1,80}\)))?"
+    r"(?<![A-Za-z])IS\s*[:\-]?\s*(?P<base>\d+(?:-\d+)?)"
+    r"(?:\s*(?P<qualifier>\([^\n)]{1,80}\)))?"
     r"(?:\s*:\s*(?P<year>\d{4}))?",
-    re.IGNORECASE,
 )
 CLAUSE_REF_RE = re.compile(
     r"\b(?:clause|section)\s*(?:no\.?\s*)?(\d+(?:\.\d+)*(?:\([a-z0-9]+\))?)",
     re.IGNORECASE,
 )
 
+# Claims a title-only catalogue record can never support by itself.
 _UNSUPPORTED_CATALOGUE_CLAIM_RE = re.compile(
-    r"\b(?:requires?|requirement(?:s)?|must|shall|should|"
-    r"specif(?:y|ies|ied|ication|ications)|covers?|applies?\s+to|"
-    r"applicable\s+to|suitable\s+for|use|approved|certified|"
-    r"compliance|compliant|certification|QCO|mandatory|mandated|"
-    r"currently\s+applicable|in\s+force|effective)\b",
+    r"\b(?:requires?|required|must|shall|mandatory|mandated|compulsory|QCO|"
+    r"quality\s+control\s+order|approved|certified|compliance|compliant|"
+    r"in\s+force|licen[cs]e\s+is\s+needed)\b",
     re.IGNORECASE,
 )
 _NEGATION_RE = re.compile(
@@ -42,57 +45,7 @@ _NEGATION_RE = re.compile(
 )
 _CONTRAST_BOUNDARY_RE = re.compile(
     r"\b(?:but|however|yet|nevertheless|instead)\b", re.IGNORECASE)
-_METADATA_NOTICE_RE = re.compile(
-    r"\b(?:catalog(?:ue)?\s+(?:record|entry|metadata|result|listing)|metadata[- ]only)\b",
-    re.IGNORECASE,
-)
-_FULL_TEXT_LIMIT_RE = re.compile(
-    r"\bfull\s+(?:standard\s+)?text\b.{0,70}\b(?:not\s+(?:been\s+)?retrieved|"
-    r"wasn['’]t\s+retrieved|hasn['’]t\s+been\s+retrieved|"
-    r"not\s+(?:available|provided|included)|missing|unavailable)\b|"
-    r"\b(?:not\s+(?:been\s+)?retrieved|not\s+(?:available|provided|included)|"
-    r"wasn['’]t\s+retrieved|hasn['’]t\s+been\s+retrieved|"
-    r"missing|unavailable)\b.{0,70}\bfull\s+(?:standard\s+)?text\b",
-    re.IGNORECASE,
-)
-
-VIOLATION_COUNT = {"n": 0}  # surfaced via /metrics in Phase 6
-
-
-def _cited_numbers(citations: list[str]) -> set[str]:
-    out = set()
-    for c in citations:
-        out.update(IS_RE.findall(c or ""))
-    return out
-
-
-def verify(resp: dict, section_refs: dict[str, str] | None = None) -> list[str]:
-    section_refs = section_refs or {}
-    violations: list[str] = []
-    text, cits = resp.get("text", ""), resp.get("citations", [])
-    if resp.get("refused"):
-        return violations
-    mentioned = set(IS_RE.findall(text)) - {"0000"}  # demo row handled by status path
-    cited = _cited_numbers(cits)
-    if resp.get("kind") == "glossary":
-        # Glossary answers use real IS numbers as illustrative examples, not claims.
-        # They must still be REAL (present in KB) — just not necessarily cited.
-        unknown = mentioned - set(section_refs)
-        if unknown:
-            violations.append(f"glossary mentions unknown IS numbers: {sorted(unknown)}")
-        return violations
-    missing = mentioned - cited
-    if missing:
-        violations.append(f"uncited IS numbers: {sorted(missing)}")
-    if mentioned and not cits:
-        violations.append("IS claims with zero citations")
-    if CLAUSE_RE.search(text):
-        if not any(section_refs.get(n) for n in mentioned):
-            violations.append("clause number without sourced section_ref")
-    if violations:
-        VIOLATION_COUNT["n"] += 1
-        log.warning("citation verifier trip", extra={"violations": violations})
-    return violations
+VIOLATION_COUNT = {"n": 0}  # grounding failures, surfaced via /metrics
 
 
 def evidence_type(evidence: dict) -> str:
@@ -103,6 +56,21 @@ def evidence_type(evidence: dict) -> str:
     # Older retrieval rows have no explicit type. Non-empty body text is the
     # only safe signal that the row is a retrieved document passage.
     return "document_chunk" if str(evidence.get("chunk_text", "")).strip() else "catalogue_record"
+
+
+_SOURCE_IS_RE = re.compile(r"\b[Ii][Ss](?=\s*[:\-]?\s*\d)")
+
+
+def _norm_source(value: str) -> str:
+    """Source data spells designations loosely ("Is 2347:2023"); model text
+    is checked strictly, so upper-case the prefix in source strings only."""
+    return _SOURCE_IS_RE.sub("IS", value or "")
+
+
+def normalize_markers(text: str) -> str:
+    """Accept marker variants models emit: 【Source 1】, [source 1], [Source1]."""
+    text = re.sub(r"[【［]\s*(Sources?\s*[\d,\sand&]+?)\s*[】］]", r"[\1]", text or "")
+    return text
 
 
 def _standard_key(value: str) -> str:
@@ -127,16 +95,16 @@ def _designation_key(value: str) -> tuple[str, str, str, str]:
 
 def _designation_matches(mentioned: str, source: dict) -> bool:
     mentioned_key = _designation_key(mentioned)
-    source_key = _designation_key(str(source.get("standard_number", "")))
+    source_key = _designation_key(_norm_source(str(source.get("standard_number", ""))))
     if not mentioned_key[0] or mentioned_key[0] != source_key[0]:
         return False
     # When the answer names a part, section, or edition explicitly, it must be
     # present in the source's designation or passage. A conflicting designation
     # in the source metadata always wins over incidental cross-references.
-    support_text = " ".join((
+    support_text = _norm_source(" ".join((
         str(source.get("chunk_text", "")),
         str(source.get("published_on", "")),
-    ))
+    )))
     support_keys = [
         _designation_key(match.group(0))
         for match in STANDARD_DESIGNATION_RE.finditer(support_text)
@@ -179,102 +147,149 @@ def _positive_unsupported_catalogue_claim(text: str) -> bool:
     return False
 
 
-def verify_grounded_response(text: str, evidence: list[dict]) -> list[str]:
-    """Check generated designations, source markers, clause refs, and metadata limits.
+def marker_indices(text: str) -> list[int]:
+    """1-based source numbers referenced by markers in ``text``, in order."""
+    out: list[int] = []
+    for marker in SOURCE_RE.finditer(text):
+        out.extend(int(n) for n in re.findall(r"\d+", marker.group(1)))
+    return out
 
-    This deliberately validates citation linkage and high-risk claim forms, not
-    semantic entailment. The model remains responsible for synthesis; on failure
-    the caller can request one bounded repair rather than exposing unsafe text.
+
+def _cited_rows(sentence: str, rows: list[dict]) -> list[dict]:
+    return [rows[i - 1] for i in marker_indices(sentence) if 1 <= i <= len(rows)]
+
+
+def _row_designations(row: dict) -> set[str]:
+    """IS base numbers a row supports: its designation plus, for document
+    excerpts, every designation printed in the excerpt."""
+    keys = {_standard_key(_norm_source(str(row.get("standard_number", ""))))}
+    if evidence_type(row) == "document_chunk":
+        keys.update(m.group("base") for m in
+                    STANDARD_DESIGNATION_RE.finditer(_norm_source(str(row.get("chunk_text", "")))))
+    keys.discard("")
+    return keys
+
+
+def _supports(mention: str, row: dict) -> bool:
+    key = _designation_key(mention)
+    if not key[0]:
+        return False
+    if _designation_matches(mention, row):
+        return True
+    if evidence_type(row) != "document_chunk":
+        return False
+    # The excerpt itself names the standard (guidance pages, product lists).
+    for match in STANDARD_DESIGNATION_RE.finditer(_norm_source(str(row.get("chunk_text", "")))):
+        if _designation_matches(mention, {"standard_number": match.group(0),
+                                          "chunk_text": row.get("chunk_text", "")}):
+            return True
+    return False
+
+
+def verify_grounded_response(text: str, evidence: list[dict],
+                             query: str = "") -> list[str]:
+    """Return stable issue codes for unsupported claims ([] when grounded).
+
+    This validates citation linkage and high-risk claim forms, not semantic
+    entailment. On failure the caller requests one bounded repair.
+    Designations the user typed may be restated without a marker ("IS 10500
+    alone is not enough"); a cited mention must still match its source.
     """
     violations: list[str] = []
-    rows = evidence[:5]
-    known_keys = {_standard_key(str(row.get("standard_number", "")))
-                  for row in rows}
-    known_keys.discard("")
+    rows = list(evidence)
+    known: set[str] = set()
+    for row in rows:
+        known |= _row_designations(row)
 
-    for marker in SOURCE_RE.finditer(text):
-        index = int(marker.group(1)) - 1
-        if index < 0 or index >= len(rows):
-            violations.append("invalid_source_marker")
-            break
+    if any(i < 1 or i > len(rows) for i in marker_indices(text)):
+        violations.append("invalid_source_marker")
 
+    # A designation needs a supporting citation where it is first grounded;
+    # repeat mentions ("the evidence does not say IS 17803 covers flasks")
+    # may omit the marker once the same standard (and part) is cited.
+    unmarked: list[tuple[str, str]] = []
+    grounded: set[tuple[str, str]] = set()
+    asked = {_designation_key(m.group(0))[:2]
+             for m in STANDARD_DESIGNATION_RE.finditer((query or "").upper())}
     for mention in STANDARD_DESIGNATION_RE.finditer(text):
-        number = mention.group("base")
-        if number not in known_keys:
+        key = _designation_key(mention.group(0))[:2]
+        start, end = _sentence_bounds(text, mention.start())
+        cited = _cited_rows(text[start:end], rows)
+        if not cited and key in asked:
+            continue
+        if mention.group("base") not in known:
             violations.append("unsupported_standard_designation")
             continue
-        start, end = _sentence_bounds(text, mention.start())
-        sentence = text[start:end]
-        cited_rows = []
-        for marker in SOURCE_RE.finditer(sentence):
-            index = int(marker.group(1)) - 1
-            if 0 <= index < len(rows):
-                cited_rows.append(rows[index])
-        if not cited_rows:
-            violations.append("standard_without_source_marker")
-        elif not any(_designation_matches(mention.group(0), row)
-                     for row in cited_rows):
+        if not cited:
+            unmarked.append(key)
+        elif not any(_supports(mention.group(0), row) for row in cited):
             violations.append("designation_source_mismatch")
+        else:
+            grounded.add(key)
+    if any(key not in grounded for key in unmarked):
+        violations.append("standard_without_source_marker")
 
     for clause in CLAUSE_REF_RE.finditer(text):
         start, end = _sentence_bounds(text, clause.start())
-        sentence = text[start:end]
-        cited_rows = []
-        for marker in SOURCE_RE.finditer(sentence):
-            index = int(marker.group(1)) - 1
-            if 0 <= index < len(rows):
-                cited_rows.append(rows[index])
         clause_text = clause.group(1).lower()
         supported = any(
             evidence_type(row) == "document_chunk"
             and re.search(rf"(?<!\d){re.escape(clause_text)}(?!\d)",
                           str(row.get("chunk_text", "")), re.IGNORECASE)
-            for row in cited_rows
-        )
+            for row in _cited_rows(text[start:end], rows))
         if not supported:
             violations.append("unsupported_clause_reference")
 
-    catalogue_only = bool(rows) and all(
-        evidence_type(row) == "catalogue_record" for row in rows)
-    cited_catalogue = False
-    catalogue_claim_without_document = False
-    checked_spans: set[tuple[int, int]] = set()
+    checked: set[tuple[int, int]] = set()
     for marker in SOURCE_RE.finditer(text):
-        start, end = _sentence_bounds(text, marker.start())
-        if (start, end) in checked_spans:
+        span = _sentence_bounds(text, marker.start())
+        if span in checked:
             continue
-        checked_spans.add((start, end))
-        sentence = text[start:end]
-        cited_rows = []
-        for sentence_marker in SOURCE_RE.finditer(sentence):
-            index = int(sentence_marker.group(1)) - 1
-            if 0 <= index < len(rows):
-                cited_rows.append(rows[index])
-        sentence_uses_catalogue = any(
-            evidence_type(row) == "catalogue_record" for row in cited_rows)
-        if sentence_uses_catalogue:
-            cited_catalogue = True
-            if (_positive_unsupported_catalogue_claim(sentence)
-                    and not any(evidence_type(row) == "document_chunk"
-                                for row in cited_rows)):
-                catalogue_claim_without_document = True
+        checked.add(span)
+        sentence = text[span[0]:span[1]]
+        cited = _cited_rows(sentence, rows)
+        if (cited and all(evidence_type(row) == "catalogue_record" for row in cited)
+                and _positive_unsupported_catalogue_claim(sentence)):
+            violations.append("unsupported_catalogue_claim")
 
-    if catalogue_only or cited_catalogue:
-        if not _METADATA_NOTICE_RE.search(text) or not _FULL_TEXT_LIMIT_RE.search(text):
-            violations.append("catalogue_limit_not_disclosed")
-    if catalogue_claim_without_document or (
-            catalogue_only and _positive_unsupported_catalogue_claim(text)):
-        violations.append("unsupported_catalogue_claim")
+    # A substantive answer built on evidence must cite it.
+    if rows and not marker_indices(text) and len(text.split()) > 60:
+        violations.append("missing_source_markers")
 
-    # Keep issue codes stable and bounded for the one repair prompt. Do not put
-    # raw answer, query, or retrieved text into diagnostics or logs.
+    if violations:
+        VIOLATION_COUNT["n"] += 1
+    # Stable, bounded codes only: never raw answer, query or evidence text.
     return list(dict.fromkeys(violations))
 
 
-def section_map(stds: list[dict]) -> dict[str, str]:
-    out = {}
-    for s in stds:
-        m = IS_RE.search(s.get("is_number", ""))
-        if m:
-            out[m.group(1)] = s.get("section_ref", "") or ""
-    return out
+def finalize_citations(text: str, evidence: list[dict]) -> tuple[str, list[dict]]:
+    """Renumber markers to the cited sources and return (text, cited rows).
+
+    ``[Source 3] ... [Source 1]`` becomes ``[1] ... [2]`` and the returned
+    rows are evidence[2], evidence[0]. Out-of-range markers are dropped.
+    """
+    order: list[int] = []
+    for i in marker_indices(text):
+        if 1 <= i <= len(evidence) and i not in order:
+            order.append(i)
+    new_number = {old: new for new, old in enumerate(order, 1)}
+
+    def replace(match: re.Match) -> str:
+        nums = []
+        for n in re.findall(r"\d+", match.group(1)):
+            mapped = new_number.get(int(n))
+            if mapped and mapped not in nums:
+                nums.append(mapped)
+        return "".join(f"[{n}]" for n in nums)
+
+    out = SOURCE_RE.sub(replace, text)
+    out = re.sub(r"[ \t]+(\[\d+\])", r"\1", out)   # "claim [1]" -> "claim[1]"
+    out = re.sub(r"(\[\d+\])[ \t]+([.,;:])", r"\1\2", out)
+    return out, [evidence[i - 1] for i in order]
+
+
+def strip_markers(text: str) -> str:
+    """Text without any citation markers (for history and titles)."""
+    text = SOURCE_RE.sub("", text)
+    text = re.sub(r"\[\d+\]", "", text)
+    return re.sub(r"[ \t]+([.,;:])", r"\1", text)

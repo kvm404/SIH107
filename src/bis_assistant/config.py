@@ -27,9 +27,8 @@ _DEFAULTS = {
             "weight_semantic": 0.3, "exact_boost": 50.0},
     "llm": {"provider": "openai-compatible", "model": "", "api_key": "",
             "base_url": "https://api.openai.com/v1",
-            "temperature": 0.2, "max_tokens": 768, "timeout_s": 10.0, "retries": 1},
-    "guidance": {"adaptive": True},
-    "memory": {"expand_turns": 2, "expand_terms": 6, "expand_chars": 200},
+            "temperature": 0.2, "max_tokens": 900, "timeout_s": 20.0, "retries": 1,
+            "fallback_model": "", "utility_model": ""},
 }
 
 _TYPES = {"port": int, "retention_days": int, "thread_ttl_days": int,
@@ -41,9 +40,7 @@ _TYPES = {"port": int, "retention_days": int, "thread_ttl_days": int,
           "top_k": int, "max_tokens": int, "temperature": float, "timeout_s": float,
           "weight_lexical": float, "weight_semantic": float, "exact_boost": float,
           "enabled": bool, "semantic": bool, "live_crawl_enabled": bool,
-          "retries": int, "adaptive": bool,
-          "grounded_score": float, "fusion_strong_score": float,
-          "expand_turns": int, "expand_terms": int, "expand_chars": int}
+          "retries": int, "grounded_score": float, "fusion_strong_score": float}
 
 
 # File-content cache keyed by (path, mtime) (issue #4 P1-10): retrieval and

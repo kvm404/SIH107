@@ -46,7 +46,7 @@ def test_model_unavailability_is_not_counted_as_an_answer(client):
 def test_verifier_trip_surfaces(client):
     from bis_assistant import verifier
     before = metrics_mod.snapshot()["citation_fail_total"]
-    verifier.verify({"text": "Use IS 1234.", "citations": [], "refused": False}, {})
+    verifier.verify_grounded_response("Use IS 1234 [Source 1].", [])
     assert metrics_mod.snapshot()["citation_fail_total"] == before + 1
 
 

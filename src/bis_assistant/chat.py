@@ -103,7 +103,7 @@ class Turn:
     rag_mode: str = ""
     rag_used_llm: bool = False
     model_available: bool = False
-    intent: str = "general"  # NLU intent (nlu.classify)
+    intent: str = "general"  # reserved; the model handles intent
     intent_confidence: str = "low"
     context_summary: str = ""  # extractive thread summary (memory)
     guidance_adaptive: bool = False

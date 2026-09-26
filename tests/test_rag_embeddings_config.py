@@ -147,4 +147,5 @@ def test_failed_index_build_keeps_corpus_lexically_searchable(tmp_path, monkeypa
     assert stats["embedded_chunks"] == 0
     assert "install sentence-transformers" in stats["embedding_error"]
     hits = search_rag("pressure vessels", db_path=db, semantic=False)
-    assert hits and hits[0]["standard_number"] == "IS 1:2024"
+    top = hits[0] if hits else {}
+    assert (top.get("related_standard") or top.get("standard_number")) == "IS 1:2024"

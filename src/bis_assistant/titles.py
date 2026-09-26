@@ -46,8 +46,8 @@ def generate_title(user_text: str, assistant_text: str = "",
         return None
     try:
         from .rag_config import load_llm_config
-        from .rag_llm import chat_complete, is_configured
-        cfg = cfg or load_llm_config()
+        from .rag_llm import chat_complete, is_configured, utility_config
+        cfg = utility_config(cfg or load_llm_config(), max_tokens=24)
         if not is_configured(cfg):
             return None
         convo = f"USER: {u}"

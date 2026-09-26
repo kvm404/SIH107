@@ -1,0 +1,35 @@
+{
+  "name": "chat-busy",
+  "description": "Provider rate limit: retryable busy state, no sources.",
+  "request": {
+    "query": "water bottles"
+  },
+  "response": {
+    "text": "Manak Mitra is getting a lot of questions right now. Please try again in a few seconds.",
+    "refused": false,
+    "kind": "model_busy",
+    "lang": "en",
+    "citations": [],
+    "sources": [],
+    "rag_evidence": [],
+    "rag_mode": "model busy",
+    "rag_used_llm": false,
+    "model_available": false,
+    "pii": {
+      "phone": false,
+      "email": false,
+      "aadhaar_like": false
+    },
+    "needs_info": false,
+    "questions": [],
+    "known": [],
+    "assumptions": [],
+    "context": {
+      "history": [],
+      "rounds": 0
+    },
+    "retryable": true,
+    "thread_id": "thread-fixture-busy",
+    "owner_token": "owner-fixture-token"
+  }
+}

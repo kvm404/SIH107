@@ -2,15 +2,21 @@
 from __future__ import annotations
 
 import logging
+import re
 
+from . import labs
 from .i18n_privacy import detect_lang, redact
 from .rag_answer import build_rag_answer
 from .rag_llm import (
+    MAX_EVIDENCE_SOURCES,
     is_configured,
     is_runtime_identity_query,
     is_underspecified_standard_query,
+    needs_rewrite,
+    rewrite_query,
 )
 from .rag_config import load_llm_config, load_rag_config
+from .verifier import strip_markers
 from . import threads as threadmod
 
 log = logging.getLogger("bis.api")
@@ -140,7 +146,7 @@ def _rag_lookup(text: str, top_k: int | None = None,
 
         candidates = [*documents, *catalogue_evidence]
         candidates.sort(key=lambda item: (
-            -float(item.get("relevance", 0.0)),
+            -float(item.get("rank_score", item.get("relevance", 0.0))),
             not bool(item.get("exact_match")),
             item.get("evidence_type") != "document_chunk",
             -float(item.get("score", 0.0)),
@@ -254,17 +260,103 @@ def _rag_lookup(text: str, top_k: int | None = None,
         }}
 
 
+# The process page to pair with a compulsory-list hit, so "what do I do next"
+# is grounded in the right scheme: (list file, process file, section heading).
+_SCHEME_PROCESS = (
+    ("knowledge/generated/compulsory-scheme-i.md",
+     "knowledge/curated/licence-process.md", "Option 2: simplified procedure with third party test reports"),
+    ("knowledge/generated/compulsory-scheme-ii-crs.md",
+     "knowledge/generated/crs.md", "CRS registration steps"),
+    ("knowledge/generated/upcoming-qcos.md",
+     "knowledge/curated/licence-process.md", "Application"),
+)
+
+
+_CRS_PROCESS_RE = re.compile(
+    r"\b(?:crs|compulsory registration)\b.*\b(?:how|steps?|apply|register|"
+    r"registration|procedure|process|kaise)\b"
+    r"|\b(?:how|steps?|apply|register|procedure|process|kaise)\b.*"
+    r"\b(?:crs|compulsory registration)\b", re.IGNORECASE)
+
+
+def _scheme_process_evidence(evidence: list[dict], query: str = "",
+                             _conn=None) -> list[dict]:
+    """One process chunk for the scheme of the top compulsory-list hit, or
+    for CRS when the question asks how to register under it."""
+    import sqlite3
+
+    top = next((e for e in evidence if e.get("doc_type") == "compulsory_list"), None)
+    source_file = top.get("source_file", "") if top else ""
+    if _CRS_PROCESS_RE.search(query or ""):
+        source_file = _SCHEME_PROCESS[1][0]
+    match = next((m for m in _SCHEME_PROCESS if m[0] == source_file), None)
+    if match is None:
+        return []
+    # Rows past the budget are dropped, so only the kept ones count.
+    if any(e.get("source_file") == match[1] and e.get("heading") == match[2]
+           for e in evidence[:MAX_EVIDENCE_SOURCES - 1]):
+        return []
+    cfg = load_rag_config()
+    conn = None
+    try:
+        conn = _conn or sqlite3.connect(str(cfg.get("db_path")))
+        conn.row_factory = sqlite3.Row
+        row = conn.execute(
+            "SELECT c.id, c.chunk_index, c.chunk_text, c.heading, c.doc_type, c.source_url,"
+            " d.title, d.source_file, d.id AS doc_id FROM corpus_chunks c"
+            " JOIN corpus_documents d ON d.id = c.doc_id"
+            " WHERE d.source_file=? AND c.heading=? ORDER BY c.chunk_index LIMIT 1",
+            (match[1], match[2])).fetchone()
+    except Exception:
+        log.exception("scheme process lookup failed")
+        return []
+    finally:
+        if conn is not None and _conn is None:
+            conn.close()
+    if row is None:
+        return []
+    return [{
+        "evidence_type": "document_chunk", "doc_type": row["doc_type"],
+        "standard_number": "", "title": row["title"], "heading": row["heading"],
+        "chunk_text": row["chunk_text"], "source_url": row["source_url"],
+        "source_file": row["source_file"], "chunk_id": row["id"], "doc_id": row["doc_id"],
+        "chunk_index": row["chunk_index"], "relevance": 0.5, "rank_score": 0.5,
+        "selection_reason": "scheme_process",
+    }]
+
+
+def _with_lab_evidence(query: str, evidence: list[dict]) -> list[dict]:
+    """Prepend LIMS lab rows for lab questions ("where can I test helmets?").
+
+    The product's IS number comes from the query or from a product-only
+    search, so words like "lab" and "Pune" do not steer that search.
+    """
+    if not labs.is_lab_query(query):
+        return evidence
+    pool = list(evidence)
+    if not labs._IS_RE.search(query):
+        product_query = labs.product_query(query)
+        if product_query:
+            extra, _ = _rag_lookup(product_query, top_k=8)
+            pool = extra + pool
+    lab_rows = labs.lab_evidence(query, pool)
+    if not lab_rows:
+        return evidence
+    return (lab_rows + evidence)[:MAX_EVIDENCE_SOURCES]
+
+
 def answer(query: str, lang: str | None = None,
            context: dict | None = None) -> dict:
     """Return an LLM answer or an explicit model-unavailable state.
 
-    Every valid chat turn uses one model generation. BIS evidence only enters
-    the prompt as context; this module never renders retrieved text as an
-    answer or substitutes deterministic catalogue/slot responses.
+    Every valid chat turn uses one model generation (plus a small query
+    rewrite for Hindi or follow-up questions). BIS evidence only enters the
+    prompt as context; retrieved text is never rendered as the answer.
     """
     q = (query or "").strip()
     resolved_lang = lang if lang in ("en", "hi") else detect_lang(q)
     turn_context = threadmod.normalize_context(context)
+    history = turn_context["history"]
 
     try:
         llm_cfg = load_llm_config()
@@ -276,23 +368,43 @@ def answer(query: str, lang: str | None = None,
 
     evidence: list[dict] = []
     rag_cfg: dict = {}
+    search_query = q
     if configured and not is_runtime_identity_query(q) \
             and not is_underspecified_standard_query(q):
-        evidence, rag_cfg = _rag_lookup(q)
+        if needs_rewrite(q, resolved_lang, history):
+            try:
+                search_query = rewrite_query(q, history, llm_cfg) or q
+            except Exception:
+                log.exception("query rewrite failed; searching the original text")
+        evidence, rag_cfg = _rag_lookup(search_query)
+        try:
+            evidence = _with_lab_evidence(search_query, evidence)
+        except Exception:
+            log.exception("lab lookup failed; answering without lab rows")
+        process = _scheme_process_evidence(evidence, search_query)
+        if process:
+            # Replace the weakest row so the evidence budget stays fixed.
+            evidence = (evidence[:MAX_EVIDENCE_SOURCES - 1] + process)
 
     response = build_rag_answer(
         q,
         resolved_lang,
         evidence,
         llm_cfg,
-        history=turn_context["history"],
+        history=history,
     )
+    new_history = history
+    if q:
+        new_history = threadmod.push_turn(
+            history, redact(q)[:2000],
+            redact(strip_markers(response.get("text", "")))[:600]
+            if response.get("kind") == "llm_answer" else "")
     response["context"] = {
-        "history": threadmod.push_history(
-            turn_context["history"], redact(q)[:2000]) if q else turn_context["history"],
+        "history": new_history,
         "rounds": turn_context["rounds"],
         "force": turn_context["force"],
     }
+    response["search_query"] = search_query if search_query != q else ""
     response["intent"] = "general"
     response["intent_confidence"] = "low"
     response["context_summary"] = ""

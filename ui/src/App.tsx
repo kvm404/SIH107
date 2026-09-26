@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { bisChat, checkHealth, deleteThread, fetchTitle, sendFeedback, transcribeAudio } from "./api";
 import {
-  AssumptionsBanner,
+  AnswerBody,
   CopyButton,
   FeedbackButtons,
-  KnownChips,
-  QuestionPills,
   RawJson,
   RichText,
   SkeletonAnswer,
-  SourceStrip,
-  TypewriterText,
+  StarterPrompts,
   cleanAnswerText,
 } from "./components";
+import type { StarterPrompt } from "./components";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -41,6 +39,19 @@ const APP_TAGLINE = "BIS Standards Assistant";
 const DEV_FLAG_KEY = "manak-mitra-dev-mode";
 const HISTORY_KEY = "manak-mitra-history";
 const HISTORY_LIMIT = 20;
+
+/** One example per kind of user the assistant serves. */
+const STARTER_PROMPTS: StarterPrompt[] = [
+  { who: "Manufacturer", text: "Which Indian Standard applies to steel water bottles, and is BIS certification compulsory?" },
+  { who: "Electronics", text: "I make LED bulbs. Do I need CRS registration?" },
+  { who: "Testing", text: "Suggest BIS recognised labs to test two-wheeler helmets" },
+  { who: "Consumer", text: "How do I verify the HUID on my gold jewellery?" },
+  { who: "Complaint", text: "How do I complain about a fake ISI mark?" },
+  { who: "हिंदी", text: "प्रेशर कुकर के लिए कौन सा मानक अनिवार्य है?" },
+];
+
+/** Temporary states where the same question can simply be sent again. */
+const RETRYABLE_KINDS = new Set(["model_unavailable", "model_busy"]);
 
 const LANG_OPTIONS: { id: Lang; label: string }[] = [
   { id: "auto", label: "Auto" },
@@ -121,8 +132,15 @@ function makeTitle(q: string): string {
     .replace(/^(tell me|explain to me|explain|describe|answer|give me)(\s+in(\s+more)?\s+detail)?\s+/i, "")
     .trim();
   // Strip question scaffolding, but never the "IS" in "IS 10500".
-  if (!/^is\s*\d/i.test(s)) {
-    s = s.replace(/^(what(?:'s| is| are)?|which|how|why|when|where|is|are|do|does)\b\s+/i, "").trim();
+  // Strip question scaffolding ("what does", "how do I"), but never the
+  // "IS" in "IS 10500".
+  for (let i = 0; i < 3 && !/^is\s*\d/i.test(s); i++) {
+    const next = s
+      .replace(/^(what(?:'s| is| are)?|which|how|why|when|where|is|are|do|does|can|should)\b\s+/i, "")
+      .replace(/^(i|we)\b\s+/i, "")
+      .trim();
+    if (next === s) break;
+    s = next;
   }
   if (!s || /^(that|this|it|there|here|yes|no|okay|ok|thanks|thank you)$/i.test(s)) return "";
   s = s.charAt(0).toUpperCase() + s.slice(1);
@@ -210,7 +228,6 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [healthy, setHealthy] = useState<boolean | null>(null);
   const [thread, setThread] = useState<ServerThread | null>(null);
-  const [pendingQ, setPendingQ] = useState("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -414,7 +431,6 @@ export default function App() {
       const userMsg: Msg = { id: nextId++, role: "user", text: q };
       setMsgs((m) => [...m, userMsg]);
       setInput("");
-      setPendingQ(q);
       // One attempt, optionally re-run once on a fresh server thread when the
       // old one expired. The user bubble is appended once, above.
       const attempt = async (fresh: boolean): Promise<void> => {
@@ -504,7 +520,6 @@ export default function App() {
     // hidden), clear messages, draft, and pending state.
     if (thread) void deleteThread(thread);
     setThread(null);
-    setPendingQ("");
     setMsgs([]);
     setInput("");
     setTopicKey((k) => k + 1);
@@ -517,8 +532,7 @@ export default function App() {
       const entry = history.find((e) => e.q === q);
       if (thread) void deleteThread(thread);
       setThread(null);
-      setPendingQ("");
-      setInput("");
+        setInput("");
       setTopicKey((k) => k + 1);
       setSidebarOpen(false);
       if (entry?.msgs && entry.msgs.length > 0) {
@@ -538,7 +552,7 @@ export default function App() {
     const last = [...msgs]
       .reverse()
       .find((m) => m.role === "assistant" && m.resp && !m.error);
-    if (!last?.resp || last.resp.kind === "model_unavailable" || !last.text) return;
+    if (!last?.resp || RETRYABLE_KINDS.has(last.resp.kind) || !last.text) return;
     const uq = [...msgs.slice(0, msgs.lastIndexOf(last))]
       .reverse()
       .find((m) => m.role === "user");
@@ -971,6 +985,11 @@ export default function App() {
                 </h1>
 
                 {renderComposer(true)}
+                <StarterPrompts
+                  prompts={STARTER_PROMPTS}
+                  disabled={busy}
+                  onPick={(text) => void send(text)}
+                />
               </div>
             ) : (
               <div className="chat-messages-container view-enter">
@@ -1015,42 +1034,18 @@ export default function App() {
                           </div>
                         ) : (
                           <div className="clean-answer-container">
-                            <div className="answer-prose">
-                              {m.streamIn && m.resp?.kind !== "model_unavailable" ? (
-                                <TypewriterText key={`tw-${m.id}`} text={cleanAnswerText(m.text)} />
-                              ) : (
-                                <RichText text={cleanAnswerText(m.text)} />
-                              )}
-                            </div>
-
-                            {m.resp?.assumptions && m.resp.assumptions.length > 0 && (
-                              <AssumptionsBanner items={m.resp.assumptions} />
-                            )}
-
-                            {m.resp?.known && m.resp.known.length > 0 && (
-                              <KnownChips known={m.resp.known} />
-                            )}
-
-                            {m.resp?.needs_info && (
-                              <QuestionPills
-                                questions={m.resp.questions}
-                                disabled={busy}
-                                onPick={(answer) => void send(answer)}
-                                onAssume={() => void send(pendingQ, { force: true })}
-                                onNewTopic={newTopic}
-                              />
-                            )}
-
-                            <SourceStrip
-                              sources={m.resp?.sources ?? m.resp?.rag_evidence}
-                              citations={m.resp?.citations}
+                            <AnswerBody
+                              text={cleanAnswerText(m.text)}
+                              animate={!!m.streamIn && !RETRYABLE_KINDS.has(m.resp?.kind ?? "")}
+                              sources={m.resp?.sources}
+                              related={m.resp?.related_sources}
                             />
                             {m.resp && <RawJson data={m.resp} enabled={devMode} />}
 
                             <div className="message-footer-row">
                               <div className="footer-left">
                                 <CopyButton text={cleanAnswerText(m.text)} />
-                                {m.resp?.kind === "model_unavailable" && m.retryQ && (
+                                {RETRYABLE_KINDS.has(m.resp?.kind ?? "") && m.retryQ && (
                                   <button
                                     type="button"
                                     className="pill-btn pill-btn-sm"

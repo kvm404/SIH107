@@ -1,19 +1,47 @@
 {
   "name": "chat-refused",
-  "description": "Refusal fixture: never-infer gate; UI must show refused badge with kind and no known/assumptions.",
-  "request": { "query": "Guarantee my licence approval please" },
+  "description": "Grounding refusal: answer failed verification twice; related documents are unnumbered.",
+  "request": {
+    "query": "water bottles"
+  },
   "response": {
-    "text": "I can't guarantee licence outcomes. Please check BIS certification guidance.\n\nhttps://www.bis.gov.in/",
+    "text": "I couldn't verify a safe answer from the BIS sources I found. The related documents below may help, or try asking again with the product name or IS number.",
     "refused": true,
-    "kind": "licence_guarantee",
+    "kind": "grounding_refusal",
     "lang": "en",
     "citations": [],
-    "pii": {},
+    "sources": [],
+    "related_sources": [
+      {
+        "evidence_type": "catalogue_record",
+        "label": "CATALOGUE RECORD (title only, full text not retrieved)",
+        "standard_number": "IS 15410:2025",
+        "title": "Plastic bottles for packaging of natural mineral water",
+        "url": "https://www.bis.gov.in/know-your-standard/",
+        "doc_type": "",
+        "score": 0.0,
+        "metadata_only": true,
+        "department": "",
+        "date": ""
+      }
+    ],
+    "rag_evidence": [],
+    "rag_mode": "llm_grounding_guard",
+    "rag_used_llm": true,
+    "model_available": true,
+    "pii": {
+      "phone": false,
+      "email": false,
+      "aadhaar_like": false
+    },
     "needs_info": false,
     "questions": [],
     "known": [],
     "assumptions": [],
-    "context": { "history": [], "rounds": 0 },
+    "context": {
+      "history": [],
+      "rounds": 0
+    },
     "thread_id": "thread-fixture-refused",
     "owner_token": "owner-fixture-token"
   }

@@ -41,7 +41,7 @@ def test_valid_chat_turn_is_generated_by_llm_even_without_lab_hits(monkeypatch):
     assert len(seen) == 1
     system = next(m["content"] for m in seen[0] if m["role"] == "system")
     user = next(m["content"] for m in seen[0] if m["role"] == "user")
-    assert "use only the bis evidence supplied" in system.lower()
+    assert "use only the bis evidence" in " ".join(system.lower().split())
     assert "what is your name?" in user.lower()
     assert re.search(r"\d{4}-\d{2}-\d{2}.*\d{2}:\d{2}", user)
 
@@ -79,12 +79,13 @@ def test_lab_passages_are_prompt_context_never_the_answer(monkeypatch):
     monkeypatch.setattr(assistant, "_rag_lookup",
                         lambda *_args, **_kwargs: (evidence, {"enabled": True}))
     monkeypatch.setattr(rag_llm, "chat_complete",
-                        lambda messages, _cfg=None: seen.append(messages) or "SYNTHESIZED MODEL ANSWER")
+                        lambda messages, _cfg=None: seen.append(messages)
+                        or "SYNTHESIZED MODEL ANSWER [Source 1]")
 
     response = assistant.answer("What does IS 14478 cover?", "en")
 
     user = next(m["content"] for m in seen[0] if m["role"] == "user")
-    assert response["text"] == "SYNTHESIZED MODEL ANSWER"
+    assert response["text"] == "SYNTHESIZED MODEL ANSWER[1]"
     assert "RAW LAB PASSAGE" not in response["text"]
     assert "RAW LAB PASSAGE" in user
     assert response["sources"]

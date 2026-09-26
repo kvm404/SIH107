@@ -31,5 +31,7 @@ def test_each_question_is_sent_to_the_model(query, monkeypatch):
 
     assert response["text"] == "MODEL GENERATED ANSWER"
     assert response["kind"] == "llm_answer"
-    assert len(calls) == 1
-    assert query.lower() in calls[0][1]["content"].lower()
+    # Hindi questions first get a small English search-query rewrite call.
+    answer_calls = [c for c in calls if "search query" not in c[0]["content"]]
+    assert len(answer_calls) == 1
+    assert query.lower() in answer_calls[0][1]["content"].lower()

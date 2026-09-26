@@ -135,6 +135,25 @@ def _sentence_bounds(text: str, position: int) -> tuple[int, int]:
     return left, len(text)
 
 
+_LIST_ITEM_RE = re.compile(r"[ \t]*(?:[-*\u2022]|\d+[.)])[ \t]+[^\n]*(?:\n|$)")
+
+
+def _citation_span(text: str, position: int) -> tuple[int, int]:
+    """Sentence span, extended over the list a colon-ended sentence introduces
+    ("labs for IS 10322 (Part 5) include:" followed by cited items)."""
+    start, end = _sentence_bounds(text, position)
+    if not text[start:end].rstrip().endswith(":"):
+        return start, end
+    cursor = end
+    while cursor < len(text) and text[cursor] == "\n":
+        cursor += 1
+        if cursor < len(text) and text[cursor] == "\n":
+            return start, end  # a blank line ends the introduction
+    while (item := _LIST_ITEM_RE.match(text, cursor)) and item.end() > cursor:
+        cursor = item.end()
+    return start, max(end, cursor)
+
+
 def _positive_unsupported_catalogue_claim(text: str) -> bool:
     for match in _UNSUPPORTED_CATALOGUE_CLAIM_RE.finditer(text):
         sentence_start, _ = _sentence_bounds(text, match.start())
@@ -213,7 +232,7 @@ def verify_grounded_response(text: str, evidence: list[dict],
              for m in STANDARD_DESIGNATION_RE.finditer((query or "").upper())}
     for mention in STANDARD_DESIGNATION_RE.finditer(text):
         key = _designation_key(mention.group(0))[:2]
-        start, end = _sentence_bounds(text, mention.start())
+        start, end = _citation_span(text, mention.start())
         cited = _cited_rows(text[start:end], rows)
         if not cited and key in asked:
             continue

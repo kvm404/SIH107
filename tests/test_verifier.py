@@ -95,3 +95,15 @@ def test_user_typed_designation_may_be_restated_without_marker():
     cited = "IS 10500 applies [Source 1]."
     assert verifier.verify_grounded_response(cited, rows, "IS 10500?") == [
         "unsupported_standard_designation"]
+
+
+def test_list_introduction_takes_the_markers_of_its_items():
+    rows = [{"standard_number": "IS 10322 (Part 5):2026",
+             "title": "BIS LIMS: laboratories testing IS 10322 (Part 5):2026",
+             "chunk_text": "Laboratories that test IS 10322 (Part 5):2026", "doc_type": "lab_directory"}]
+    listed = ("Labs for IS 10322 (Part 5) include:\n"
+              "- URS Products, Noida [Source 1]\n- IEC Test Labs, Delhi [Source 1]")
+    assert verifier.verify_grounded_response(listed, rows) == []
+    # Without the colon-introduced list the mention stays unmarked.
+    loose = "Labs for IS 10322 (Part 5) exist.\n\n- URS Products, Noida [Source 1]"
+    assert verifier.verify_grounded_response(loose, rows) == ["standard_without_source_marker"]

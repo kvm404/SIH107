@@ -7,7 +7,7 @@ import {
   CopyIcon,
   ExternalLinkIcon,
   InfoIcon,
-  ManakEmblemIcon,
+  BrandEmblemIcon,
   MoreIcon,
   PenIcon,
   TrashIcon,
@@ -718,7 +718,7 @@ export function SkeletonAnswer() {
   return (
     <div className="assistant-message-row" role="status">
       <div className="assistant-avatar sk-avatar" aria-hidden="true">
-        <ManakEmblemIcon size={24} />
+        <BrandEmblemIcon size={24} />
       </div>
       <div className="assistant-content">
         <p className="sk-status">

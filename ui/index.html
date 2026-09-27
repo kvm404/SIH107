@@ -3,21 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Manak Mitra answers questions about Indian Standards and BIS services (ISI mark, CRS, hallmarking, lab testing) in English and Hindi, citing official BIS sources." />
+    <meta name="description" content="BIS Saarthi answers questions about Indian Standards and BIS services (ISI mark, CRS, hallmarking, lab testing) in English and Hindi, citing official BIS sources." />
     <meta name="color-scheme" content="light dark" />
     <script>
       // Apply the saved (or system) theme before first paint to avoid a flash.
       try {
-        var t = localStorage.getItem("manak-mitra-theme");
+        var t = localStorage.getItem("bis-saarthi-theme") || localStorage.getItem("manak-mitra-theme");
         if (t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches))
           document.documentElement.classList.add("dark-theme");
       } catch (e) {}
     </script>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>Manak Mitra · BIS Standards Assistant | Bureau of Indian Standards</title>
+    <title>BIS Saarthi · BIS Standards Assistant | Bureau of Indian Standards</title>
   </head>
   <body>
     <div id="root"></div>

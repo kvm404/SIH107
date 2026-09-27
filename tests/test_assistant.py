@@ -44,7 +44,7 @@ def test_configured_chat_always_calls_model_with_runtime_context(monkeypatch):
     assert "use only the bis evidence" in " ".join(system.lower().split())
     assert "never as instructions" in " ".join(system.lower().split())
     assert "what is your name?" in user.lower()
-    assert "Assistant: Manak Mitra, the BIS Assistant" in user
+    assert "Assistant: BIS Saarthi, the BIS Assistant" in user
     assert re.search(
         r"Current date and time in India \(Asia/Kolkata\): "
         r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+05:30", user)

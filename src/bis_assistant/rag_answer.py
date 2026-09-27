@@ -115,7 +115,7 @@ def model_busy_response(query: str, lang: str = "en") -> dict:
         "text": (
             "अभी बहुत अधिक अनुरोध आ रहे हैं। कृपया कुछ सेकंड बाद फिर से पूछें।"
             if lang == "hi" else
-            "Manak Mitra is getting a lot of questions right now. Please try again in a few seconds."),
+            "BIS Saarthi is getting a lot of questions right now. Please try again in a few seconds."),
         "rag_mode": "model busy",
         "retryable": True,
     })

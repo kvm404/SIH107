@@ -5,7 +5,7 @@
     "query": "water bottles"
   },
   "response": {
-    "text": "Manak Mitra is getting a lot of questions right now. Please try again in a few seconds.",
+    "text": "BIS Saarthi is getting a lot of questions right now. Please try again in a few seconds.",
     "refused": false,
     "kind": "model_busy",
     "lang": "en",

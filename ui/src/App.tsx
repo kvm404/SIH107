@@ -19,7 +19,7 @@ import {
   ChevronDownIcon,
   DevIcon,
   GlobeIcon,
-  ManakEmblemIcon,
+  BrandEmblemIcon,
   MicIcon,
   MicOffIcon,
   SpinnerIcon,
@@ -35,11 +35,29 @@ import type { ServerThread } from "./api";
 import "./tokens.css";
 import "./styles.css";
 
-const APP_NAME = "Manak Mitra";
+const APP_NAME = "BIS Saarthi";
 const APP_TAGLINE = "BIS Standards Assistant";
-const DEV_FLAG_KEY = "manak-mitra-dev-mode";
-const HISTORY_KEY = "manak-mitra-history";
+const DEV_FLAG_KEY = "bis-saarthi-dev-mode";
+const HISTORY_KEY = "bis-saarthi-history";
+const THEME_KEY = "bis-saarthi-theme";
 const HISTORY_LIMIT = 20;
+
+/** Carry chats and settings over from the app's earlier name (Manak Mitra). */
+function migrateStorageKeys(): void {
+  try {
+    const store = window.localStorage;
+    for (const key of [DEV_FLAG_KEY, HISTORY_KEY, THEME_KEY]) {
+      const oldKey = key.replace("bis-saarthi-", "manak-mitra-");
+      const old = store.getItem(oldKey);
+      if (old === null) continue;
+      if (store.getItem(key) === null) store.setItem(key, old);
+      store.removeItem(oldKey);
+    }
+  } catch {
+    /* storage blocked: nothing to migrate */
+  }
+}
+migrateStorageKeys();
 
 /** One example per kind of user the assistant serves. */
 const STARTER_PROMPTS: StarterPrompt[] = [
@@ -201,8 +219,6 @@ function loadHistory(): HistoryEntry[] {
     return [];
   }
 }
-
-const THEME_KEY = "manak-mitra-theme";
 
 /** Saved theme, else the system preference (index.html applies it before paint). */
 function loadDarkMode(): boolean {
@@ -942,7 +958,7 @@ export default function App() {
               title={sidebarCollapsed ? "Open sidebar" : "Close sidebar"}
             >
               <span className="sidebar-rail-logo" aria-hidden="true">
-                <ManakEmblemIcon size={26} />
+                <BrandEmblemIcon size={26} />
               </span>
               <span className="sidebar-rail-panel" aria-hidden="true">
                 <SidebarToggleIcon size={20} />
@@ -1122,7 +1138,7 @@ export default function App() {
             {msgs.length === 0 ? (
               <div className="hero-center-container view-enter">
                 <div className="hero-emblem-wrap">
-                  <ManakEmblemIcon size={46} />
+                  <BrandEmblemIcon size={46} />
                 </div>
                 <h1 className="hero-headline">
                   Namaste, I&apos;m <span className="hero-bold-name">{APP_NAME}</span>
@@ -1152,7 +1168,7 @@ export default function App() {
                   ) : (
                     <div key={m.id} className={`assistant-message-row${m.streamIn ? " msg-enter" : ""}`}>
                       <div className="assistant-avatar">
-                        <ManakEmblemIcon size={24} />
+                        <BrandEmblemIcon size={24} />
                       </div>
                       <div className="assistant-content" lang={m.resp?.lang === "hi" ? "hi" : undefined}>
                         {m.retrying ? (

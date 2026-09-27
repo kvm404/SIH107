@@ -1,4 +1,11 @@
-# Manak Mitra: BIS Standards & Services Assistant
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/bis-saarthi-logo-dark.webp" />
+    <img src="docs/bis-saarthi-logo.webp" alt="BIS Saarthi" width="360" />
+  </picture>
+</p>
+
+# BIS Saarthi: BIS Standards & Services Assistant
 
 A conversational assistant for Indian Standards and BIS services (SIH problem
 statement 26107). Ask in English or Hindi; every factual answer cites the

@@ -81,7 +81,7 @@ def is_configured(cfg: dict | None = None) -> bool:
 
 
 SYSTEM_PROMPT = """\
-You are Manak Mitra, the BIS Assistant: a clear, careful guide to Indian
+You are BIS Saarthi, the BIS Assistant: a clear, careful guide to Indian
 Standards and Bureau of Indian Standards (BIS) services for manufacturers,
 MSMEs, startups, students and consumers.
 
@@ -146,8 +146,8 @@ Rules for every reply:
 _IDENTITY_RE = re.compile(
     r"\bwhat\s+(?:does\s+)?bis\s+stands?\s+for\b"
     r"|\bwho\s+are\s+you\b"
-    r"|\bwho\s+is\s+(?:bis|manak)\b"
-    r"|\bwhat\s+is\s+manak\s+mitra\b"
+    r"|\bwho\s+is\s+(?:bis|sa+ra?thi)\b"
+    r"|\bwhat\s+is\s+(?:bis\s+)?sa+ra?thi\b"
     r"|\bwhat\s+is\s+(?:the\s+)?(?:bis|bureau\s+of\s+indian\s+standards)"
     r"\s*(?:[?.!]|$)")
 
@@ -214,7 +214,7 @@ def _prompt(query: str, evidence: list[dict], lang: str,
     system = SYSTEM_PROMPT.format(language_line=language_line)
     user_parts = [
         "RUNTIME CONTEXT",
-        "Assistant: Manak Mitra, the BIS Assistant",
+        "Assistant: BIS Saarthi, the BIS Assistant",
         "BIS is the Bureau of Indian Standards, India's national standards body.",
         f"Current date and time in India (Asia/Kolkata): {current_time}",
     ]
